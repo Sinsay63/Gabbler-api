@@ -1,0 +1,6 @@
+fr\hesias\gabblerapi\infrastructure\persister\persistence\repository\UserRelationshipsRepository.class
+fr\hesias\gabblerapi\infrastructure\persister\persistence\repository\UserRepository.class
+fr\hesias\gabblerapi\infrastructure\persister\persistence\entity\UserRelationships.class
+fr\hesias\gabblerapi\infrastructure\persister\persistence\model\Type.class
+fr\hesias\gabblerapi\infrastructure\GabblerInfrastructureApplication.class
+fr\hesias\gabblerapi\infrastructure\persister\persistence\entity\User.class
