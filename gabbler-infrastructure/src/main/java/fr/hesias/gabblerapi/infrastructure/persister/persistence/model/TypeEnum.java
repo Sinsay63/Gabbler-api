@@ -1,15 +1,15 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.model;
 
-public enum Type {
-    blocked("blocked"), authorized("authorized");
+public enum TypeEnum {
+    TYPE_BLOCKED("blocked"), TYPE_AUTHORIZED("authorized");
 
-    private final String name;
+    private final String type;
 
-    Type(String name) {
-        this.name = name;
+    TypeEnum(final String name) {
+        this.type = name;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 }
