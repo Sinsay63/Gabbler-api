@@ -1,10 +1,19 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.TypeEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +21,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_relationships",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user", "id_user_related"})})
-public class UserRelationships {
+public class UserRelationships
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +32,7 @@ public class UserRelationships {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private TypeEnum typeEnum;
+    private TypeEnum type;
 
     @Column(name = "date")
     private LocalDateTime date;
@@ -36,15 +46,21 @@ public class UserRelationships {
     private User userRelated;
 
 
-    public UserRelationships(final int id, final TypeEnum typeEnum, final LocalDateTime date, final User user, final User userRelated) {
+    public UserRelationships(final int id,
+                             final TypeEnum type,
+                             final LocalDateTime date,
+                             final User user,
+                             final User userRelated)
+    {
         this.id = id;
-        this.typeEnum = typeEnum;
+        this.type = type;
         this.date = date;
         this.user = user;
         this.userRelated = userRelated;
     }
 
-    public UserRelationships() {
+    public UserRelationships()
+    {
 
     }
 }

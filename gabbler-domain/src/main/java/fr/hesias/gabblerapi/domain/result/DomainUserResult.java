@@ -1,10 +1,21 @@
 package fr.hesias.gabblerapi.domain.result;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
+import fr.hesias.gabblerapi.domain.model.DomainUser;
+import lombok.Getter;
+import lombok.Setter;
 
-public class DomainUserResult extends DomainResultable {
+@Getter
+@Setter
+public class DomainUserResult extends DomainResultable
+{
 
-    public DomainUserResult(final DomainAccessStatus domainAccessStatus) {
+    private final DomainUser domainUser;
+
+    public DomainUserResult(final DomainAccessStatus domainAccessStatus, final DomainUser domainUser)
+    {
         super(domainAccessStatus);
+        this.domainUser = domainUser;
     }
+
 }
