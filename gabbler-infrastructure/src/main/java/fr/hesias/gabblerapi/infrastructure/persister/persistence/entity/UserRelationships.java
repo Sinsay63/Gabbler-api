@@ -9,16 +9,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "user_relationships",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"id_user", "id_user_related"})})
 public class UserRelationships
@@ -38,29 +41,11 @@ public class UserRelationships
     private LocalDateTime date;
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
-    @OneToOne
+    @OneToMany
     private User user;
 
     @JoinColumn(name = "id_user_related", nullable = false, referencedColumnName = "id")
     @OneToOne
     private User userRelated;
 
-
-    public UserRelationships(final int id,
-                             final TypeEnum type,
-                             final LocalDateTime date,
-                             final User user,
-                             final User userRelated)
-    {
-        this.id = id;
-        this.type = type;
-        this.date = date;
-        this.user = user;
-        this.userRelated = userRelated;
-    }
-
-    public UserRelationships()
-    {
-
-    }
 }

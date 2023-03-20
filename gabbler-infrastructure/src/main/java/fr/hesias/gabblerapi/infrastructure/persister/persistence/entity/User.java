@@ -1,20 +1,30 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "username")
@@ -34,39 +44,29 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
     @Column(name = "auth_token")
     private String authToken;
+
+    @Column(name = "biography")
     private String biography;
+
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+
     @Column(name = "path_avatar")
     private String pathAvatar;
+
     @Column(name = "is_validated")
     private Boolean isValidated;
 
+    @ManyToOne()
+    private List<Gab> gabs;
 
-    public User() {
-        super();
-    }
+    @ManyToOne()
+    private List<Subscription> subscriptions;
 
-    public User(final String username, final String firstname, final String lastname, final LocalDate birthday, final String email, final String password, final String biography, final LocalDateTime creationDate, final String pathAvatar, final Boolean isValidated) {
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthday = birthday;
-        this.email = email;
-        this.password = password;
-        this.biography = biography;
-        this.creationDate = creationDate;
-        this.pathAvatar = pathAvatar;
-        this.isValidated = isValidated;
-    }
-
-    public User(final int id, final String username, final String firstname, final String lastname) {
-        this.id = id;
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
+    @ManyToOne()
+    private List<Interaction> interactions;
 
 }

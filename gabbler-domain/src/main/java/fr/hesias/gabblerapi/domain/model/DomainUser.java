@@ -1,11 +1,10 @@
 package fr.hesias.gabblerapi.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class DomainUser {
+@Data
+public class DomainUser
+{
     private int id;
 
     private String username;
@@ -18,18 +17,21 @@ public class DomainUser {
 
     private String email;
 
-    private String password;
-
-    private String authToken;
-
     private String biography;
 
 
-    public DomainUser() {
+    public DomainUser()
+    {
         super();
     }
 
-    public DomainUser(final String username, final String firstName, final String lastName, final String birthday, final String email, final String password, final String authToken, final String biography) {
+    public DomainUser(final String username,
+                      final String firstName,
+                      final String lastName,
+                      final String birthday,
+                      final String email,
+                      final String biography)
+    {
 
         super();
         this.username = username;
@@ -37,12 +39,17 @@ public class DomainUser {
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
-        this.password = password;
-        this.authToken = authToken;
         this.biography = biography;
     }
 
-    public DomainUser(final int id, final String username, final String firstName, final String lastName, final String birthday, final String email, final String password, final String authToken, final String biography) {
+    public DomainUser(final int id,
+                      final String username,
+                      final String firstName,
+                      final String lastName,
+                      final String birthday,
+                      final String email,
+                      final String biography)
+    {
 
         super();
         this.id = id;
@@ -51,13 +58,12 @@ public class DomainUser {
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
-        this.password = password;
-        this.authToken = authToken;
         this.biography = biography;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "DomainUser{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
@@ -65,8 +71,6 @@ public class DomainUser {
                 ", lastName='" + lastName + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", authToken='" + authToken + '\'' +
                 ", biography='" + biography + '\'' +
                 '}';
     }
