@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: "Documentation concernant l'api gabbler "
+  description: "Documentation concernant l'api gabbler "
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/doc'
+paths:
+  /users:
+    get:
+      summary: Récupère la liste des utilisateurs
+      description: Récupère la liste des utilisateurs
+      operationId: getUsers
+      tags:
+        - gabbler
+
+      responses:
+        '200':
+          description: Retourne la liste des utilisateurs avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/User'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+  

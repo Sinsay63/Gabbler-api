@@ -7,13 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DomainUserResult extends DomainResultable
-{
+public class DomainUserResult extends DomainResultable {
 
-    private final DomainUser domainUser;
+    private DomainUser domainUser;
 
-    public DomainUserResult(final DomainAccessStatus domainAccessStatus, final DomainUser domainUser)
-    {
+    public DomainUserResult(final DomainAccessStatus domainAccessStatus) {
+        super(domainAccessStatus);
+    }
+
+    public DomainUserResult(final DomainAccessStatus domainAccessStatus, final DomainUser domainUser) {
         super(domainAccessStatus);
         this.domainUser = domainUser;
     }

@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Modèle de l'api Gabbler en mode rest
+  description: Modèle de l'api Gabbler en mode rest
+  version: 1.0.0
+tags:
+  - name: gabbler
+paths: { }
+components:
+  schemas:
+    User:
+      type: object
+      description: objet correspondant à un utilisateur
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: id de l'utilisateur
+          example: "25"
+        username:
+          type: string
+          description: pseudonyme de l'utilisateur
+          example: "Sinsay"
+        firstname:
+          type: string
+          description: prénom de l'utilisateur
+          example: "Yanis"
+        lastname:
+          type: string
+          description: nom de l'utilisateur
+          example: "Houdier"
+        birthday:
+          type: string
+          description: date d'anniversaire de l'utilisateur
+          example: "2001-07-28"
+        email:
+          type: string
+          description: email de l'utilisateur
+          example: "yanis.houdier@gmail.com"
+        password:
+          type: string
+          description: mot de passe hashé de l'utilisateur
+          example: "f5568b87-4af7-ec57-b5v9-8462v47agv87"
+        biography:
+          type: string
+          description: biographie de l'utilisateur
+          example: "yanis 21 ans célibataire suuuuu"
+        
+        authToken:
+          type: string
+          description: token d'authentification de l'utilisateur
+          example: "f5568b87-4af7-ec57-b5v9-8462v47agv87"
+
+    Gab:
+      type: object
+      description: objet correspondant à un gab
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: "56"
+        content:
+          type: string
+          description: contenu du gab
+          example: "Ratio macron, vive la république!"
+        post_date:
+          type: string
+          description: date de publication du gab
+          example: "2023-01-25"
+        id_user:
+          type: object
+          description: id de l'utilisateur
+          items:
+            $ref: "#/components/schemas/User"
+
+    AccessError:
+      type: object
+      description: objet correspondant à une erreur d'accès
+      properties:
+        error:
+          description: code de l'erreur
+          type: string
+          example: "BAD_REQUEST"
+        message:
+          description: message détaillant l'erreur
+          type: string
+          example: "La valeur du champ 'text' ne peut pas contenir 'test' !"
+        path:
+          description: indique le path ayant provoqué cette erreur
+          type: string
+          example: "/user/9ebd6eff-136f-429a-b946-0fb13a314d42/load"
+
+  

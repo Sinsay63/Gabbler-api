@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository ("userRepository")
+@Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Integer> {
     // C'est la où on va déclarer nos fonctions pour nos requêtes custom
 
-    @Query("SELECT User FROM User ")
-    List<User> getAllUsers();
+    @Query("SELECT User FROM User WHERE User.username = 'Sinsay' OR User.username = 'LorisTrr'")
+    List<User> getUsers();
 }

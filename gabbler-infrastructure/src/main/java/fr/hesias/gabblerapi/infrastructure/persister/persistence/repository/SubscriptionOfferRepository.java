@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SubscriptionOffer extends JpaRepository<SubscriptionOffer, Integer> {
+public interface SubscriptionOfferRepository extends JpaRepository<SubscriptionOfferRepository, Integer> {
 }

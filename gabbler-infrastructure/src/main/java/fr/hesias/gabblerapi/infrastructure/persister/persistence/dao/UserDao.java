@@ -13,8 +13,8 @@ public class UserDao {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public List<User> getUsers() {
+        return userRepository.getUsers();
     }
 
     public User getUserById(final int id) {
