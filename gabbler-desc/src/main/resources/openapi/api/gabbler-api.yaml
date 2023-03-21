@@ -4,16 +4,13 @@ info:
   description: "Documentation concernant l'api gabbler "
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080/doc'
+  - url: 'http://localhost:8081/doc'
 paths:
   /users:
     get:
       summary: Récupère la liste des utilisateurs
       description: Récupère la liste des utilisateurs
       operationId: getUsers
-      tags:
-        - gabbler
-
       responses:
         '200':
           description: Retourne la liste des utilisateurs avec succès.

@@ -14,7 +14,7 @@ public class UserDao {
     }
 
     public List<User> getUsers() {
-        return userRepository.getUsers();
+        return userRepository.findAll();
     }
 
     public User getUserById(final int id) {
