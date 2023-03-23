@@ -1,8 +1,8 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
+import fr.hesias.gabblerapi.desc.api.server.model.AccessError;
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.result.DomainResultable;
-import org.openapitools.model.AccessError;
 import org.springframework.http.HttpStatus;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.*;
