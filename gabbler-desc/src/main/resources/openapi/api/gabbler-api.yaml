@@ -3,8 +3,6 @@ info:
   title: "Documentation concernant l'api gabbler "
   description: "Documentation concernant l'api gabbler "
   version: 1.0.0
-servers:
-  - url: 'http://localhost:8081/doc'
 paths:
   /users:
     get:
@@ -17,7 +15,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../model/gabbler-model.yaml#/components/schemas/User'
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Users'
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:
@@ -48,4 +46,6 @@ paths:
             application/json:
               schema:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
-  
+
+      tags:
+        - user

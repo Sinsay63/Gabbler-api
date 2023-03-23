@@ -1,15 +1,10 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
-public class User
-{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,13 +54,13 @@ public class User
     @Column(name = "is_validated")
     private Boolean isValidated;
 
-    @ManyToOne()
+    @OneToMany()
     private List<Gab> gabs;
 
-    @ManyToOne()
+    @OneToMany()
     private List<Subscription> subscriptions;
 
-    @ManyToOne()
+    @OneToMany()
     private List<Interaction> interactions;
 
 }

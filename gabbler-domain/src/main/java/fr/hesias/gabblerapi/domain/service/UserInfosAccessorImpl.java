@@ -11,16 +11,22 @@ import java.util.List;
 public class UserInfosAccessorImpl implements UserInfosAccessor {
 
 
-    private UserPersister userPersister;
+    private final UserPersister userPersister;
+
+    public UserInfosAccessorImpl(final UserPersister userPersister) {
+
+        super();
+        this.userPersister = userPersister;
+    }
 
     @Override
     public DomainUsersResult getUsers() {
 
-        final DomainAccessStatus domainAccessStatus;
         List<DomainUserResult> domainUsersResults = null;
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
         if (userPersister.getUsers() != null) {
-            domainAccessStatus = DomainAccessStatus.OK;
+
             domainUsersResults = userPersister.getUsers().getUsers();
         }
         else {

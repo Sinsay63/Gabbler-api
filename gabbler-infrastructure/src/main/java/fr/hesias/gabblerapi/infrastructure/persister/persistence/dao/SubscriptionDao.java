@@ -1,11 +1,15 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.dao;
 
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.SubscriptionRepository;
+
 public class SubscriptionDao {
 
-    private final SubscriptionDao subscriptionDao;
+    private final SubscriptionRepository subscriptionRepository;
 
-    public SubscriptionDao(final SubscriptionDao subscriptionDao) {
-        this.subscriptionDao = subscriptionDao;
+    public SubscriptionDao(final SubscriptionRepository subscriptionDao) {
+
+        super();
+        this.subscriptionRepository = subscriptionDao;
     }
 
 

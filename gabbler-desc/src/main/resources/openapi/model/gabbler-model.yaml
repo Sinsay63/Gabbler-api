@@ -3,9 +3,13 @@ info:
   title: Modèle de l'api Gabbler en mode rest
   description: Modèle de l'api Gabbler en mode rest
   version: 1.0.0
+tags:
+  - name: user
+    description: Opérations sur les utilisateurs
 paths: { }
 components:
   schemas:
+
     User:
       type: object
       description: objet correspondant à un utilisateur
@@ -38,6 +42,16 @@ components:
           type: string
           description: biographie de l'utilisateur
           example: "yanis 21 ans célibataire suuuuu"
+
+    Users:
+      type: object
+      description: objet correspondant à une liste d'utilisateurs
+      properties:
+        users:
+          type: array
+          description: liste d'utilisateurs
+          items:
+            $ref: "#/components/schemas/User"
 
     AccessError:
       type: object

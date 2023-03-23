@@ -6,20 +6,24 @@ import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
 
+@Slf4j
 public class GabPersisterService {
 
     private final GabDao gabDao;
 
     public GabPersisterService(final GabDao gabDao) {
+
         this.gabDao = gabDao;
     }
 
     @Transactional(readOnly = true)
     public DomainGabResult getGabById(final int id) {
+
         DomainAccessStatus domainAccessStatus = null;
         DomainGabResult domainGab = new DomainGabResult(domainAccessStatus);
         try {
@@ -30,15 +34,7 @@ public class GabPersisterService {
                 domainGab.setDate(gab.getPostDate().toString());
 
                 final DomainUserResult domainUserResult = new DomainUserResult(domainAccessStatus);
-                domainUserResult.setDomainUser(new DomainUser(
-                        gab.getUser().getId(),
-                        gab.getUser().getUsername(),
-                        gab.getUser().getFirstname(),
-                        gab.getUser().getLastname(),
-                        gab.getUser().getBirthday().toString(),
-                        gab.getUser().getEmail(),
-                        gab.getUser().getBiography()
-                ));
+                domainUserResult.setDomainUser(new DomainUser(gab.getUser().getId(), gab.getUser().getUsername(), gab.getUser().getFirstname(), gab.getUser().getLastname(), gab.getUser().getBirthday().toString(), gab.getUser().getEmail(), gab.getUser().getBiography()));
                 domainGab.setUser(domainUserResult);
 
             }
@@ -52,4 +48,5 @@ public class GabPersisterService {
 
         return domainGab;
     }
+
 }

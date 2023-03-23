@@ -10,14 +10,19 @@ public class UserDao {
     private final UserRepository userRepository;
 
     public UserDao(final UserRepository userRepository) {
+
+        super();
         this.userRepository = userRepository;
     }
 
     public List<User> getUsers() {
+
         return userRepository.findAll();
     }
 
     public User getUserById(final int id) {
+
         return userRepository.findById(id).orElse(null);
     }
+
 }

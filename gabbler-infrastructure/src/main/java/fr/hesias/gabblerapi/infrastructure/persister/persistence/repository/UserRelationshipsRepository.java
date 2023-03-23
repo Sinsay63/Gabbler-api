@@ -4,6 +4,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.UserRela
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("userRelationshipsRepository")
 public interface UserRelationshipsRepository extends JpaRepository<UserRelationships, Integer> {
+
 }

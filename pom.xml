@@ -10,6 +10,8 @@
     <description>gabbler-api</description>
     <properties>
         <java.version>19</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
     <modules>
         <module>gabbler-application</module>

@@ -1,16 +1,10 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Data
@@ -18,8 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "gab")
-public class Gab
-{
+public class Gab {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -32,6 +25,7 @@ public class Gab
     private LocalDate postDate;
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
-    @OneToMany
+    @ManyToOne
     private User user;
+
 }

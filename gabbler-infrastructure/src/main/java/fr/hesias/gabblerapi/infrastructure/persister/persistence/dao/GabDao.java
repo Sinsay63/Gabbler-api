@@ -8,10 +8,14 @@ public class GabDao {
     private final GabRepository gabRepository;
 
     public GabDao(final GabRepository gabRepository) {
+
+        super();
         this.gabRepository = gabRepository;
     }
 
     public Gab getGabById(final int id) {
+
         return gabRepository.findById(id).orElse(null);
     }
+
 }

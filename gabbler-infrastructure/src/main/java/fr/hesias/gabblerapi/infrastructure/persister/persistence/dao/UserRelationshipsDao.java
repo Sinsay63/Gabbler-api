@@ -7,6 +7,9 @@ public class UserRelationshipsDao {
     private final UserRelationshipsRepository userRelationshipsRepository;
 
     public UserRelationshipsDao(final UserRelationshipsRepository userRelationshipsRepository) {
+
+        super();
         this.userRelationshipsRepository = userRelationshipsRepository;
     }
+
 }

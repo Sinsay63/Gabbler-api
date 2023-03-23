@@ -4,6 +4,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Subscrip
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("subscriptionRepository")
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
+
 }

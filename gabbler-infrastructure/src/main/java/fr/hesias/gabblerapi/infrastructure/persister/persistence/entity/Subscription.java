@@ -40,8 +40,9 @@ public class Subscription {
 
     @JoinColumn(name = "id_subscription_offer", nullable = false, referencedColumnName = "id")
     @ManyToOne
-    private SubcriptionOffer subcriptionOffer;
+    private SubscriptionOffer subscriptionOffer;
 
     @OneToMany()
     private List<User> users;
+
 }

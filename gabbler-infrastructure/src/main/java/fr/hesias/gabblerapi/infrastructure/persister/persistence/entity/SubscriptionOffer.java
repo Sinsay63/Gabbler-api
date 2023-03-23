@@ -1,14 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.DurationEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "subscription_offer")
-public class SubcriptionOffer
-{
+public class SubscriptionOffer {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id

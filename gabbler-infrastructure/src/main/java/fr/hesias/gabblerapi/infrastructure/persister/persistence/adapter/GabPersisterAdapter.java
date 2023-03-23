@@ -7,10 +7,18 @@ import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService
 public class GabPersisterAdapter implements GabPersister {
 
 
-    private GabPersisterService gabPersisterService;
+    private final GabPersisterService gabPersisterService;
+
+    public GabPersisterAdapter(final GabPersisterService gabPersisterService) {
+
+        super();
+        this.gabPersisterService = gabPersisterService;
+    }
 
     @Override
     public DomainGabResult getGabById(final int id) {
+
         return this.gabPersisterService.getGabById(id);
     }
+
 }
