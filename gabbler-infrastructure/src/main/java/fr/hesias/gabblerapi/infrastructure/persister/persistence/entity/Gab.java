@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Table(name = "gab")
 public class Gab {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 

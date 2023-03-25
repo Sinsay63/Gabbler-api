@@ -1,19 +1,11 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Data
@@ -22,10 +14,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "interaction")
 
-public class Interaction
-{
+public class Interaction {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 
@@ -43,4 +34,5 @@ public class Interaction
     @JoinColumn(name = "id_gab", nullable = false, referencedColumnName = "id")
     @ManyToOne
     private Gab gab;
+
 }

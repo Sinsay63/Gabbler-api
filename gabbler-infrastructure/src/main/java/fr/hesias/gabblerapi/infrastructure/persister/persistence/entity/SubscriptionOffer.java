@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "subscription_offer")
 public class SubscriptionOffer {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 
