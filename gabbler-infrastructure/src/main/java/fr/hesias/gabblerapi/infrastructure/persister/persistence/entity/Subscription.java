@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,10 +19,10 @@ public class Subscription {
     private int id;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -35,14 +34,11 @@ public class Subscription {
     private boolean autoRenewal;
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private User user;
 
     @JoinColumn(name = "id_subscription_offer", nullable = false, referencedColumnName = "id")
-    @ManyToOne
+    @OneToOne
     private SubscriptionOffer subscriptionOffer;
-
-    @OneToMany()
-    private List<User> users;
 
 }

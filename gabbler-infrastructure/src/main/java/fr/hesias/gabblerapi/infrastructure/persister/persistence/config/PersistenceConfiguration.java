@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "fr.hesias.gabblerapi.infrastructure.persister.persistence.repository")
 @EntityScan(basePackages = "fr.hesias.gabblerapi.infrastructure.persister.persistence.entity")
 @ComponentScan(basePackages = "fr.hesias.gabblerapi.infrastructure.persister")
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 public class PersistenceConfiguration {
 
     public PersistenceConfiguration() {

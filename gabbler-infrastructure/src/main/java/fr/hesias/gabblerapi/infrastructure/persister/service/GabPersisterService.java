@@ -40,7 +40,7 @@ public class GabPersisterService {
             }
 
         } catch (final Exception e) {
-//            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
+            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
             domainGab = new DomainGabResult(domainAccessStatus);
         }
@@ -48,5 +48,21 @@ public class GabPersisterService {
 
         return domainGab;
     }
+
+//    @Transactional(rollbackFor = Exception.class)
+//    public DomainGabResult createGab() {
+//
+//        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+//        try {
+//            final Gab gab = new Gab();
+//            gab.setContent("test");
+//            gabDao.createGab(gab);
+//        } catch (final Exception e) {
+//            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
+//            domainAccessStatus = INTERNAL_ERROR;
+//        }
+//
+//        return
+//    }
 
 }

@@ -1,5 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ProviderEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,7 +47,7 @@ public class User {
     private String biography;
 
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(name = "path_avatar")
     private String pathAvatar;
@@ -54,13 +55,13 @@ public class User {
     @Column(name = "is_validated")
     private Boolean isValidated;
 
-    @OneToMany()
+    @Enumerated(EnumType.STRING)
+    private ProviderEnum provider;
+
+    @OneToMany(mappedBy = "user")
     private List<Gab> gabs;
 
-    @OneToMany()
-    private List<Subscription> subscriptions;
-
-    @OneToMany()
+    @OneToMany(mappedBy = "user")
     private List<Interaction> interactions;
 
 }

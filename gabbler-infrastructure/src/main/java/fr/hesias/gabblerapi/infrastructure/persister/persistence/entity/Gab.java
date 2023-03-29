@@ -22,7 +22,7 @@ public class Gab {
     private String content;
 
     @Column(name = "post_date")
-    private LocalDate postDate;
+    private LocalDate postDate = LocalDate.now();
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne

@@ -18,4 +18,8 @@ public class GabDao {
         return gabRepository.findById(id).orElse(null);
     }
 
+    public Gab createGab(final Gab gab) {
+
+        return gabRepository.save(gab);
+    }
 }

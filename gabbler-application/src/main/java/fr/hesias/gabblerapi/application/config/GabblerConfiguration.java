@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Import({GabblerApiConfig.class, UserClientApiConfig.class})
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 public class GabblerConfiguration {
 
     @Bean

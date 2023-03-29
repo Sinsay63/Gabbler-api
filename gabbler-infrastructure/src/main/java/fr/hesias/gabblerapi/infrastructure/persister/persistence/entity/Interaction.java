@@ -25,7 +25,7 @@ public class Interaction {
     private ActionEnum action;
 
     @Column(name = "action_date")
-    private LocalDate actionDate;
+    private LocalDate actionDate = LocalDate.now();
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne

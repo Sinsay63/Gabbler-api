@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user_relationships")
+@Table(name = "user_relationships", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_user", "id_user_related"})
+})
 public class UserRelationships {
 
     @Id
@@ -25,7 +27,7 @@ public class UserRelationships {
     private TypeEnum type;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDateTime date = LocalDateTime.now();
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne
