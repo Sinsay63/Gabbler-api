@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -22,9 +22,9 @@ public class Gab {
     private String content;
 
     @Column(name = "post_date")
-    private LocalDate postDate = LocalDate.now();
+    private LocalDateTime postDate = LocalDateTime.now();
 
-    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @ManyToOne
     private User user;
 

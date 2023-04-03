@@ -1,38 +1,32 @@
 server:
   port: 8081
 spring:
-  datasource:
-    password: root
-    username: root
-    url: jdbc:mysql://localhost/gabbler?useSSL=false&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    database: mysql
-    generate-ddl: true
-    show-sql: true
-    open-in-view: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQLDialect
-
   security:
     oauth2:
       client:
         registration:
-          google:
-            clientId: 738072251882-fi33qasvg36to97lajbkqo2m4f6fb9mv.apps.googleusercontent.com
-            clientSecret: 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
-            scope:
-              - email
-              - profile
-  mustache:
-    check-template-location: false
+          oauth2:
+            client-id: gabbler
+            client-secret: gabbler
+            scope: openid, profile, roles
+            authorization-grant-type: password
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: post
+            provider: keycloak
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/gabbler
+            token-uri: http://localhost:8080/realms/gabbler/protocol/openid-connect/token
+
 info:
   app:
     name: gabbler-api
     description: A simple social network
     version: '@project.version@'
     build: '@buildNumber@'
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: gabbler
+  resource: gabbler
+  ssl-required: external
+  public-client: true

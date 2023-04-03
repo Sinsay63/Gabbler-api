@@ -3,6 +3,8 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.dao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.GabRepository;
 
+import java.util.List;
+
 public class GabDao {
 
     private final GabRepository gabRepository;
@@ -18,8 +20,8 @@ public class GabDao {
         return gabRepository.findById(id).orElse(null);
     }
 
-    public Gab createGab(final Gab gab) {
+    public List<Gab> getGabs() {
 
-        return gabRepository.save(gab);
+        return gabRepository.findAll();
     }
 }

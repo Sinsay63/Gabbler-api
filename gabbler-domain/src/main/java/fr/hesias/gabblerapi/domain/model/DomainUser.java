@@ -1,11 +1,15 @@
 package fr.hesias.gabblerapi.domain.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class DomainUser
-{
-    private int id;
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Getter
+@Setter
+public class DomainUser {
+    private UUID uuid;
 
     private String username;
 
@@ -13,25 +17,23 @@ public class DomainUser
 
     private String lastName;
 
-    private String birthday;
+    private LocalDate birthday;
 
     private String email;
 
     private String biography;
 
 
-    public DomainUser()
-    {
+    public DomainUser() {
         super();
     }
 
     public DomainUser(final String username,
                       final String firstName,
                       final String lastName,
-                      final String birthday,
+                      final LocalDate birthday,
                       final String email,
-                      final String biography)
-    {
+                      final String biography) {
 
         super();
         this.username = username;
@@ -42,17 +44,16 @@ public class DomainUser
         this.biography = biography;
     }
 
-    public DomainUser(final int id,
+    public DomainUser(final UUID uuid,
                       final String username,
                       final String firstName,
                       final String lastName,
-                      final String birthday,
+                      final LocalDate birthday,
                       final String email,
-                      final String biography)
-    {
+                      final String biography) {
 
         super();
-        this.id = id;
+        this.uuid = uuid;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,10 +63,9 @@ public class DomainUser
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "DomainUser{" +
-                "id='" + id + '\'' +
+                "uuid='" + uuid + '\'' +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

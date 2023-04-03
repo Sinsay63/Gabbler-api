@@ -6,8 +6,10 @@ import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class UserApiMapper {
 
@@ -17,12 +19,12 @@ public class UserApiMapper {
         final User user = new User();
 
         if (domainUser != null) {
-            user.setId(domainUser.getId());
+            user.setUuid(domainUser.getUuid().toString());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());
             user.setBiography(domainUser.getBiography());
-            user.setBirthday(domainUser.getBirthday());
+            user.setBirthday(domainUser.getBirthday().toString());
             user.setUsername(domainUser.getUsername());
         }
         return user;
@@ -50,12 +52,12 @@ public class UserApiMapper {
 
         if (user != null) {
 
-            domainUser.setId(user.getId());
+            domainUser.setUuid(UUID.fromString(user.getUuid()));
             domainUser.setFirstName(user.getFirstname());
             domainUser.setLastName(user.getLastname());
             domainUser.setEmail(user.getEmail());
             domainUser.setBiography(user.getBiography());
-            domainUser.setBirthday(user.getBirthday());
+            domainUser.setBirthday(LocalDate.parse(user.getBirthday()));
             domainUser.setUsername(user.getUsername());
         }
         return domainUser;
@@ -68,12 +70,12 @@ public class UserApiMapper {
         if (domainUserResult != null) {
             final DomainUser domainUser = domainUserResult.getDomainUser();
 
-            user.setId(domainUser.getId());
+            user.setUuid(domainUser.getUuid().toString());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());
             user.setBiography(domainUser.getBiography());
-            user.setBirthday(domainUser.getBirthday());
+            user.setBirthday(domainUser.getBirthday().toString());
             user.setUsername(domainUser.getUsername());
         }
 

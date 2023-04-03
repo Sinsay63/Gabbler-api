@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://localhost/gabbler?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    generate-ddl: true
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect

@@ -49,3 +49,204 @@ paths:
 
       tags:
         - user
+
+  /users/{uuid}:
+    get:
+      summary: Récupère un utilisateur par son uuid
+      description: Récupère un utilisateur par son uuid
+      operationId: getUserByUuid
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne la liste des utilisateurs avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/User'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - user
+
+  /gabs:
+    get:
+      summary: Récupère la liste des gabs
+      description: Récupère la liste des gabs
+      operationId: getGabs
+      responses:
+        '200':
+          description: Retourne la liste des gabs avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Gabs'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - gab
+
+  /gabs/{id}:
+    get:
+      summary: Récupère un gab par son id
+      description: Récupère un gab par son id
+      operationId: getGabById
+      parameters:
+        - name: id
+          in: path
+          description: id du gab
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne une gab avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - gab
+
+  /gabs/post:
+    post:
+      summary: Poste un gab
+      description: Poste un gab
+      operationId: postGab
+      requestBody:
+        description: Gab à poster
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
+      responses:
+        '200':
+          description: Le gab a bien été posté.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - gab

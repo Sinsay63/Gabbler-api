@@ -6,6 +6,8 @@ info:
 tags:
   - name: user
     description: Opérations sur les utilisateurs
+  - name: gab
+    description: Opérations sur les gabs
 paths: { }
 components:
   schemas:
@@ -14,10 +16,10 @@ components:
       type: object
       description: objet correspondant à un utilisateur
       properties:
-        id:
-          type: integer
-          description: id de l'utilisateur
-          example: "25"
+        uuid:
+          type: string
+          description: uuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
         username:
           type: string
           description: pseudonyme de l'utilisateur
@@ -84,4 +86,16 @@ components:
         post_date:
           type: string
           description: date de publication du gab
-          example: "2023-01-25"
+          example: "2023-01-25 18:17:35"
+        user:
+          $ref: "#/components/schemas/User"
+
+    Gabs:
+      type: object
+      description: objet correspondant à une liste de gabs
+      properties:
+        gabs:
+          type: array
+          description: liste de gabs
+          items:
+            $ref: "#/components/schemas/Gab"

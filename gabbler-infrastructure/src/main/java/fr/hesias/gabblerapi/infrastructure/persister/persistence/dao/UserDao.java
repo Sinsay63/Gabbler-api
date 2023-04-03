@@ -4,6 +4,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.UserRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 public class UserDao {
 
@@ -20,9 +21,14 @@ public class UserDao {
         return userRepository.findAll();
     }
 
-    public User getUserById(final int id) {
+    public User getUserByUuid(final UUID uuid) {
 
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findByUuid(uuid);
+    }
+
+    public User addUser(final User user) {
+
+        return userRepository.save(user);
     }
 
 }

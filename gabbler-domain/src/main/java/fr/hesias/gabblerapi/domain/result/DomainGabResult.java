@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.domain.result;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
+import fr.hesias.gabblerapi.domain.model.DomainGab;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,23 +9,14 @@ import lombok.Setter;
 @Setter
 public class DomainGabResult extends DomainResultable {
 
-    private int id;
-
-    private String content;
-
-    private String date;
-
-    private DomainUserResult user;
+    private DomainGab gab;
 
     public DomainGabResult(final DomainAccessStatus domainAccessStatus) {
         super(domainAccessStatus);
     }
 
-    public DomainGabResult(final DomainAccessStatus domainAccessStatus, final int id, final String content, final String date, final DomainUserResult user) {
+    public DomainGabResult(final DomainAccessStatus domainAccessStatus, final DomainGab gab) {
         super(domainAccessStatus);
-        this.id = id;
-        this.content = content;
-        this.date = date;
-        this.user = user;
+        this.gab = gab;
     }
 }

@@ -27,7 +27,7 @@ public class Interaction {
     @Column(name = "action_date")
     private LocalDate actionDate = LocalDate.now();
 
-    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @ManyToOne
     private User user;
 

@@ -3,6 +3,8 @@ package fr.hesias.gabblerapi.domain.port.secondary;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
+import java.util.UUID;
+
 public interface UserPersister {
 
     /**
@@ -15,8 +17,8 @@ public interface UserPersister {
     /**
      * Récupérer un utilisateur par son id
      *
-     * @param id l'id de l'utilisateur
+     * @param uuid l'uuid de l'utilisateur
      * @return l'utilisateur
      */
-    DomainUserResult getUserById(final int id);
+    DomainUserResult getUserByUuid(final UUID uuid);
 }

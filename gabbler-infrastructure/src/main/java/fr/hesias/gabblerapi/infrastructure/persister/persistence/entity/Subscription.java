@@ -33,7 +33,7 @@ public class Subscription {
     @Column(name = "auto_renewal")
     private boolean autoRenewal;
 
-    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @OneToOne
     private User user;
 

@@ -5,6 +5,8 @@ import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 import fr.hesias.gabblerapi.infrastructure.persister.service.UserPersisterService;
 
+import java.util.UUID;
+
 public class UserPersisterAdapter implements UserPersister {
 
     private final UserPersisterService userPersisterService;
@@ -19,7 +21,7 @@ public class UserPersisterAdapter implements UserPersister {
     }
 
     @Override
-    public DomainUserResult getUserById(final int id) {
-        return userPersisterService.getUserById(id);
+    public DomainUserResult getUserByUuid(final UUID uuid) {
+        return userPersisterService.getUserByUuid(uuid);
     }
 }
