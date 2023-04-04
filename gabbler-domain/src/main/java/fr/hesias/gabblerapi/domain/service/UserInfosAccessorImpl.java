@@ -1,12 +1,14 @@
 package fr.hesias.gabblerapi.domain.service;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
+import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
 import java.util.List;
+import java.util.UUID;
 
 public class UserInfosAccessorImpl implements UserInfosAccessor {
 
@@ -35,5 +37,6 @@ public class UserInfosAccessorImpl implements UserInfosAccessor {
 
         return new DomainUsersResult(domainAccessStatus, domainUsersResults);
     }
+
 
 }

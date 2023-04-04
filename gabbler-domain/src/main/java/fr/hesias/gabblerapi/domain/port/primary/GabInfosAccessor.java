@@ -1,13 +1,12 @@
-package fr.hesias.gabblerapi.domain.port.secondary;
+package fr.hesias.gabblerapi.domain.port.primary;
 
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 
-public interface GabPersister {
-
-    DomainGabResult getGabById(final int id);
+public interface GabInfosAccessor {
 
     DomainGabsResult getGabs();
 
+    DomainGabResult getGabById(int id);
 
 }

@@ -1,15 +1,21 @@
 package fr.hesias.gabblerapi.infrastructure.persister.service;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
+import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
+import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
+import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
+import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 @Slf4j
 public class GabPersisterService {
@@ -27,40 +33,44 @@ public class GabPersisterService {
     @Transactional(readOnly = true)
     public DomainGabResult getGabById(final int id) {
 
-        DomainAccessStatus domainAccessStatus = null;
-        DomainGabResult domainGab = new DomainGabResult(domainAccessStatus);
+        DomainAccessStatus domainAccessStatus = OK;
+        DomainGab domainGab = null;
         try {
             final Gab gab = gabDao.getGabById(id);
             if (gab != null) {
 
-                final DomainUserResult domainUserResult = new DomainUserResult(domainAccessStatus);
+                domainGab = gabblerInfraMapper.toGabToDomainGab(gab);
 
             }
 
         } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
-            domainGab = new DomainGabResult(domainAccessStatus);
         }
 
 
-        return domainGab;
+        return new DomainGabResult(domainAccessStatus, domainGab);
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public DomainGabResult createGab() {
-//
-//        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
-//        try {
-//            final Gab gab = new Gab();
-//            gab.setContent("test");
-//            gabDao.createGab(gab);
-//        } catch (final Exception e) {
-//            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
-//            domainAccessStatus = INTERNAL_ERROR;
-//        }
-//
-//        return
-//    }
+    @Transactional(readOnly = true)
+    public DomainGabsResult getGabs() {
+
+        List<DomainGabResult> domainGab = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = OK;
+        try {
+            final List<Gab> gabs = gabDao.getGabs();
+            if (isNotEmpty(gabs)) {
+
+                for (final Gab gab : gabs) {
+                    domainGab.add(gabblerInfraMapper.toDomainGabToDomainGabResult(domainAccessStatus, gabblerInfraMapper.toGabToDomainGab(gab)));
+                }
+            }
+
+        } catch (final Exception e) {
+            log.error("[NA] Erreur survenue lors de la récupération de tous les gabs", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+        return new DomainGabsResult(domainAccessStatus, domainGab);
+    }
 
 }

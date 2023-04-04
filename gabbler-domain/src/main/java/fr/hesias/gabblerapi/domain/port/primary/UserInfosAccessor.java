@@ -1,5 +1,6 @@
 package fr.hesias.gabblerapi.domain.port.primary;
 
+import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
 public interface UserInfosAccessor {
@@ -10,6 +11,7 @@ public interface UserInfosAccessor {
      * @return la liste des utilisateurs
      */
     DomainUsersResult getUsers();
+
 
 
 }
