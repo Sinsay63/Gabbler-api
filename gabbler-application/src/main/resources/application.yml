@@ -7,23 +7,27 @@ info:
 
 server:
   port: 8081
-  
+
 spring:
+  application:
+    name: gabbler-keycloak
   security:
     oauth2:
-      client:
-        registration:
-          oauth2:
-            client-id: gabbler
-            client-secret: gabbler
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8080/auth/realms/Gabbler
-            token-uri: http://localhost:8080/auth/realms/Gabbler/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/gabbler
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
-keycloak:
-  auth-server-url: http://localhost:8080/auth
-  realm: Gabbler
-  resource: gabbler
-  ssl-required: external
-  public-client: true
+jwt:
+  auth:
+    converter:
+      resource-id: gabbler-client
+      principal-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+openapi:
+  file:
+    path: ./gabbler-desc/target/generated-sources/openapi-generator-json/openapi.json

@@ -14,18 +14,21 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@Import({GabblerApiConfig.class, UserClientApiConfig.class})
+@Import({GabblerApiConfig.class, UserClientApiConfig.class, WebSecurityConfig.class, CorsConfiguration.class})
 @PropertySource("classpath:application.yml")
-public class GabblerConfiguration {
+public class GabblerConfiguration
+{
 
     @Bean
-    public UserInfosAccessor userInfosAccessor(final UserPersister userPersister) {
+    public UserInfosAccessor userInfosAccessor(final UserPersister userPersister)
+    {
 
         return new UserInfosAccessorImpl(userPersister);
     }
 
     @Bean
-    public GabInfosAccessor gabInfosAccessor(final GabPersister gabPersister) {
+    public GabInfosAccessor gabInfosAccessor(final GabPersister gabPersister)
+    {
 
         return new GabInfosAccessorImpl(gabPersister);
     }

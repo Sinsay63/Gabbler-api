@@ -162,8 +162,24 @@
                             <output>${project.build.directory}/generated-sources/openapi-java-client</output>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-json</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi/api/gabbler-api.yaml</inputSpec>
+                            <generatorName>openapi</generatorName>
+                            <output>${project.build.directory}/generated-sources/openapi-generator-json</output>
+                            <configOptions>
+                                <artifactVersion>${project.version}</artifactVersion>
+                                <interfaceOnly>true</interfaceOnly>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

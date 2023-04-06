@@ -8,9 +8,15 @@ tags:
     description: Opérations sur les utilisateurs
   - name: gab
     description: Opérations sur les gabs
+  - name: doc
+    description: Opérations sur le json doc
 paths: { }
 components:
   schemas:
+    JsonDoc:
+      type: string
+      description: objet correspondant à la documentation json
+      format: json
 
     User:
       type: object
