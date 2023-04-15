@@ -24,65 +24,58 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class WebSecurityConfig
-{
+public class WebSecurityConfig {
 
     private final JwtAuthFilter authFilter;
 
-    public WebSecurityConfig(JwtAuthFilter authFilter)
-    {
+    public WebSecurityConfig(JwtAuthFilter authFilter) {
 
         this.authFilter = authFilter;
     }
 
     @Bean
-    public UserDetailsService userDetailsService()
-    {
+    public UserDetailsService userDetailsService() {
 
         return new UserInfosAuthService();
     }
 
     @Bean
-    public UserInfosAccessorAdapter userInfosAccessorAdapter(UserInfosAccessor userInfosAccessor)
-    {
+    public UserInfosAccessorAdapter userInfosAccessorAdapter(UserInfosAccessor userInfosAccessor) {
 
         return new UserInfosAccessorAdapter(userInfosAccessor);
     }
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.csrf().disable()
-                   .cors().disable()
-                   .authorizeHttpRequests()
-                   .requestMatchers("/api/authenticate", "/actuator/**", "/api/doc/json").permitAll()
-                   .and()
-                   .authorizeHttpRequests()
-                   .requestMatchers("/api/**", "/**").permitAll()
-                   .and()
+                .cors().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/authenticate", "/actuator/**", "/api/doc/json").permitAll()
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/**", "/**").permitAll()
+                .and()
 //                   .authorizeHttpRequests().requestMatchers("/api/**").hasAuthority("ADMIN")
 //                   .and()
-                   .sessionManagement()
-                   .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                   .and()
-                   .authenticationProvider(authenticationProvider())
-                   .addFilterBefore(authFilter,
-                                    UsernamePasswordAuthenticationFilter.class)
-                   .build();
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authFilter,
+                        UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder()
-    {
+    public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider()
-    {
+    public AuthenticationProvider authenticationProvider() {
 
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
@@ -91,15 +84,13 @@ public class WebSecurityConfig
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
-    {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public JwtService jwtService(UserInfosAccessorAdapter userInfosAccessorAdapter)
-    {
+    public JwtService jwtService(UserInfosAccessorAdapter userInfosAccessorAdapter) {
 
         return new JwtService(userInfosAccessorAdapter);
     }
