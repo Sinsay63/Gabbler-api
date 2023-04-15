@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_relationships", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"uuid_user", "uuid_user_related"})
+        @UniqueConstraint(columnNames = {"id_user", "id_user_related"})
 })
-public class UserRelationships {
+public class UserRelationships
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +30,11 @@ public class UserRelationships {
     @Column(name = "date")
     private LocalDateTime date = LocalDateTime.now();
 
-    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
+    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne
     private User user;
 
-    @JoinColumn(name = "uuid_user_related", nullable = false, referencedColumnName = "uuid")
+    @JoinColumn(name = "id_user_related", nullable = false, referencedColumnName = "id")
     @ManyToOne
     private User userRelated;
 

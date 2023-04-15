@@ -22,9 +22,9 @@ components:
       type: object
       description: objet correspondant à un utilisateur
       properties:
-        uuid:
-          type: string
-          description: uuid de l'utilisateur
+        id:
+          type: integer
+          description: id de l'utilisateur
           example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
         username:
           type: string
@@ -61,6 +61,28 @@ components:
           items:
             $ref: "#/components/schemas/User"
 
+    UserAndToken:
+      type: object
+      description: objet correspondant à un utilisateur avec son jeton d'authentification
+      properties:
+        token:
+          type: string
+          description: jeton d'authentification de l'utilisateur
+        user:
+          $ref: "#/components/schemas/User"
+
+    UserAuth:
+      type: object
+      description: objet correspondant à un utilisateur avec son mot de passe
+      properties:
+        email:
+          type: string
+          description: email de l'utilisateur
+          example: "yanis.houdier@gmail.com"
+        password:
+          type: string
+          description: mot de passe de l'utilisateur
+          example: "123456"
     AccessError:
       type: object
       description: objet correspondant à une erreur d'accès

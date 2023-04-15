@@ -4,28 +4,21 @@ import fr.hesias.gabblerapi.application.adapter.GabInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.api.mapper.GabApiMapper;
 import fr.hesias.gabblerapi.application.api.mapper.GabblerApiErrorMapper;
-import fr.hesias.gabblerapi.application.api.mapper.JwtAuthConverter;
 import fr.hesias.gabblerapi.application.api.mapper.UserApiMapper;
 import fr.hesias.gabblerapi.application.api.service.*;
+import fr.hesias.gabblerapi.application.security.service.JwtService;
 import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
-import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import fr.hesias.gabblerapi.infrastructure.config.InfrastructureAdapterConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 
 @Configuration
-@Import({InfrastructureAdapterConfiguration.class, JwtAuthConverterProperties.class})
+@Import({InfrastructureAdapterConfiguration.class})
 public class GabblerApiConfig
 {
 
-
-    @Bean
-    public UserInfosAccessorAdapter userInfosAccessorAdapter(final UserInfosAccessor userInfosAccessor)
-    {
-
-        return new UserInfosAccessorAdapter(userInfosAccessor);
-    }
 
     @Bean
     public GabInfosAccessorAdapter gabInfosAccessorAdapter(final GabInfosAccessor gabInfosAccessor)
@@ -72,10 +65,16 @@ public class GabblerApiConfig
     @Bean
     public UserApiDelegateImpl userApiDelegateImpl(final UserApiMapper userApiMapper,
                                                    final GabblerApiService gabblerApiService,
-                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter)
+                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter,
+                                                   final JwtService jwtService,
+                                                   final AuthenticationManager authenticationManager)
     {
 
-        return new UserApiDelegateImpl(userApiMapper, gabblerApiService, userInfosAccessorAdapter);
+        return new UserApiDelegateImpl(userApiMapper,
+                                       gabblerApiService,
+                                       userInfosAccessorAdapter,
+                                       jwtService,
+                                       authenticationManager);
     }
 
     @Bean
@@ -85,13 +84,6 @@ public class GabblerApiConfig
     {
 
         return new GabApiDelegateImpl(gabInfosAccessorAdapter, gabblerApiService, gabApiMapper);
-    }
-
-    @Bean
-    JwtAuthConverter jwtAuthConverter(JwtAuthConverterProperties jwtAuthConverterProperties)
-    {
-
-        return new JwtAuthConverter(jwtAuthConverterProperties);
     }
 
     @Bean

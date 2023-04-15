@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
-public class DomainUser {
-    private UUID uuid;
+public class DomainUser
+{
+
+    private int id;
 
     private String username;
 
@@ -23,8 +24,12 @@ public class DomainUser {
 
     private String biography;
 
+    private String roles;
 
-    public DomainUser() {
+
+    public DomainUser()
+    {
+
         super();
     }
 
@@ -33,7 +38,9 @@ public class DomainUser {
                       final String lastName,
                       final LocalDate birthday,
                       final String email,
-                      final String biography) {
+                      final String biography,
+                      final String roles)
+    {
 
         super();
         this.username = username;
@@ -42,30 +49,36 @@ public class DomainUser {
         this.birthday = birthday;
         this.email = email;
         this.biography = biography;
+        this.roles = roles;
     }
 
-    public DomainUser(final UUID uuid,
+    public DomainUser(final int id,
                       final String username,
                       final String firstName,
                       final String lastName,
                       final LocalDate birthday,
                       final String email,
-                      final String biography) {
+                      final String biography,
+                      final String roles)
+    {
 
         super();
-        this.uuid = uuid;
+        this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
         this.biography = biography;
+        this.roles = roles;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
+
         return "DomainUser{" +
-                "uuid='" + uuid + '\'' +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -74,4 +87,5 @@ public class DomainUser {
                 ", biography='" + biography + '\'' +
                 '}';
     }
+
 }

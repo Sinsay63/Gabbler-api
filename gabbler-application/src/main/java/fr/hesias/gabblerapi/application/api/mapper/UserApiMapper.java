@@ -9,17 +9,19 @@ import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class UserApiMapper {
+public class UserApiMapper
+{
 
 
-    public User toUser(final DomainUser domainUser) {
+    public User toUser(final DomainUser domainUser)
+    {
 
         final User user = new User();
 
-        if (domainUser != null) {
-            user.setUuid(domainUser.getUuid().toString());
+        if (domainUser != null)
+        {
+            user.setId(domainUser.getId());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());
@@ -30,14 +32,17 @@ public class UserApiMapper {
         return user;
     }
 
-    public Users toUsers(final DomainUsersResult domainUsersResult) {
+    public Users toUsers(final DomainUsersResult domainUsersResult)
+    {
 
         final Users users = new Users();
 
-        if (domainUsersResult != null) {
+        if (domainUsersResult != null)
+        {
             final List<User> userList = new ArrayList<>();
 
-            for (final DomainUserResult domainUserResult : domainUsersResult.getUsers()) {
+            for (final DomainUserResult domainUserResult : domainUsersResult.getUsers())
+            {
                 final DomainUser domainUser = domainUserResult.getDomainUser();
                 userList.add(toUser(domainUser));
             }
@@ -46,13 +51,15 @@ public class UserApiMapper {
         return users;
     }
 
-    public DomainUser toDomainUser(final User user) {
+    public DomainUser toDomainUser(final User user)
+    {
 
         final DomainUser domainUser = new DomainUser();
 
-        if (user != null) {
+        if (user != null)
+        {
 
-            domainUser.setUuid(UUID.fromString(user.getUuid()));
+            domainUser.setId(user.getId());
             domainUser.setFirstName(user.getFirstname());
             domainUser.setLastName(user.getLastname());
             domainUser.setEmail(user.getEmail());
@@ -63,14 +70,16 @@ public class UserApiMapper {
         return domainUser;
     }
 
-    public User toDomainUserResultToUser(final DomainUserResult domainUserResult) {
+    public User toDomainUserResultToUser(final DomainUserResult domainUserResult)
+    {
 
         final User user = new User();
 
-        if (domainUserResult != null) {
+        if (domainUserResult != null)
+        {
             final DomainUser domainUser = domainUserResult.getDomainUser();
 
-            user.setUuid(domainUser.getUuid().toString());
+            user.setId(domainUser.getId());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());
@@ -82,13 +91,16 @@ public class UserApiMapper {
         return user;
     }
 
-    public Users toDomainUsersResultToUsers(final DomainUsersResult domainUsersResultList) {
+    public Users toDomainUsersResultToUsers(final DomainUsersResult domainUsersResultList)
+    {
 
         final Users users = new Users();
 
-        if (domainUsersResultList != null) {
+        if (domainUsersResultList != null)
+        {
             final List<User> userList = new ArrayList<>();
-            for (final DomainUserResult domainUserResult : domainUsersResultList.getUsers()) {
+            for (final DomainUserResult domainUserResult : domainUsersResultList.getUsers())
+            {
 
                 userList.add(toUser(domainUserResult.getDomainUser()));
             }

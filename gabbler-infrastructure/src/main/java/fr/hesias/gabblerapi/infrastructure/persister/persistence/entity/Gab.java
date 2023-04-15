@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "gab")
-public class Gab {
+public class Gab
+{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -24,7 +25,7 @@ public class Gab {
     @Column(name = "post_date")
     private LocalDateTime postDate = LocalDateTime.now();
 
-    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
+    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne
     private User user;
 

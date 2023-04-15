@@ -18,32 +18,39 @@ import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 @Slf4j
-public class GabPersisterService {
+public class GabPersisterService
+{
 
     private final GabDao gabDao;
 
     private final GabblerInfraMapper gabblerInfraMapper;
 
-    public GabPersisterService(final GabDao gabDao, final GabblerInfraMapper gabblerInfraMapper) {
+    public GabPersisterService(final GabDao gabDao, final GabblerInfraMapper gabblerInfraMapper)
+    {
 
         this.gabDao = gabDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
 
     @Transactional(readOnly = true)
-    public DomainGabResult getGabById(final int id) {
+    public DomainGabResult getGabById(final int id)
+    {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainGab domainGab = null;
-        try {
+        try
+        {
             final Gab gab = gabDao.getGabById(id);
-            if (gab != null) {
+            if (gab != null)
+            {
 
                 domainGab = gabblerInfraMapper.toGabToDomainGab(gab);
 
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -53,20 +60,28 @@ public class GabPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainGabsResult getGabs() {
+    public DomainGabsResult getGabs()
+    {
 
         List<DomainGabResult> domainGab = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = OK;
-        try {
+        try
+        {
             final List<Gab> gabs = gabDao.getGabs();
-            if (isNotEmpty(gabs)) {
+            if (isNotEmpty(gabs))
+            {
 
-                for (final Gab gab : gabs) {
-                    domainGab.add(gabblerInfraMapper.toDomainGabToDomainGabResult(domainAccessStatus, gabblerInfraMapper.toGabToDomainGab(gab)));
+                for (final Gab gab : gabs)
+                {
+                    domainGab.add(gabblerInfraMapper.toDomainGabToDomainGabResult(domainAccessStatus,
+                                                                                  gabblerInfraMapper.toGabToDomainGab(
+                                                                                          gab)));
                 }
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération de tous les gabs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }

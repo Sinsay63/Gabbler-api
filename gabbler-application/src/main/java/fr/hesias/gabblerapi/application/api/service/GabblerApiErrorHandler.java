@@ -16,7 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author bdupont
  */
 @ControllerAdvice
-public class GabblerApiErrorHandler extends ResponseEntityExceptionHandler {
+public class GabblerApiErrorHandler extends ResponseEntityExceptionHandler
+{
 
 
     private final GabblerApiErrorMapper gabblerApiErrorMapper;
@@ -26,7 +27,8 @@ public class GabblerApiErrorHandler extends ResponseEntityExceptionHandler {
      *
      * @param gabblerApiErrorMapper pour mapper l'erreur du domaine en erreur de l'API
      */
-    public GabblerApiErrorHandler(final GabblerApiErrorMapper gabblerApiErrorMapper) {
+    public GabblerApiErrorHandler(final GabblerApiErrorMapper gabblerApiErrorMapper)
+    {
 
         super();
 
@@ -42,7 +44,8 @@ public class GabblerApiErrorHandler extends ResponseEntityExceptionHandler {
      * @return une ResponseEntity avec l'erreur
      */
     @ExceptionHandler(value = {GabblerApiException.class})
-    protected void handleApiError(final GabblerApiException ex, final WebRequest request) {
+    protected void handleApiError(final GabblerApiException ex, final WebRequest request)
+    {
 
         final DomainResultable domainResultable = ex.getDomainResultable();
 
@@ -57,7 +60,8 @@ public class GabblerApiErrorHandler extends ResponseEntityExceptionHandler {
      * @return une ResponseEntity avec l'erreur
      */
     @ExceptionHandler(value = {HttpMessageConversionException.class})
-    protected void handleParametersError(final HttpMessageConversionException ex, final WebRequest request) {
+    protected void handleParametersError(final HttpMessageConversionException ex, final WebRequest request)
+    {
 
         final DomainResultable domainResultable = new DomainResultable(DomainAccessStatus.BAD_REQUEST);
         domainResultable.updateMessage(ex.getCause().getCause().getMessage());

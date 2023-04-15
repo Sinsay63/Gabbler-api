@@ -2,6 +2,7 @@ package fr.hesias.gabblerapi.domain.result;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import lombok.Getter;
+
 import java.util.List;
 
 @Getter
@@ -13,12 +14,14 @@ public class DomainUsersResult extends DomainResultable
 
     public DomainUsersResult(final DomainAccessStatus domainAccessStatus)
     {
+
         super(domainAccessStatus);
     }
 
     public DomainUsersResult(final DomainAccessStatus domainAccessStatus,
                              final List<DomainUserResult> users)
     {
+
         super(domainAccessStatus);
         this.users = users;
     }
@@ -26,8 +29,10 @@ public class DomainUsersResult extends DomainResultable
     @Override
     public String toString()
     {
+
         return "DomainUsersResult{" +
                 "users=" + users +
                 '}';
     }
+
 }

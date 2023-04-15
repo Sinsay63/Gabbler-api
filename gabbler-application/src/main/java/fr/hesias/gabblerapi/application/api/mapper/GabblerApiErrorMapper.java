@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.*;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
-public class GabblerApiErrorMapper {
+public class GabblerApiErrorMapper
+{
 
 
     /**
@@ -18,15 +19,18 @@ public class GabblerApiErrorMapper {
      * @param path             chemin de l'appel qui a provoqué l'erreur
      * @return le modèle de l'API associé au résultat du domaine
      */
-    public AccessError toAccessError(final DomainResultable domainResultable, final String path) {
+    public AccessError toAccessError(final DomainResultable domainResultable, final String path)
+    {
 
         String error = null;
         String message = null;
 
-        if (domainResultable != null) {
+        if (domainResultable != null)
+        {
             message = domainResultable.getMessage();
 
-            if (domainResultable.getDomainAccessStatus() != null) {
+            if (domainResultable.getDomainAccessStatus() != null)
+            {
                 error = domainResultable.getDomainAccessStatus().name();
             }
         }
@@ -40,35 +44,47 @@ public class GabblerApiErrorMapper {
      * @param domainResultable résultat du domaine
      * @return le code http
      */
-    public HttpStatus toHttpStatus(final DomainResultable domainResultable) {
+    public HttpStatus toHttpStatus(final DomainResultable domainResultable)
+    {
 
-        final DomainAccessStatus domainAccessStatus = domainResultable != null ? domainResultable.getDomainAccessStatus() : null;
+        final DomainAccessStatus domainAccessStatus = domainResultable != null
+                                                      ? domainResultable.getDomainAccessStatus()
+                                                      : null;
 
         HttpStatus httpStatus = INTERNAL_SERVER_ERROR;
 
-        if (domainAccessStatus != null) {
-            if (domainAccessStatus == DomainAccessStatus.OK) {
+        if (domainAccessStatus != null)
+        {
+            if (domainAccessStatus == DomainAccessStatus.OK)
+            {
                 httpStatus = HttpStatus.OK;
             }
-            else if (domainAccessStatus == DomainAccessStatus.NOT_FOUND) {
+            else if (domainAccessStatus == DomainAccessStatus.NOT_FOUND)
+            {
                 httpStatus = HttpStatus.NOT_FOUND;
             }
-            else if (domainAccessStatus == DomainAccessStatus.BAD_REQUEST) {
+            else if (domainAccessStatus == DomainAccessStatus.BAD_REQUEST)
+            {
                 httpStatus = HttpStatus.BAD_REQUEST;
             }
-            else if (domainAccessStatus == SERVICE_UNAVAILABLE) {
+            else if (domainAccessStatus == SERVICE_UNAVAILABLE)
+            {
                 httpStatus = HttpStatus.SERVICE_UNAVAILABLE;
             }
-            else if (domainAccessStatus == DomainAccessStatus.CONFLICT) {
+            else if (domainAccessStatus == DomainAccessStatus.CONFLICT)
+            {
                 httpStatus = HttpStatus.CONFLICT;
             }
-            else if (domainAccessStatus == TIME_OUT) {
+            else if (domainAccessStatus == TIME_OUT)
+            {
                 httpStatus = HttpStatus.REQUEST_TIMEOUT;
             }
-            else if (domainAccessStatus == FORBIDDEN) {
+            else if (domainAccessStatus == FORBIDDEN)
+            {
                 httpStatus = HttpStatus.FORBIDDEN;
             }
-            else if (domainAccessStatus == NOT_YET_IMPLEMENTED) {
+            else if (domainAccessStatus == NOT_YET_IMPLEMENTED)
+            {
                 httpStatus = HttpStatus.NOT_IMPLEMENTED;
             }
 

@@ -14,7 +14,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "interaction")
 
-public class Interaction {
+public class Interaction
+{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -27,7 +28,7 @@ public class Interaction {
     @Column(name = "action_date")
     private LocalDate actionDate = LocalDate.now();
 
-    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
+    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne
     private User user;
 

@@ -7,7 +7,9 @@ import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 /**
  * Classe représentant le retour des ports secondaires vers le domaine
  */
-public class DomainResultable {
+public class DomainResultable
+{
+
     private DomainAccessStatus domainAccessStatus;
 
     private String message;
@@ -17,7 +19,9 @@ public class DomainResultable {
      *
      * @param domainAccessStatus code résultat de l'opération
      */
-    public DomainResultable(final DomainAccessStatus domainAccessStatus) {
+    public DomainResultable(final DomainAccessStatus domainAccessStatus)
+    {
+
         this(domainAccessStatus, null);
     }
 
@@ -27,7 +31,9 @@ public class DomainResultable {
      * @param domainAccessStatus code résultat de l'opération
      * @param message            message d'erreur éventuel
      */
-    protected DomainResultable(final DomainAccessStatus domainAccessStatus, final String message) {
+    protected DomainResultable(final DomainAccessStatus domainAccessStatus, final String message)
+    {
+
         super();
 
         this.domainAccessStatus = domainAccessStatus;
@@ -41,7 +47,9 @@ public class DomainResultable {
      * @param domainResultable l'autre résultat
      * @return le DomainHAPI2O2SResult à jour
      */
-    public DomainResultable updateFromAnotherResult(final DomainResultable domainResultable) {
+    public DomainResultable updateFromAnotherResult(final DomainResultable domainResultable)
+    {
+
         domainAccessStatus = domainResultable.getDomainAccessStatus();
         message = domainResultable.getMessage();
 
@@ -53,7 +61,9 @@ public class DomainResultable {
      *
      * @param message le nouveau message
      */
-    public DomainResultable updateMessage(final String message) {
+    public DomainResultable updateMessage(final String message)
+    {
+
         this.message = message;
 
         return this;
@@ -64,7 +74,9 @@ public class DomainResultable {
      *
      * @param accessStatus le nouveau code
      */
-    public DomainResultable updateAccessStatus(final DomainAccessStatus accessStatus) {
+    public DomainResultable updateAccessStatus(final DomainAccessStatus accessStatus)
+    {
+
         domainAccessStatus = accessStatus;
 
         return this;
@@ -75,7 +87,9 @@ public class DomainResultable {
      *
      * @return si le résultat est OK
      */
-    public boolean isOk() {
+    public boolean isOk()
+    {
+
         return domainAccessStatus == OK;
     }
 
@@ -84,7 +98,9 @@ public class DomainResultable {
      *
      * @return le status
      */
-    public DomainAccessStatus getDomainAccessStatus() {
+    public DomainAccessStatus getDomainAccessStatus()
+    {
+
         return domainAccessStatus;
     }
 
@@ -93,15 +109,20 @@ public class DomainResultable {
      *
      * @return le message
      */
-    public String getMessage() {
+    public String getMessage()
+    {
+
         return message;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
+
         return "DomainResultable{" +
                 "accessStatus=" + domainAccessStatus +
                 ", message='" + message + '\'' +
                 '}';
     }
+
 }

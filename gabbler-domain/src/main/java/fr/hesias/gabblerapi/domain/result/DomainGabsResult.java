@@ -8,16 +8,22 @@ import java.util.List;
 
 @Getter
 @Setter
-public class DomainGabsResult extends DomainResultable {
+public class DomainGabsResult extends DomainResultable
+{
 
     private List<DomainGabResult> gabs;
 
-    public DomainGabsResult(final DomainAccessStatus domainAccessStatus) {
+    public DomainGabsResult(final DomainAccessStatus domainAccessStatus)
+    {
+
         super(domainAccessStatus);
     }
 
-    public DomainGabsResult(final DomainAccessStatus domainAccessStatus, final List<DomainGabResult> gabs) {
+    public DomainGabsResult(final DomainAccessStatus domainAccessStatus, final List<DomainGabResult> gabs)
+    {
+
         super(domainAccessStatus);
         this.gabs = gabs;
     }
+
 }
