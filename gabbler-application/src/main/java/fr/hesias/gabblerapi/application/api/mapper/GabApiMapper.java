@@ -17,11 +17,12 @@ public class GabApiMapper {
         super();
         this.userApiMapper = userApiMapper;
     }
+
     public Gab toGab(final DomainGab domainGab) {
 
         final Gab gab = new Gab();
 
-        if(domainGab != null){
+        if (domainGab != null) {
             gab.setId(domainGab.getId());
             gab.setContent(domainGab.getContent());
             gab.setPostDate(domainGab.getPostDate().toString());
@@ -32,13 +33,14 @@ public class GabApiMapper {
 
     public Gabs toGabs(final DomainGabsResult domainGabsResult) {
         final Gabs gabs = new Gabs();
-        if(domainGabsResult != null){
+        if (domainGabsResult != null) {
             final List<Gab> gabsList = new ArrayList<>();
 
-            for(DomainGabResult domainGabResult : domainGabsResult.getGabs()){
+            for (DomainGabResult domainGabResult : domainGabsResult.getGabs()) {
                 final DomainGab domainGab = domainGabResult.getGab();
                 gabsList.add(toGab(domainGab));
             }
+            gabs.setGabs(gabsList);
         }
         return gabs;
     }
