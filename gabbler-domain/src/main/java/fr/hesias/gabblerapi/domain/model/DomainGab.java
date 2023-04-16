@@ -15,16 +15,29 @@ public class DomainGab {
 
     private LocalDateTime postDate;
 
+    private int nbLikes;
+
+    private int nbDislikes;
+
     private DomainUser user;
 
 
     public DomainGab() {
     }
 
-    public DomainGab(final int id, final String content, final LocalDateTime postDate, final DomainUser user) {
+    public DomainGab(int id, String content, LocalDateTime postDate, DomainUser user) {
         this.id = id;
         this.content = content;
         this.postDate = postDate;
+        this.user = user;
+    }
+
+    public DomainGab(final int id, final String content, final LocalDateTime postDate, final int nbLikes, final int nbDislikes, final DomainUser user) {
+        this.id = id;
+        this.content = content;
+        this.postDate = postDate;
+        this.nbLikes = nbLikes;
+        this.nbDislikes = nbDislikes;
         this.user = user;
     }
 }

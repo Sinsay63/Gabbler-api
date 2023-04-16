@@ -24,4 +24,9 @@ public class GabDao {
 
         return gabRepository.findAll();
     }
+
+    public List<Gab> getCommentsByParentGabId(final int parentGabId) {
+
+        return gabRepository.findAllByParentGabIdOrderByPostDateAsc(parentGabId);
+    }
 }

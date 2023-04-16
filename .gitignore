@@ -1,0 +1,6 @@
+/gabbler-application/target
+/gabbler-domain/target
+/gabbler-desc/target
+/gabbler-infrastructure/target
+/.idea/
+gabbler-api.iml

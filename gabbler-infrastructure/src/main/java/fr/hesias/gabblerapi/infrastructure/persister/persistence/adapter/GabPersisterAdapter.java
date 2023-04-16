@@ -28,7 +28,11 @@ public class GabPersisterAdapter implements GabPersister {
     @Override
     public DomainGabsResult getGabs() {
 
-       return this.gabPersisterService.getGabs();
+        return this.gabPersisterService.getGabs();
     }
 
+    @Override
+    public DomainGabsResult getCommentsByParentGabId(int parentGabId) {
+        return this.gabPersisterService.getCommentsByParentGabId(parentGabId);
+    }
 }

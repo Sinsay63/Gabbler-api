@@ -9,5 +9,7 @@ public interface GabPersister {
 
     DomainGabsResult getGabs();
 
+    DomainGabsResult getCommentsByParentGabId(final int parentGabId);
+
 
 }

@@ -8,8 +8,7 @@ import fr.hesias.gabblerapi.desc.api.server.model.Gabs;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import org.springframework.http.ResponseEntity;
 
-public class GabApiDelegateImpl implements GabApiDelegate
-{
+public class GabApiDelegateImpl implements GabApiDelegate {
 
     private final GabInfosAccessorAdapter gabInfosAccessorAdapter;
 
@@ -25,10 +24,19 @@ public class GabApiDelegateImpl implements GabApiDelegate
         this.gabApiMapper = gabApiMapper;
     }
 
+
     @Override
     public ResponseEntity<Gabs> getGabs() {
 
         final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getGabs();
+
+        return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
+    }
+
+    @Override
+    public ResponseEntity<Gabs> getCommentsByGabId(Integer parentId) {
+
+        final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getCommentsByParentGabId(parentId);
 
         return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
     }

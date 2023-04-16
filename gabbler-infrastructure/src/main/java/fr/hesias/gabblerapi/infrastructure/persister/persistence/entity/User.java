@@ -11,9 +11,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
-public class User
-{
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})
+
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,10 +54,10 @@ public class User
     private String pathAvatar;
 
     @Column(name = "is_validated")
-    private Boolean isValidated;
+    private Boolean isValidated = false;
 
     @Column(name = "roles")
-    private String roles;
+    private String roles = "USER";
 
     @OneToMany(mappedBy = "user")
     private List<Gab> gabs;
@@ -63,8 +66,7 @@ public class User
     private List<Interaction> interactions;
 
 
-    public User()
-    {
+    public User() {
 
         super();
     }
@@ -79,8 +81,7 @@ public class User
                 final String biography,
                 final String pathAvatar,
                 final Boolean isValidated,
-                final String roles)
-    {
+                final String roles) {
 
         super();
         this.username = username;
@@ -107,8 +108,7 @@ public class User
                 final String biography,
                 final String pathAvatar,
                 final Boolean isValidated,
-                final String roles)
-    {
+                final String roles) {
 
         super();
         this.id = id;
@@ -133,8 +133,7 @@ public class User
             final String email,
             final String biography,
             final String roles
-               )
-    {
+    ) {
 
         super();
         this.username = username;
@@ -144,6 +143,24 @@ public class User
         this.email = email;
         this.biography = biography;
         this.roles = roles;
+    }
+
+    public User(
+            final String email,
+            final String password,
+            final String username,
+            final String firstname,
+            final String lastname,
+            final LocalDate birthday
+    ) {
+
+        super();
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthday = birthday;
+        this.email = email;
+        this.password = password;
     }
 
 }

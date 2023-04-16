@@ -1,11 +1,11 @@
 package fr.hesias.gabblerapi.domain.port.secondary;
 
-import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
+import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
+import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
-public interface UserPersister
-{
+public interface UserPersister {
 
     /**
      * Récupérer tous les utilisateurs
@@ -24,6 +24,8 @@ public interface UserPersister
 
     DomainUserResult getUserByEmail(String password);
 
-    DomainUserAuth getUserCredentialByEmail(String email);
+    DomainUserInfosAuthResult getUserCredentialByEmail(String email);
+
+    DomainUserResult register(final DomainUserRegistrationInfosResult user);
 
 }

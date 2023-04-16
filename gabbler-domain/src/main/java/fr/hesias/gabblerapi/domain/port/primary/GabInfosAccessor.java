@@ -9,4 +9,6 @@ public interface GabInfosAccessor {
 
     DomainGabResult getGabById(int id);
 
+    DomainGabsResult getCommentsByParentGabId(int parentGabId);
+
 }

@@ -6,6 +6,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.GabPers
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.UserPersisterAdapter;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.config.PersistenceConfiguration;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.InteractionDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
@@ -37,9 +38,9 @@ public class InfrastructureAdapterConfiguration {
     }
 
     @Bean
-    GabPersisterService gabPersisterService(final GabDao gabDao, final GabblerInfraMapper gabblerInfraMapper) {
+    GabPersisterService gabPersisterService(final GabDao gabDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
 
-        return new GabPersisterService(gabDao, gabblerInfraMapper);
+        return new GabPersisterService(gabDao, interactionDao, gabblerInfraMapper);
     }
 
     @Bean

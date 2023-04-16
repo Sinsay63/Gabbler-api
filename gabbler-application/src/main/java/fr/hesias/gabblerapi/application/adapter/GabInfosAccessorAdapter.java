@@ -6,7 +6,7 @@ import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 
 public class GabInfosAccessorAdapter {
 
-    private  final GabInfosAccessor gabInfosAccessor;
+    private final GabInfosAccessor gabInfosAccessor;
 
     public GabInfosAccessorAdapter(final GabInfosAccessor gabInfosAccessor) {
 
@@ -22,6 +22,10 @@ public class GabInfosAccessorAdapter {
     public DomainGabResult getGabsById(int id) {
 
         return gabInfosAccessor.getGabById(id);
+    }
+
+    public DomainGabsResult getCommentsByParentGabId(int parentGabId) {
+        return gabInfosAccessor.getCommentsByParentGabId(parentGabId);
     }
 
 }

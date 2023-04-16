@@ -6,16 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "interaction")
+@Table(name = "interaction", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"id_user", "id_gab"})
+})
 
-public class Interaction
-{
+public class Interaction {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -26,7 +27,7 @@ public class Interaction
     private ActionEnum action;
 
     @Column(name = "action_date")
-    private LocalDate actionDate = LocalDate.now();
+    private LocalDateTime actionDate = LocalDateTime.now();
 
     @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
     @ManyToOne

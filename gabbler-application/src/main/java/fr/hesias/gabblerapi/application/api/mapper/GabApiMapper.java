@@ -26,6 +26,8 @@ public class GabApiMapper {
             gab.setId(domainGab.getId());
             gab.setContent(domainGab.getContent());
             gab.setPostDate(domainGab.getPostDate().toString());
+            gab.setNbLikes(domainGab.getNbLikes());
+            gab.setNbDislikes(domainGab.getNbDislikes());
             gab.setUser(userApiMapper.toUser(domainGab.getUser()));
         }
         return gab;

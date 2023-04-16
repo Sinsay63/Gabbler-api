@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository("userRepository")
-public interface UserRepository extends JpaRepository<User, Integer>
-{
+public interface UserRepository extends JpaRepository<User, Integer> {
     // C'est la où on va déclarer nos fonctions pour nos requêtes custom
 
 

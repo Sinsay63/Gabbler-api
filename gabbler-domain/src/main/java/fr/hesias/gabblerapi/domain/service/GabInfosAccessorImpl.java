@@ -10,55 +10,60 @@ import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GabInfosAccessorImpl implements GabInfosAccessor
-{
+public class GabInfosAccessorImpl implements GabInfosAccessor {
 
 
     private final GabPersister gabPersister;
 
-    public GabInfosAccessorImpl(final GabPersister gabPersister)
-    {
+    public GabInfosAccessorImpl(final GabPersister gabPersister) {
 
         super();
         this.gabPersister = gabPersister;
     }
 
     @Override
-    public DomainGabsResult getGabs()
-    {
+    public DomainGabsResult getGabs() {
 
         List<DomainGabResult> gabs = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        if (gabPersister.getGabs() != null)
-        {
+        if (gabPersister.getGabs().isOk()) {
 
             gabs = gabPersister.getGabs().getGabs();
-        }
-        else
-        {
+        } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
         return new DomainGabsResult(domainAccessStatus, gabs);
     }
 
     @Override
-    public DomainGabResult getGabById(int id)
-    {
+    public DomainGabResult getGabById(int id) {
 
         DomainGab gab = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        if (gabPersister.getGabById(id) != null)
-        {
+        if (gabPersister.getGabById(id).isOk()) {
 
             gab = gabPersister.getGabById(id).getGab();
-        }
-        else
-        {
+        } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
         return new DomainGabResult(domainAccessStatus, gab);
+    }
+
+    @Override
+    public DomainGabsResult getCommentsByParentGabId(int parentGabId) {
+
+        List<DomainGabResult> gabs = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+
+        if (gabPersister.getCommentsByParentGabId(parentGabId).isOk()) {
+
+            gabs = gabPersister.getCommentsByParentGabId(parentGabId).getGabs();
+        } else {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+        return new DomainGabsResult(domainAccessStatus, gabs);
     }
 
 }
