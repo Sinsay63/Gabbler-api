@@ -49,6 +49,25 @@ public class GabblerInfraMapper {
         return new DomainGabResult(domainAccessStatus, domainGab);
     }
 
+    public Gab toDomainGabToGab(final DomainGab domainGab) {
+
+        return new Gab(domainGab.getId(), domainGab.getContent(), domainGab.getPostDate(), toDomainUserToUser(domainGab.getUser()));
+    }
+
+    public Gab toDomainGabCreationToGab(final DomainGabCreation domainCreationGab) {
+
+        User user = new User();
+        user.setUuid(domainCreationGab.getUserUuid());
+
+        Gab gab = new Gab(domainCreationGab.getContent(), domainCreationGab.getPostDate(), user);
+        if (domainCreationGab.getParentId() > 0) {
+            Gab parentGab = new Gab();
+            parentGab.setId(domainCreationGab.getParentId());
+            gab.setParentGab(parentGab);
+        }
+        return gab;
+    }
+
     public DomainUserAuth toUserToDomainUserAuth(final User user) {
 
         return new DomainUserAuth(toUserToDomainUser(user), user.getPassword());
@@ -74,5 +93,4 @@ public class GabblerInfraMapper {
 
         return toDomainUserRegistrationToUser(toDomainUserRegistrationInfosResultToDomainUserRegistration(domainUserRegistrationInfosResult));
     }
-
 }

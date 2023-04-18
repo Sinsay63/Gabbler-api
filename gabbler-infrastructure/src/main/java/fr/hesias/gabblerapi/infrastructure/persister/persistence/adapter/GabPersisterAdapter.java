@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter;
 
 import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
+import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
@@ -34,5 +35,10 @@ public class GabPersisterAdapter implements GabPersister {
     @Override
     public DomainGabsResult getCommentsByParentGabId(int parentGabId) {
         return this.gabPersisterService.getCommentsByParentGabId(parentGabId);
+    }
+
+    @Override
+    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult) {
+        return this.gabPersisterService.createGab(domainGabCreationResult);
     }
 }

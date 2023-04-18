@@ -214,7 +214,7 @@ paths:
           description: id du gab
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: Retourne une gab avec succès.
@@ -222,6 +222,67 @@ paths:
             application/json:
               schema:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - gab
+  /gabs/new/{uuid_user}:
+    post:
+      summary: Créer un gab
+      description: Créer un gab
+      operationId: createGab
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: uuid_user
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Gab à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../model/gabbler-model.yaml#/components/schemas/GabCreation'
+      responses:
+        '200':
+          description: Gab créé avec succès.
+          content:
+            application/string:
+              schema:
+                type: string
+
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:

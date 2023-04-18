@@ -2,6 +2,8 @@ package fr.hesias.gabblerapi.infrastructure.persister.service;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
+import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
+import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
@@ -47,8 +49,10 @@ public class GabPersisterService {
 
                 domainGab = gabblerInfraMapper.toGabToDomainGab(gab);
                 final HashMap<String, Integer> interactions = getInteractionCountByGab(gab);
+                int nbComments = gabDao.getCommentsByParentGabId(id).size();
                 domainGab.setNbLikes(interactions.get("like"));
                 domainGab.setNbDislikes(interactions.get("dislike"));
+                domainGab.setNbComments(nbComments);
 
             }
 
@@ -99,6 +103,20 @@ public class GabPersisterService {
             domainAccessStatus = INTERNAL_ERROR;
         }
         return new DomainGabsResult(domainAccessStatus, domainGab);
+    }
+
+
+    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult) {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        DomainGabCreation domainGabCreation = domainGabCreationResult.getDomainGabCreation();
+        try {
+            gabDao.createGab(gabblerInfraMapper.toDomainGabCreationToGab(domainGabCreation));
+        } catch (final IllegalArgumentException e) {
+            log.error("[NA] Erreur survenue lors de la création du gab", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+        return new DomainGabCreationResult(domainAccessStatus, null);
     }
 
     private HashMap<String, Integer> getInteractionCountByGab(Gab gab) {

@@ -86,6 +86,10 @@ components:
           type: integer
           description: nombre de dislikes du gab
           example: "2"
+        nbComments:
+          type: integer
+          description: nombre de commentaires du gab
+          example: "3"
         user:
           $ref: "#/components/schemas/User"
 
@@ -99,6 +103,26 @@ components:
           items:
             $ref: "#/components/schemas/Gab"
 
+    GabCreation:
+      type: object
+      description: objet correspondant à un gab pour sa création
+      properties:
+        content:
+          type: string
+          description: contenu du gab
+          example: "Ratio macron, vive la république!"
+        post_date:
+          type: string
+          description: date de publication du gab
+          example: "2023-01-25 18:17:35"
+        parent_gab_id:
+          type: integer
+          description: id du gab parent
+          example: "56"
+        user_uuid:
+          type: string
+          description: uuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
     UserAndToken:
       type: object
       description: objet correspondant à un utilisateur avec son jeton d'authentification

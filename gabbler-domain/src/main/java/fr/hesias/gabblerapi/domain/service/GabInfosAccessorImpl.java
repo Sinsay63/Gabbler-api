@@ -4,6 +4,7 @@ import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
+import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 
@@ -39,12 +40,12 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
     @Override
     public DomainGabResult getGabById(int id) {
 
+        DomainGabResult gabResult = gabPersister.getGabById(id);
         DomainGab gab = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        if (gabPersister.getGabById(id).isOk()) {
-
-            gab = gabPersister.getGabById(id).getGab();
+        if (gabResult != null && gabResult.isOk()) {
+            gab = gabResult.getGab();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
@@ -64,6 +65,20 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
         return new DomainGabsResult(domainAccessStatus, gabs);
+    }
+
+    @Override
+    public DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult) {
+
+        DomainAccessStatus domainAccessStatus;
+
+        if (gabPersister.createGab(domainGabCreationResult).isOk()) {
+            domainAccessStatus = DomainAccessStatus.OK;
+
+        } else {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+        return new DomainGabCreationResult(domainAccessStatus, null);
     }
 
 }

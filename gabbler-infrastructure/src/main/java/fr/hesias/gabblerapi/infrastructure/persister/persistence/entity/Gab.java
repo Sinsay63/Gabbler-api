@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -29,10 +30,10 @@ public class Gab {
 
     @JoinColumn(name = "id_parent_gab")
     @ManyToOne
-    private Gab parentGab;
+    private Gab parentGab = null;
 
     @OneToMany(mappedBy = "parentGab")
-    private List<Gab> subGabs;
+    private List<Gab> subGabs = new ArrayList<>();
 
     public Gab(int id, String content, LocalDateTime postDate, User user) {
         this.id = id;
@@ -56,5 +57,24 @@ public class Gab {
         this.user = user;
         this.parentGab = parentGab;
         this.subGabs = subGabs;
+    }
+
+    public Gab(String content, LocalDateTime postDate, User user) {
+        this.content = content;
+        this.postDate = postDate;
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        String parentGabId = parentGab == null ? "aucun" : String.valueOf(parentGab.getId());
+        return "Gab{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", postDate=" + postDate +
+                ", userUuid=" + user.getUuid() +
+                ", parentGab=" + parentGabId +
+                ", subGabsSize=" + subGabs +
+                '}';
     }
 }
