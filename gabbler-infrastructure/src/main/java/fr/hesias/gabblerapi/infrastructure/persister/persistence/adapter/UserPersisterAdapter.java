@@ -23,9 +23,9 @@ public class UserPersisterAdapter implements UserPersister {
     }
 
     @Override
-    public DomainUserResult getUserById(final int id) {
+    public DomainUserResult getUserByUuid(final String uuid) {
 
-        return userPersisterService.getUserById(id);
+        return userPersisterService.getUserByUuid(uuid);
     }
 
     @Override

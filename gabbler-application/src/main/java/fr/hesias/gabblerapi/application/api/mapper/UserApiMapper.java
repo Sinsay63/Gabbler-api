@@ -30,7 +30,7 @@ public class UserApiMapper {
         final User user = new User();
 
         if (domainUser != null) {
-            user.setId(domainUser.getId());
+            user.setUuid(domainUser.getUuid());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());
@@ -63,7 +63,7 @@ public class UserApiMapper {
 
         if (user != null) {
 
-            domainUser.setId(user.getId());
+            domainUser.setUuid(user.getUuid());
             domainUser.setFirstName(user.getFirstname());
             domainUser.setLastName(user.getLastname());
             domainUser.setEmail(user.getEmail());
@@ -81,7 +81,7 @@ public class UserApiMapper {
         if (domainUserResult != null) {
             final DomainUser domainUser = domainUserResult.getDomainUser();
 
-            user.setId(domainUser.getId());
+            user.setUuid(domainUser.getUuid());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setEmail(domainUser.getEmail());

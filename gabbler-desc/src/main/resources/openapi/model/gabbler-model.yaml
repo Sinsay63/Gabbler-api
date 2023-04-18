@@ -24,9 +24,9 @@ components:
       type: object
       description: objet correspondant à un utilisateur
       properties:
-        id:
-          type: integer
-          description: id de l'utilisateur
+        uuid:
+          type: string
+          description: uuid de l'utilisateur
           example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
         username:
           type: string

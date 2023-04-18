@@ -21,9 +21,9 @@ public class UserDao {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(final int id) {
+    public Optional<User> getUserByUuid(final String uuid) {
 
-        return userRepository.findById(id);
+        return userRepository.findById(uuid);
     }
 
     public User addUser(final User user) {

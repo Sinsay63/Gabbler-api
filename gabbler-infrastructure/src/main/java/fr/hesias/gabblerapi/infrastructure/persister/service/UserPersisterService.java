@@ -56,17 +56,17 @@ public class UserPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainUserResult getUserById(final int id) {
+    public DomainUserResult getUserByUuid(final String uuid) {
 
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
         DomainUser user = new DomainUser();
 
         try {
-            final User daoUser = userDao.getUserById(id).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
+            final User daoUser = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
 
             user = this.gabblerInfraMapper.toUserToDomainUser(daoUser);
         } catch (final Exception e) {
-            log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son id", id, e);
+            log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son uuid", uuid, e);
             domainAccessStatus = INTERNAL_ERROR;
         }
 

@@ -23,7 +23,7 @@ public class Gab {
     @Column(name = "post_date")
     private LocalDateTime postDate = LocalDateTime.now();
 
-    @JoinColumn(name = "id_user", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @ManyToOne
     private User user;
 

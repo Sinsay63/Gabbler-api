@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,9 +20,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "uuid")
+    private String uuid = UUID.randomUUID().toString();
 
     @Column(name = "username")
     private String username;
@@ -97,7 +97,7 @@ public class User {
         this.roles = roles;
     }
 
-    public User(final int id,
+    public User(final String uuid,
                 final String username,
                 final String firstname,
                 final String lastname,
@@ -111,7 +111,7 @@ public class User {
                 final String roles) {
 
         super();
-        this.id = id;
+        this.uuid = uuid;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;

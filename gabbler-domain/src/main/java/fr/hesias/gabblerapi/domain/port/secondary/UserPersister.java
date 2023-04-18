@@ -17,10 +17,10 @@ public interface UserPersister {
     /**
      * Récupérer un utilisateur par son id
      *
-     * @param id l'id de l'utilisateur
+     * @param uuid l'uuid de l'utilisateur
      * @return l'utilisateur
      */
-    DomainUserResult getUserById(final int id);
+    DomainUserResult getUserByUuid(final String uuid);
 
     DomainUserResult getUserByEmail(String password);
 

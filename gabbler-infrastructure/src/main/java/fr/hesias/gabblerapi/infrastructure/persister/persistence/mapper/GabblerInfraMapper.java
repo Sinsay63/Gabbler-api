@@ -11,7 +11,7 @@ public class GabblerInfraMapper {
 
     public DomainUser toUserToDomainUser(final User user) {
 
-        return new DomainUser(user.getId(),
+        return new DomainUser(user.getUuid(),
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),

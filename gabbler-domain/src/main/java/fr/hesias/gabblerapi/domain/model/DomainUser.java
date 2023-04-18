@@ -7,10 +7,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class DomainUser
-{
+public class DomainUser {
 
-    private int id;
+    private String uuid;
 
     private String username;
 
@@ -27,8 +26,7 @@ public class DomainUser
     private String roles;
 
 
-    public DomainUser()
-    {
+    public DomainUser() {
 
         super();
     }
@@ -39,8 +37,7 @@ public class DomainUser
                       final LocalDate birthday,
                       final String email,
                       final String biography,
-                      final String roles)
-    {
+                      final String roles) {
 
         super();
         this.username = username;
@@ -52,18 +49,17 @@ public class DomainUser
         this.roles = roles;
     }
 
-    public DomainUser(final int id,
+    public DomainUser(final String uuid,
                       final String username,
                       final String firstName,
                       final String lastName,
                       final LocalDate birthday,
                       final String email,
                       final String biography,
-                      final String roles)
-    {
+                      final String roles) {
 
         super();
-        this.id = id;
+        this.uuid = uuid;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,11 +70,10 @@ public class DomainUser
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
 
         return "DomainUser{" +
-                "id='" + id + '\'' +
+                "uuid='" + uuid + '\'' +
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

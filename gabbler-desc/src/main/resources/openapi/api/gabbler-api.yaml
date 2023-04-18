@@ -100,20 +100,20 @@ paths:
       tags:
         - user
 
-  /users/{id}:
+  /users/{uuid}:
     get:
-      summary: Récupère un utilisateur par son id
-      description: Récupère un utilisateur par son id
+      summary: Récupère un utilisateur par son uuid
+      description: Récupère un utilisateur par son uuid
       operationId: getUserById
       security:
         - bearerAuth: [ ]
       parameters:
-        - name: id
+        - name: uuid
           in: path
-          description: id de l'utilisateur
+          description: uuid de l'utilisateur
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Retourne la liste des utilisateurs avec succès.
