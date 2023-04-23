@@ -11,4 +11,6 @@ public interface GabRepository extends JpaRepository<Gab, Integer> {
 
 
     List<Gab> findAllByParentGabIdOrderByPostDateAsc(int parentGabId);
+
+    List<Gab> findAllByOrderByPostDateDesc();
 }

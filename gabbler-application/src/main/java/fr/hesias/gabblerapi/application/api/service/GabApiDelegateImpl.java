@@ -60,4 +60,11 @@ public class GabApiDelegateImpl implements GabApiDelegate {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @Override
+    public ResponseEntity<Gabs> getFeed() {
+        final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getFeed();
+
+        return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
+    }
 }

@@ -119,6 +119,27 @@ public class GabPersisterService {
         return new DomainGabCreationResult(domainAccessStatus, null);
     }
 
+    @Transactional(readOnly = true)
+    public DomainGabsResult getFeed() {
+        List<DomainGabResult> domainGab = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = OK;
+        try {
+            final List<Gab> gabs = gabDao.getFeed();
+            if (isNotEmpty(gabs)) {
+                for (final Gab gab : gabs) {
+                    domainGab.add(getGabById(gab.getId()));
+                }
+            }
+
+        } catch (final Exception e) {
+            log.error("[NA] Erreur survenue lors de la récupération des commentaires", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+        return new DomainGabsResult(domainAccessStatus, domainGab);
+
+    }
+
+
     private HashMap<String, Integer> getInteractionCountByGab(Gab gab) {
         HashMap<String, Integer> interactionCountByGab = new HashMap<>();
         interactionCountByGab.put("like", interactionDao.countInteractionByActionAndGabId(ActionEnum.LIKE, gab.getId()));

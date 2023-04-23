@@ -13,4 +13,6 @@ public interface GabInfosAccessor {
     DomainGabsResult getCommentsByParentGabId(int parentGabId);
 
     DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult);
+
+    DomainGabsResult getFeed();
 }

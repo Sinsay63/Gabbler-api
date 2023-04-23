@@ -33,4 +33,8 @@ public class GabInfosAccessorAdapter {
         return gabInfosAccessor.createGab(domainGabCreationResult);
     }
 
+    public DomainGabsResult getFeed() {
+        return gabInfosAccessor.getFeed();
+    }
+
 }

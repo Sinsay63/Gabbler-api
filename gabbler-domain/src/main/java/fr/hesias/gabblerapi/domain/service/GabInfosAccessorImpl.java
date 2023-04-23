@@ -28,9 +28,11 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
         List<DomainGabResult> gabs = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        if (gabPersister.getGabs().isOk()) {
+        DomainGabsResult domainGabsResult = gabPersister.getGabs();
 
-            gabs = gabPersister.getGabs().getGabs();
+        if (domainGabsResult.isOk()) {
+
+            gabs = domainGabsResult.getGabs();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
@@ -40,9 +42,9 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
     @Override
     public DomainGabResult getGabById(int id) {
 
-        DomainGabResult gabResult = gabPersister.getGabById(id);
         DomainGab gab = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainGabResult gabResult = gabPersister.getGabById(id);
 
         if (gabResult != null && gabResult.isOk()) {
             gab = gabResult.getGab();
@@ -58,9 +60,10 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
         List<DomainGabResult> gabs = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        if (gabPersister.getCommentsByParentGabId(parentGabId).isOk()) {
+        DomainGabsResult domainGabsResult = gabPersister.getCommentsByParentGabId(parentGabId);
+        if (domainGabsResult.isOk()) {
 
-            gabs = gabPersister.getCommentsByParentGabId(parentGabId).getGabs();
+            gabs = domainGabsResult.getGabs();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
@@ -81,4 +84,19 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
         return new DomainGabCreationResult(domainAccessStatus, null);
     }
 
+    @Override
+    public DomainGabsResult getFeed() {
+        List<DomainGabResult> gabs = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+
+        DomainGabsResult domainGabsResult = gabPersister.getFeed();
+
+        if (domainGabsResult.isOk()) {
+
+            gabs = domainGabsResult.getGabs();
+        } else {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+        return new DomainGabsResult(domainAccessStatus, gabs);
+    }
 }

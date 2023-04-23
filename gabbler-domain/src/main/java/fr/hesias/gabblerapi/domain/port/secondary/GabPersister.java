@@ -14,5 +14,7 @@ public interface GabPersister {
 
     DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult);
 
+    DomainGabsResult getFeed();
+
 
 }
