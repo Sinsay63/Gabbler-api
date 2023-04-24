@@ -1,34 +1,34 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper;
 
 import fr.hesias.gabblerapi.domain.model.*;
-import fr.hesias.gabblerapi.domain.result.DomainGabResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
+import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 
 public class GabblerInfraMapper {
 
     public DomainUser toUserToDomainUser(final User user) {
 
         return new DomainUser(user.getUuid(),
+                user.getEmail(),
                 user.getUsername(),
                 user.getFirstname(),
                 user.getLastname(),
-                user.getBirthday(),
-                user.getEmail(),
-                user.getBiography(),
                 user.getRoles());
     }
 
     public User toDomainUserToUser(final DomainUser domainUser) {
 
-        return new User(domainUser.getUsername(),
+        return new User(domainUser.getEmail(),
+                domainUser.getUsername(),
                 domainUser.getFirstName(),
                 domainUser.getLastName(),
-                domainUser.getBirthday(),
-                domainUser.getEmail(),
-                domainUser.getBiography(),
                 domainUser.getRoles());
     }
 
@@ -38,16 +38,18 @@ public class GabblerInfraMapper {
         return new DomainUserResult(domainAccessStatus, domainUser);
     }
 
+    public DomainUserInfosResult toDomainUserToDomainUserInfosResult(final DomainAccessStatus domainAccessStatus,
+                                                                     final DomainUser domainUser,
+                                                                     final DomainMediasResult domainMediasResult) {
+
+        return new DomainUserInfosResult(domainAccessStatus, domainUser, domainMediasResult);
+    }
+
     public DomainGab toGabToDomainGab(final Gab gab) {
 
         return new DomainGab(gab.getId(), gab.getContent(), gab.getPostDate(), toUserToDomainUser(gab.getUser()));
     }
 
-    public DomainGabResult toDomainGabToDomainGabResult(final DomainAccessStatus domainAccessStatus,
-                                                        final DomainGab domainGab) {
-
-        return new DomainGabResult(domainAccessStatus, domainGab);
-    }
 
     public Gab toDomainGabToGab(final DomainGab domainGab) {
 
@@ -66,6 +68,15 @@ public class GabblerInfraMapper {
             gab.setParentGab(parentGab);
         }
         return gab;
+    }
+
+
+    public DomainMedia toMediaToDomainMedia(final Media media) {
+
+        return new DomainMedia(media.getId(),
+                media.getUrl(),
+                media.getType().getMediaType(),
+                media.getDate());
     }
 
     public DomainUserAuth toUserToDomainUserAuth(final User user) {
@@ -92,5 +103,28 @@ public class GabblerInfraMapper {
     public User toDomainUserRegistrationInfosResultToUser(final DomainUserRegistrationInfosResult domainUserRegistrationInfosResult) {
 
         return toDomainUserRegistrationToUser(toDomainUserRegistrationInfosResultToDomainUserRegistration(domainUserRegistrationInfosResult));
+    }
+
+    public DomainMediasResult toDomainMediasToDomainMediasResult(final DomainAccessStatus domainAccessStatus,
+                                                                 final List<DomainMediaResult> domainMediasResults) {
+
+        return new DomainMediasResult(domainAccessStatus, domainMediasResults);
+    }
+
+    public DomainMediaResult toDomainMediaToDomainMediaResult(final DomainAccessStatus domainAccessStatus,
+                                                              final DomainMedia domainMedia) {
+
+        return new DomainMediaResult(domainAccessStatus, domainMedia);
+    }
+
+    public DomainMediasResult toMediaListToDomainMediasResult(final List<Media> mediaList) {
+        DomainAccessStatus domainAccessStatus = OK;
+        List<DomainMediaResult> domainMediaResultList = new ArrayList<>();
+        for (Media media : mediaList) {
+            domainMediaResultList.add(toDomainMediaToDomainMediaResult(domainAccessStatus, toMediaToDomainMedia(media)));
+        }
+
+        return new DomainMediasResult(domainAccessStatus, domainMediaResultList);
+
     }
 }

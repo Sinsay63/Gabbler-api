@@ -7,22 +7,22 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DomainGabResult extends DomainResultable
-{
+public class DomainGabResult extends DomainResultable {
 
     private DomainGab gab;
 
-    public DomainGabResult(final DomainAccessStatus domainAccessStatus)
-    {
+    private DomainMediasResult medias;
+
+    public DomainGabResult(final DomainAccessStatus domainAccessStatus) {
 
         super(domainAccessStatus);
     }
 
-    public DomainGabResult(final DomainAccessStatus domainAccessStatus, final DomainGab gab)
-    {
+    public DomainGabResult(final DomainAccessStatus domainAccessStatus, final DomainGab gab, final DomainMediasResult medias) {
 
         super(domainAccessStatus);
         this.gab = gab;
+        this.medias = medias;
     }
 
 }

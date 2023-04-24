@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.TypeEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.InteractionTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class UserRelationships {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private TypeEnum type;
+    private InteractionTypeEnum type;
 
     @Column(name = "date")
     private LocalDateTime date = LocalDateTime.now();

@@ -7,6 +7,7 @@ import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
 import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
+import fr.hesias.gabblerapi.domain.result.DomainMediasResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +44,17 @@ public class GabInfosAccessorImpl implements GabInfosAccessor {
     public DomainGabResult getGabById(int id) {
 
         DomainGab gab = null;
+        DomainMediasResult medias = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
         DomainGabResult gabResult = gabPersister.getGabById(id);
 
         if (gabResult != null && gabResult.isOk()) {
             gab = gabResult.getGab();
+            medias = gabResult.getMedias();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
-        return new DomainGabResult(domainAccessStatus, gab);
+        return new DomainGabResult(domainAccessStatus, gab, medias);
     }
 
     @Override

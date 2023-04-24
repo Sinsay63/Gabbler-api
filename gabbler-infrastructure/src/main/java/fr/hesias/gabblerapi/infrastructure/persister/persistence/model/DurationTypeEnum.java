@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.model;
 
-public enum DurationEnum {
+public enum DurationTypeEnum {
     DURATION_1_MOIS("1 mois"),
     DURATION_3_MOIS("3 mois"),
     DURATION_6_MOIS("6 mois"),
@@ -8,7 +8,11 @@ public enum DurationEnum {
 
     private final String duration;
 
-    DurationEnum(final String duration) {
-        this.duration = duration;
+    DurationTypeEnum(final String name) {
+        this.duration = name;
+    }
+
+    public String getDurationType() {
+        return duration;
     }
 }

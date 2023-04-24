@@ -1,10 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter;
 
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.service.UserPersisterService;
 
 public class UserPersisterAdapter implements UserPersister {
@@ -17,13 +14,13 @@ public class UserPersisterAdapter implements UserPersister {
     }
 
     @Override
-    public DomainUsersResult getUsers() {
+    public DomainUsersInfosResult getUsers() {
 
         return userPersisterService.getUsers();
     }
 
     @Override
-    public DomainUserResult getUserByUuid(final String uuid) {
+    public DomainUserInfosResult getUserByUuid(final String uuid) {
 
         return userPersisterService.getUserByUuid(uuid);
     }

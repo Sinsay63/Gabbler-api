@@ -5,7 +5,7 @@ import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.api.mapper.UserApiMapper;
 import fr.hesias.gabblerapi.desc.api.server.UserApiDelegate;
 import fr.hesias.gabblerapi.desc.api.server.model.Users;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.DomainUsersInfosResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 
@@ -31,8 +31,8 @@ public class UserApiDelegateImpl implements UserApiDelegate {
     public ResponseEntity<Users> getUsers() {
 
 
-        final DomainUsersResult domainUsersResult = userInfosAccessorAdapter.getUsers();
+        final DomainUsersInfosResult domainUsersInfosResult = userInfosAccessorAdapter.getUsers();
 
-        return gabblerApiService.getResponse(userApiMapper.toUsers(domainUsersResult), domainUsersResult);
+        return gabblerApiService.getResponse(userApiMapper.toDomainUsersInfosResultToUsers(domainUsersInfosResult), domainUsersInfosResult);
     }
 }

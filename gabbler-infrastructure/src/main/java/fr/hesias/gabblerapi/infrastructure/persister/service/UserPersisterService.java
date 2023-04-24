@@ -3,11 +3,10 @@ package fr.hesias.gabblerapi.infrastructure.persister.service;
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
+import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Slf4j
@@ -24,26 +24,28 @@ public class UserPersisterService {
 
     private final UserDao userDao;
 
+    private final MediaDao mediaDao;
+
     private final GabblerInfraMapper gabblerInfraMapper;
 
-    public UserPersisterService(final UserDao userDao, final GabblerInfraMapper gabblerInfraMapper) {
+    public UserPersisterService(final UserDao userDao, final MediaDao mediaDao, final GabblerInfraMapper gabblerInfraMapper) {
 
         this.userDao = userDao;
+        this.mediaDao = mediaDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
 
     @Transactional(readOnly = true)
-    public DomainUsersResult getUsers() {
+    public DomainUsersInfosResult getUsers() {
 
-        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
-        final List<DomainUserResult> users = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = OK;
+        final List<DomainUserInfosResult> users = new ArrayList<>();
         try {
             final List<User> userList = userDao.getUsers();
             if (isNotEmpty(userList)) {
                 for (final User user : userList) {
-                    users.add(gabblerInfraMapper.toDomainUserToDomainUserResult(domainAccessStatus,
-                            gabblerInfraMapper.toUserToDomainUser(
-                                    user)));
+                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
+                    users.add(toUserToDomainUserInfosResult(user, mediaList));
                 }
             }
 
@@ -52,31 +54,31 @@ public class UserPersisterService {
             domainAccessStatus = INTERNAL_ERROR;
         }
 
-        return new DomainUsersResult(domainAccessStatus, users);
+        return new DomainUsersInfosResult(domainAccessStatus, users);
     }
 
     @Transactional(readOnly = true)
-    public DomainUserResult getUserByUuid(final String uuid) {
+    public DomainUserInfosResult getUserByUuid(final String uuid) {
 
-        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
-        DomainUser user = new DomainUser();
+        DomainUserInfosResult domainUserInfosResult = null;
 
         try {
-            final User daoUser = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
+            final User user = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
+            List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
 
-            user = this.gabblerInfraMapper.toUserToDomainUser(daoUser);
+            domainUserInfosResult = toUserToDomainUserInfosResult(user, mediaList);
+
         } catch (final Exception e) {
             log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son uuid", uuid, e);
-            domainAccessStatus = INTERNAL_ERROR;
         }
 
-        return new DomainUserResult(domainAccessStatus, user);
+        return domainUserInfosResult;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public DomainUserResult register(final DomainUserRegistrationInfosResult user) {
 
-        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainAccessStatus domainAccessStatus = OK;
         User newUser = new User();
 
         try {
@@ -93,7 +95,7 @@ public class UserPersisterService {
     @Transactional(readOnly = true)
     public DomainUserResult getUserByEmail(final String email) {
 
-        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainAccessStatus domainAccessStatus = OK;
         DomainUser user = new DomainUser();
 
         try {
@@ -112,7 +114,7 @@ public class UserPersisterService {
     @Transactional(readOnly = true)
     public DomainUserInfosAuthResult getUserCredentialByEmail(final String email) {
 
-        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainAccessStatus domainAccessStatus = OK;
         DomainUserAuth user = new DomainUserAuth();
 
         try {
@@ -128,5 +130,11 @@ public class UserPersisterService {
         return new DomainUserInfosAuthResult(domainAccessStatus, user);
     }
 
+    private DomainUserInfosResult toUserToDomainUserInfosResult(User user, List<Media> mediaList) {
 
+        DomainUser domainUser = this.gabblerInfraMapper.toUserToDomainUser(user);
+        DomainMediasResult domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(mediaList);
+
+        return new DomainUserInfosResult(OK, domainUser, domainMediasResult);
+    }
 }

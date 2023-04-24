@@ -42,7 +42,7 @@ public class GabApiDelegateImpl implements GabApiDelegate {
 
         final DomainGabResult domainGabResult = gabInfosAccessorAdapter.getGabById(id);
 
-        return gabblerApiService.getResponse(gabApiMapper.toGab(domainGabResult.getGab()), domainGabResult);
+        return gabblerApiService.getResponse(gabApiMapper.toGab(domainGabResult.getGab(), domainGabResult.getMedias()), domainGabResult);
     }
 
     @Override

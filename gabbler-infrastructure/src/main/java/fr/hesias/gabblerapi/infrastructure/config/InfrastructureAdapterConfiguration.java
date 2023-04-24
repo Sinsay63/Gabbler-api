@@ -7,6 +7,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.UserPer
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.config.PersistenceConfiguration;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.InteractionDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
@@ -32,15 +33,15 @@ public class InfrastructureAdapterConfiguration {
     }
 
     @Bean
-    UserPersisterService userPersisterService(final UserDao userDao, final GabblerInfraMapper gabblerInfraMapper) {
+    UserPersisterService userPersisterService(final UserDao userDao, final MediaDao mediaDao, final GabblerInfraMapper gabblerInfraMapper) {
 
-        return new UserPersisterService(userDao, gabblerInfraMapper);
+        return new UserPersisterService(userDao, mediaDao, gabblerInfraMapper);
     }
 
     @Bean
-    GabPersisterService gabPersisterService(final GabDao gabDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
+    GabPersisterService gabPersisterService(final GabDao gabDao, MediaDao mediaDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
 
-        return new GabPersisterService(gabDao, interactionDao, gabblerInfraMapper);
+        return new GabPersisterService(gabDao, mediaDao, interactionDao, gabblerInfraMapper);
     }
 
     @Bean

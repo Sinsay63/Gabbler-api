@@ -1,15 +1,16 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.model;
 
-public enum TypeEnum {
-    TYPE_BLOCKED("blocked"), TYPE_AUTHORIZED("authorized");
+public enum MediaTypeEnum {
+
+    AVATAR("avatar"), BANNER("banner"), POST("post");
 
     private final String type;
 
-    TypeEnum(final String name) {
+    MediaTypeEnum(final String name) {
         this.type = name;
     }
 
-    public String getType() {
+    public String getMediaType() {
         return type;
     }
 }

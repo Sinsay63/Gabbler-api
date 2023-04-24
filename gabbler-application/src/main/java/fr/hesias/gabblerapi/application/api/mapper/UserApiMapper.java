@@ -1,16 +1,11 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
-import fr.hesias.gabblerapi.desc.api.server.model.User;
-import fr.hesias.gabblerapi.desc.api.server.model.UserAuth;
-import fr.hesias.gabblerapi.desc.api.server.model.UserRegister;
-import fr.hesias.gabblerapi.desc.api.server.model.Users;
+import fr.hesias.gabblerapi.desc.api.server.model.*;
+import fr.hesias.gabblerapi.domain.model.DomainMedia;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
 import fr.hesias.gabblerapi.domain.model.DomainUserRegistration;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -25,87 +20,101 @@ public class UserApiMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User toUser(final DomainUser domainUser) {
 
-        final User user = new User();
-
-        if (domainUser != null) {
-            user.setUuid(domainUser.getUuid());
-            user.setFirstname(domainUser.getFirstName());
-            user.setLastname(domainUser.getLastName());
-            user.setEmail(domainUser.getEmail());
-            user.setBiography(domainUser.getBiography());
-            user.setBirthday(domainUser.getBirthday().toString());
-            user.setUsername(domainUser.getUsername());
-        }
-        return user;
-    }
-
-    public Users toUsers(final DomainUsersResult domainUsersResult) {
+    public Users toDomainUsersInfosResultToUsers(final DomainUsersInfosResult domainUsersInfosResult) {
 
         final Users users = new Users();
 
-        if (domainUsersResult != null) {
+        if (domainUsersInfosResult.isOk()) {
             final List<User> userList = new ArrayList<>();
 
-            for (final DomainUserResult domainUserResult : domainUsersResult.getUsers()) {
-                final DomainUser domainUser = domainUserResult.getDomainUser();
-                userList.add(toUser(domainUser));
+            for (final DomainUserInfosResult domainUserInfosResult : domainUsersInfosResult.getDomainUserInfosResults()) {
+                userList.add(toDomainUserInfosResultToUser(domainUserInfosResult));
             }
             users.setUsers(userList);
         }
         return users;
     }
 
-    public DomainUser toDomainUser(final User user) {
+    public Media toDomainMediaToMedia(final DomainMedia domainMedia) {
+
+        final Media media = new Media();
+
+        if (domainMedia != null) {
+            media.setId(domainMedia.getId());
+            media.setUrl(domainMedia.getUrl());
+            media.setType(domainMedia.getType());
+            media.setDate(domainMedia.getDate().toString());
+        }
+        return media;
+    }
+
+    public DomainUser toUserToDomainUser(final User user) {
 
         final DomainUser domainUser = new DomainUser();
 
         if (user != null) {
 
             domainUser.setUuid(user.getUuid());
+            domainUser.setUsername(user.getUsername());
             domainUser.setFirstName(user.getFirstname());
             domainUser.setLastName(user.getLastname());
-            domainUser.setEmail(user.getEmail());
-            domainUser.setBiography(user.getBiography());
-            domainUser.setBirthday(LocalDate.parse(user.getBirthday()));
-            domainUser.setUsername(user.getUsername());
         }
         return domainUser;
     }
 
-    public User toDomainUserResultToUser(final DomainUserResult domainUserResult) {
-
-        final User user = new User();
-
-        if (domainUserResult != null) {
-            final DomainUser domainUser = domainUserResult.getDomainUser();
-
+    public User toDomainUserToUser(DomainUser domainUser) {
+        User user = new User();
+        if (domainUser != null) {
             user.setUuid(domainUser.getUuid());
+            user.setUsername(domainUser.getUsername());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
-            user.setEmail(domainUser.getEmail());
-            user.setBiography(domainUser.getBiography());
-            user.setBirthday(domainUser.getBirthday().toString());
-            user.setUsername(domainUser.getUsername());
         }
-
         return user;
     }
 
-    public Users toDomainUsersResultToUsers(final DomainUsersResult domainUsersResultList) {
+    public User toDomainUserInfosResultToUser(final DomainUserInfosResult domainUserInfosResult) {
 
-        final Users users = new Users();
+        User user = new User();
 
-        if (domainUsersResultList != null) {
-            final List<User> userList = new ArrayList<>();
-            for (final DomainUserResult domainUserResult : domainUsersResultList.getUsers()) {
+        if (domainUserInfosResult.isOk()) {
+            final DomainUser domainUser = domainUserInfosResult.getDomainUser();
+            final DomainMediasResult domainMediasResult = domainUserInfosResult.getDomainMediasResult();
 
-                userList.add(toUser(domainUserResult.getDomainUser()));
-            }
-            users.setUsers(userList);
+            user = toDomainUserAndDomainMediasResultToUser(domainUser, domainMediasResult);
         }
-        return users;
+        return user;
+    }
+
+    public User toDomainUserAndDomainMediasResultToUser(final DomainUser domainUser, final DomainMediasResult domainMediasResult) {
+
+        final User user = new User();
+
+        if (domainUser != null && domainMediasResult != null) {
+            user.setUuid(domainUser.getUuid());
+            user.setFirstname(domainUser.getFirstName());
+            user.setLastname(domainUser.getLastName());
+            user.setUsername(domainUser.getUsername());
+            user.setMedias(toDomainMediasResultToMedias(domainMediasResult));
+
+        }
+        return user;
+    }
+
+    public Medias toDomainMediasResultToMedias(DomainMediasResult domainMediasResult) {
+        Medias medias = new Medias();
+        List<Media> mediaList = new ArrayList<>();
+
+        if (domainMediasResult.isOk()) {
+            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias()) {
+                mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
+            }
+            medias.setMedias(mediaList);
+        }
+
+
+        return medias;
     }
 
     public UserAuth toDomainUserInfosAuthResultToUserAuth(final DomainUserInfosAuthResult domainUserInfosAuthResult) {

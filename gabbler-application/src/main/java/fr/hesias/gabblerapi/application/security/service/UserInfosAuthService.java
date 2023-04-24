@@ -18,7 +18,7 @@ public class UserInfosAuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         DomainUserInfosAuthResult user = authAccessorAdapter.getUserCredentialByEmail(username);
-        if (user != null) {
+        if (user.getUserAuthInfo() != null) {
             return user;
         } else {
             throw new UsernameNotFoundException("l'utilisateur n'a pas été trouvé ! -> " + username);

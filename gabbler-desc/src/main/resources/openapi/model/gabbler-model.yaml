@@ -15,6 +15,7 @@ tags:
 paths: { }
 components:
   schemas:
+
     JsonDoc:
       type: string
       description: objet correspondant à la documentation json
@@ -40,26 +41,14 @@ components:
           type: string
           description: nom de l'utilisateur
           example: "Houdier"
-        birthday:
-          type: string
-          description: date d'anniversaire de l'utilisateur
-          example: "2001-07-28"
-        email:
-          type: string
-          description: email de l'utilisateur
-          example: "yanis.houdier@gmail.com"
-        biography:
-          type: string
-          description: biographie de l'utilisateur
-          example: "yanis 21 ans célibataire suuuuu"
+        medias:
+          $ref: "#/components/schemas/Medias"
 
     Users:
       type: object
       description: objet correspondant à une liste d'utilisateurs
       properties:
         users:
-          type: array
-          description: liste d'utilisateurs
           items:
             $ref: "#/components/schemas/User"
 
@@ -90,6 +79,8 @@ components:
           type: integer
           description: nombre de commentaires du gab
           example: "3"
+        medias:
+          $ref: "#/components/schemas/Medias"
         user:
           $ref: "#/components/schemas/User"
 
@@ -123,6 +114,7 @@ components:
           type: string
           description: uuid de l'utilisateur
           example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
+
     UserAndToken:
       type: object
       description: objet correspondant à un utilisateur avec son jeton d'authentification
@@ -175,6 +167,34 @@ components:
           description: date d'anniversaire de l'utilisateur
           example: "2001-07-28"
 
+    Media:
+      type: object
+      description: objet correspondant à un média
+      properties:
+        id:
+          type: integer
+          example: "56"
+        url:
+          type: string
+          description: url du média
+          example: "https://www.youtube.com/watch?v=QH2-TGUlwu4"
+        type:
+          type: string
+          description: type du média
+          example: "avatar"
+        date:
+          type: string
+          description: date de publication du média
+          example: "2023-01-25 18:17:35"
+
+    Medias:
+      type: object
+      description: objet correspondant à une liste de médias
+      properties:
+        medias:
+          description: liste de médias
+          items:
+            $ref: "#/components/schemas/Media"
 
     AccessError:
       type: object

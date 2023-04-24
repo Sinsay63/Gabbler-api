@@ -2,7 +2,7 @@ package fr.hesias.gabblerapi.application.adapter;
 
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.DomainUsersInfosResult;
 
 
 public class UserInfosAccessorAdapter {
@@ -15,7 +15,7 @@ public class UserInfosAccessorAdapter {
         this.userInfosAccessor = userInfosAccessor;
     }
 
-    public DomainUsersResult getUsers() {
+    public DomainUsersInfosResult getUsers() {
 
         return userInfosAccessor.getUsers();
     }

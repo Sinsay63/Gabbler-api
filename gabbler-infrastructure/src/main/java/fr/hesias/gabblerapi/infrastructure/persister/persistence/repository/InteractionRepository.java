@@ -1,7 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.repository;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Interaction;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +13,5 @@ public interface InteractionRepository extends JpaRepository<Interaction, Intege
 
     List<Interaction> getInteractionByGab_Id(int gabId);
 
-    Optional<Integer> countInteractionByActionAndGab_Id(ActionEnum action, int gabId);
+    Optional<Integer> countInteractionByActionAndGab_Id(ActionTypeEnum action, int gabId);
 }

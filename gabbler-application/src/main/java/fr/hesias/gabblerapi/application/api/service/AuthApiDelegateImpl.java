@@ -55,15 +55,15 @@ public class AuthApiDelegateImpl implements AuthApiDelegate {
     @Override
     public ResponseEntity<UserAndToken> registerUser(@RequestBody UserRegister userRegister) {
         DomainUserResult domainUserResult = this.authAccessorAdapter.register(this.userApiMapper.toUserRegisterToDomainUserRegistrationInfosResult(userRegister));
-        String test = "test";
         if (domainUserResult != null) {
             DomainUserInfosAuthResult domainUserInfosAuthResult = authAccessorAdapter.getUserCredentialByEmail(domainUserResult.getDomainUser().getEmail());
-            domainUserInfosAuthResult.getUserAuthInfo().setPassword(userRegister.getPassword());
-            UserAndToken userAndToken = getToken(this.userApiMapper.toDomainUserInfosAuthResultToUserAuth(domainUserInfosAuthResult));
-            return gabblerApiService.getResponse(userAndToken, domainUserResult);
-        } else {
-            throw new UsernameNotFoundException("Erreur lors de l'enregistrement de l'utilisateur !");
+            if (domainUserInfosAuthResult.getUserAuthInfo() != null) {
+                domainUserInfosAuthResult.getUserAuthInfo().setPassword(userRegister.getPassword());
+                UserAndToken userAndToken = getToken(this.userApiMapper.toDomainUserInfosAuthResultToUserAuth(domainUserInfosAuthResult));
+                return gabblerApiService.getResponse(userAndToken, domainUserResult);
+            }
         }
+        throw new UsernameNotFoundException("Erreur lors de l'enregistrement de l'utilisateur !");
     }
 
     private UserAndToken getToken(UserAuth userAuth) {
@@ -72,7 +72,7 @@ public class AuthApiDelegateImpl implements AuthApiDelegate {
                 userAuth.getPassword()));
         if (authentication.isAuthenticated()) {
             DomainUserResult domainUserResult = userInfosAccessorAdapter.getUserByEmail(userAuth.getEmail());
-            User user = userApiMapper.toUser(domainUserResult.getDomainUser());
+            User user = userApiMapper.toDomainUserToUser(domainUserResult.getDomainUser());
             UserAndToken userAndToken = new UserAndToken();
             userAndToken.setToken(jwtService.generateToken(userAuth.getEmail()));
             userAndToken.setUser(user);

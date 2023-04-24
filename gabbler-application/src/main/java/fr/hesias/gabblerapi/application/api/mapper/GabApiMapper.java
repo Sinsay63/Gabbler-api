@@ -1,13 +1,10 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
-import fr.hesias.gabblerapi.desc.api.server.model.Gab;
-import fr.hesias.gabblerapi.desc.api.server.model.GabCreation;
-import fr.hesias.gabblerapi.desc.api.server.model.Gabs;
+import fr.hesias.gabblerapi.desc.api.server.model.*;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
-import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
-import fr.hesias.gabblerapi.domain.result.DomainGabResult;
-import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
+import fr.hesias.gabblerapi.domain.model.DomainMedia;
+import fr.hesias.gabblerapi.domain.result.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ public class GabApiMapper {
         this.userApiMapper = userApiMapper;
     }
 
-    public Gab toGab(final DomainGab domainGab) {
+    public Gab toGab(final DomainGab domainGab, final DomainMediasResult domainMediasResult) {
 
         final Gab gab = new Gab();
 
@@ -35,7 +32,8 @@ public class GabApiMapper {
             gab.setNbLikes(domainGab.getNbLikes());
             gab.setNbDislikes(domainGab.getNbDislikes());
             gab.setNbComments(domainGab.getNbComments());
-            gab.setUser(userApiMapper.toUser(domainGab.getUser()));
+            gab.setMedias(toDomainMediasResultToMedias(domainMediasResult));
+            gab.setUser(userApiMapper.toDomainUserToUser(domainGab.getUser()));
         }
         return gab;
     }
@@ -46,24 +44,39 @@ public class GabApiMapper {
             final List<Gab> gabsList = new ArrayList<>();
 
             for (DomainGabResult domainGabResult : domainGabsResult.getGabs()) {
-                final DomainGab domainGab = domainGabResult.getGab();
-                gabsList.add(toGab(domainGab));
+                gabsList.add(toGab(domainGabResult.getGab(), domainGabResult.getMedias()));
             }
             gabs.setGabs(gabsList);
         }
         return gabs;
     }
 
-    public DomainGabResult toGabToDomainGabResult(final Gab gab) {
-        final DomainGab domainGab = new DomainGab();
-        domainGab.setId(gab.getId());
-        domainGab.setContent(gab.getContent());
-        domainGab.setPostDate(LocalDateTime.parse(gab.getPostDate()));
-        domainGab.setNbLikes(gab.getNbLikes());
-        domainGab.setNbDislikes(gab.getNbDislikes());
-        domainGab.setNbComments(gab.getNbComments());
-        domainGab.setUser(userApiMapper.toDomainUser(gab.getUser()));
-        return new DomainGabResult(OK, domainGab);
+    public Media toDomainMediaToMedia(final DomainMedia domainMedia) {
+
+        final Media media = new Media();
+
+        if (domainMedia != null) {
+            media.setId(domainMedia.getId());
+            media.setUrl(domainMedia.getUrl());
+            media.setType(domainMedia.getType());
+            media.setDate(domainMedia.getDate().toString());
+        }
+        return media;
+    }
+
+    public Medias toDomainMediasResultToMedias(DomainMediasResult domainMediasResult) {
+        Medias medias = new Medias();
+        List<Media> mediaList = new ArrayList<>();
+
+        if (domainMediasResult.isOk()) {
+            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias()) {
+                mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
+            }
+            medias.setMedias(mediaList);
+        }
+
+
+        return medias;
     }
 
     public DomainGabCreationResult toGabCreationToDomainGabCreationResult(final GabCreation gab) {

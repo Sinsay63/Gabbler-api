@@ -4,10 +4,7 @@ import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
 
 import java.util.List;
 
@@ -22,30 +19,32 @@ public class UserInfosAccessorImpl implements UserInfosAccessor {
     }
 
     @Override
-    public DomainUsersResult getUsers() {
+    public DomainUsersInfosResult getUsers() {
 
-        List<DomainUserResult> domainUsersResults = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        List<DomainUserInfosResult> domainUserInfosResults = null;
+        DomainUsersInfosResult domainUsersInfosResult = userPersister.getUsers();
 
-        if (userPersister.getUsers().isOk()) {
+        if (domainUsersInfosResult.isOk()) {
 
-            domainUsersResults = userPersister.getUsers().getUsers();
+            domainUserInfosResults = domainUsersInfosResult.getDomainUserInfosResults();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
 
-        return new DomainUsersResult(domainAccessStatus, domainUsersResults);
+        return new DomainUsersInfosResult(domainAccessStatus, domainUserInfosResults);
     }
 
     @Override
     public DomainUserResult getUserByEmail(String email) {
 
-        DomainUser domainUser = null;
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainUser domainUser = null;
+        DomainUserResult domainUserResult = userPersister.getUserByEmail(email);
 
-        if (userPersister.getUsers().isOk()) {
+        if (domainUserResult.isOk()) {
 
-            domainUser = userPersister.getUserByEmail(email).getDomainUser();
+            domainUser = domainUserResult.getDomainUser();
         } else {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
@@ -56,11 +55,11 @@ public class UserInfosAccessorImpl implements UserInfosAccessor {
     @Override
     public DomainUserInfosAuthResult getUserCredentialByEmail(String email) {
 
-        DomainUserInfosAuthResult domainUserAuth = null;
+        DomainUserInfosAuthResult domainUserAuth = userPersister.getUserCredentialByEmail(email);
 
-        if (userPersister.getUserCredentialByEmail(email).isOk()) {
+        if (!domainUserAuth.isOk()) {
 
-            domainUserAuth = userPersister.getUserCredentialByEmail(email);
+            domainUserAuth = new DomainUserInfosAuthResult(DomainAccessStatus.BAD_REQUEST, null);
         }
 
         return domainUserAuth;

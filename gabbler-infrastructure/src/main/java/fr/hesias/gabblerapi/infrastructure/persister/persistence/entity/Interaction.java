@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class Interaction {
 
     @Column(name = "action")
     @Enumerated(EnumType.STRING)
-    private ActionEnum action;
+    private ActionTypeEnum action;
 
     @Column(name = "action_date")
     private LocalDateTime actionDate = LocalDateTime.now();

@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.DurationEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.DurationTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,6 @@ public class SubscriptionOffer {
 
     @Column(name = "duration")
     @Enumerated(EnumType.STRING)
-    private DurationEnum duration;
+    private DurationTypeEnum duration;
 
 }

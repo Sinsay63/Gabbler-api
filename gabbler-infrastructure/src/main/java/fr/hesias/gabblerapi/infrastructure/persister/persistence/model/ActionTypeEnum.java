@@ -1,15 +1,15 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.model;
 
-public enum ActionEnum {
+public enum ActionTypeEnum {
     LIKE("like"), DISLIKE("dislike");
 
     private final String action;
 
-    ActionEnum(final String action) {
-        this.action = action;
+    ActionTypeEnum(final String name) {
+        this.action = name;
     }
 
-    public String getAction() {
+    public String getActionType() {
         return action;
     }
 

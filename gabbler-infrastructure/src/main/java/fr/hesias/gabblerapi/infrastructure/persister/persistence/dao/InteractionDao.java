@@ -1,7 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.dao;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Interaction;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.InteractionRepository;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class InteractionDao {
         return interactionRepository.getInteractionByGab_Id(gabId);
     }
 
-    public int countInteractionByActionAndGabId(ActionEnum action, int gabId) {
+    public int countInteractionByActionAndGabId(ActionTypeEnum action, int gabId) {
         return interactionRepository.countInteractionByActionAndGab_Id(action, gabId).orElse(0);
     }
 

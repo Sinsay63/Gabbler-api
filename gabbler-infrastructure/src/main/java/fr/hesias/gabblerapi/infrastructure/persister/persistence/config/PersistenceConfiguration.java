@@ -58,4 +58,10 @@ public class PersistenceConfiguration {
         return new UserRelationshipsDao(userRelationshipsRepository);
     }
 
+    @Bean
+    public MediaDao mediaDao(final MediaRepository mediaRepository) {
+
+        return new MediaDao(mediaRepository);
+    }
+
 }

@@ -6,11 +6,14 @@ import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
 import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
+import fr.hesias.gabblerapi.domain.result.DomainMediasResult;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.InteractionDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +30,16 @@ public class GabPersisterService {
 
     private final GabDao gabDao;
 
+    private final MediaDao mediaDao;
+
     private final InteractionDao interactionDao;
 
     private final GabblerInfraMapper gabblerInfraMapper;
 
-    public GabPersisterService(final GabDao gabDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
+    public GabPersisterService(final GabDao gabDao, MediaDao mediaDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
 
         this.gabDao = gabDao;
+        this.mediaDao = mediaDao;
         this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
@@ -43,6 +49,7 @@ public class GabPersisterService {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainGab domainGab = null;
+        DomainMediasResult domainMediasResult = null;
         try {
             final Gab gab = gabDao.getGabById(id);
             if (gab != null) {
@@ -53,6 +60,8 @@ public class GabPersisterService {
                 domainGab.setNbLikes(interactions.get("like"));
                 domainGab.setNbDislikes(interactions.get("dislike"));
                 domainGab.setNbComments(nbComments);
+                List<Media> mediaList = mediaDao.getMediaByGabId(domainGab.getId());
+                domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(mediaList);
 
             }
 
@@ -62,7 +71,7 @@ public class GabPersisterService {
         }
 
 
-        return new DomainGabResult(domainAccessStatus, domainGab);
+        return new DomainGabResult(domainAccessStatus, domainGab, domainMediasResult);
     }
 
     @Transactional(readOnly = true)
@@ -142,8 +151,8 @@ public class GabPersisterService {
 
     private HashMap<String, Integer> getInteractionCountByGab(Gab gab) {
         HashMap<String, Integer> interactionCountByGab = new HashMap<>();
-        interactionCountByGab.put("like", interactionDao.countInteractionByActionAndGabId(ActionEnum.LIKE, gab.getId()));
-        interactionCountByGab.put("dislike", interactionDao.countInteractionByActionAndGabId(ActionEnum.DISLIKE, gab.getId()));
+        interactionCountByGab.put("like", interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.LIKE, gab.getId()));
+        interactionCountByGab.put("dislike", interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.DISLIKE, gab.getId()));
         return interactionCountByGab;
     }
 
