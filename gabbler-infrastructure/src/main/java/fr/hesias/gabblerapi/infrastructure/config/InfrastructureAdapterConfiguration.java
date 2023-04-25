@@ -18,34 +18,46 @@ import org.springframework.context.annotation.Import;
 
 @Import({PersistenceConfiguration.class})
 @Configuration
-public class InfrastructureAdapterConfiguration {
+public class InfrastructureAdapterConfiguration
+{
 
     @Bean
-    UserPersister userPersister(final UserPersisterService userPersisterService) {
+    UserPersister userPersister(final UserPersisterService userPersisterService)
+    {
 
         return new UserPersisterAdapter(userPersisterService);
     }
 
     @Bean
-    GabPersister gabPersister(final GabPersisterService gabPersisterService) {
+    GabPersister gabPersister(final GabPersisterService gabPersisterService)
+    {
 
         return new GabPersisterAdapter(gabPersisterService);
     }
 
     @Bean
-    UserPersisterService userPersisterService(final UserDao userDao, final MediaDao mediaDao, final GabblerInfraMapper gabblerInfraMapper) {
+    UserPersisterService userPersisterService(final UserDao userDao,
+                                              final MediaDao mediaDao,
+                                              final GabblerInfraMapper gabblerInfraMapper)
+    {
 
         return new UserPersisterService(userDao, mediaDao, gabblerInfraMapper);
     }
 
     @Bean
-    GabPersisterService gabPersisterService(final GabDao gabDao, MediaDao mediaDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
+    GabPersisterService gabPersisterService(final GabDao gabDao,
+                                            final UserDao userDao,
+                                            MediaDao mediaDao,
+                                            final InteractionDao interactionDao,
+                                            final GabblerInfraMapper gabblerInfraMapper)
+    {
 
-        return new GabPersisterService(gabDao, mediaDao, interactionDao, gabblerInfraMapper);
+        return new GabPersisterService(gabDao, userDao, mediaDao, interactionDao, gabblerInfraMapper);
     }
 
     @Bean
-    GabblerInfraMapper gabblerInfraMapper() {
+    GabblerInfraMapper gabblerInfraMapper()
+    {
 
         return new GabblerInfraMapper();
     }

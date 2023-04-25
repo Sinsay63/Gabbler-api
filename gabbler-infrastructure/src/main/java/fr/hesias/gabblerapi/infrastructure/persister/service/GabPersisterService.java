@@ -3,15 +3,14 @@ package fr.hesias.gabblerapi.infrastructure.persister.service;
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
-import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
-import fr.hesias.gabblerapi.domain.result.DomainGabResult;
-import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
-import fr.hesias.gabblerapi.domain.result.DomainMediasResult;
+import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.InteractionDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +30,8 @@ public class GabPersisterService
 
     private final GabDao gabDao;
 
+    private final UserDao userDao;
+
     private final MediaDao mediaDao;
 
     private final InteractionDao interactionDao;
@@ -38,12 +39,14 @@ public class GabPersisterService
     private final GabblerInfraMapper gabblerInfraMapper;
 
     public GabPersisterService(final GabDao gabDao,
+                               final UserDao userDao,
                                MediaDao mediaDao,
                                final InteractionDao interactionDao,
                                final GabblerInfraMapper gabblerInfraMapper)
     {
 
         this.gabDao = gabDao;
+        this.userDao = userDao;
         this.mediaDao = mediaDao;
         this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
@@ -181,6 +184,26 @@ public class GabPersisterService
         }
         return new DomainGabsResult(domainAccessStatus, domainGab);
 
+    }
+
+    @Transactional(readOnly = true)
+    public DomainSearchResult getResultForSearch(String researchContent)
+    {
+
+        List<Gab> gabList = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        DomainGabsResult domainGabsResult = null;
+
+        try
+        {
+            gabList = gabDao.getGabsBySearch(researchContent);
+            userList = userDao.getUsersBySearch(researchContent);
+        }
+        catch (final Exception e)
+        {
+            log.error("[NA] Erreur survenue lors de la récupération des commentaires", e);
+        }
+        return new DomainSearchResult(OK);
     }
 
 

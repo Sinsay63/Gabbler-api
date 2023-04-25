@@ -119,15 +119,14 @@ components:
           description: uuid de l'utilisateur
           example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
 
-    UserAndToken:
+    UserToken:
       type: object
       description: objet correspondant à un utilisateur avec son jeton d'authentification
       properties:
         token:
           type: string
           description: jeton d'authentification de l'utilisateur
-        user:
-          $ref: "#/components/schemas/User"
+          example: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW5pcy5ob3VkaWVyQGdtYWlsLmNvbSIsImV4cCI6MTYyNjQyNjQwN"
 
     UserAuth:
       type: object

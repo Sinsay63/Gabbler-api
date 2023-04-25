@@ -6,34 +6,47 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.User
 import java.util.List;
 import java.util.Optional;
 
-public class UserDao {
+public class UserDao
+{
 
     private final UserRepository userRepository;
 
-    public UserDao(final UserRepository userRepository) {
+    public UserDao(final UserRepository userRepository)
+    {
 
         super();
         this.userRepository = userRepository;
     }
 
-    public List<User> getUsers() {
+    public List<User> getUsers()
+    {
 
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserByUuid(final String uuid) {
+    public Optional<User> getUserByUuid(final String uuid)
+    {
 
         return userRepository.findById(uuid);
     }
 
-    public User addUser(final User user) {
+    public User addUser(final User user)
+    {
 
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserByEmail(final String email) {
+    public Optional<User> getUserByEmail(final String email)
+    {
 
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getUsersBySearch(String researchContent)
+    {
+
+        return userRepository.findAllByUsernameContainingIgnoreCase(researchContent);
+
     }
 
 }

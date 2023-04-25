@@ -5,7 +5,10 @@ import fr.hesias.gabblerapi.domain.model.DomainMedia;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
 import fr.hesias.gabblerapi.domain.model.DomainUserRegistration;
-import fr.hesias.gabblerapi.domain.result.*;
+import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
+import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
+import fr.hesias.gabblerapi.domain.result.DomainUserResult;
+import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -24,18 +27,18 @@ public class UserApiMapper
     }
 
 
-    public Users toDomainUsersInfosResultToUsers(final DomainUsersInfosResult domainUsersInfosResult)
+    public Users toDomainUsersResultToUsers(final DomainUsersResult domainUsersResult)
     {
 
         final Users users = new Users();
 
-        if (domainUsersInfosResult.isOk())
+        if (domainUsersResult.isOk())
         {
             final List<User> userList = new ArrayList<>();
 
-            for (final DomainUserInfosResult domainUserInfosResult : domainUsersInfosResult.getDomainUserInfosResults())
+            for (final DomainUserResult domainUserResult : domainUsersResult.getUsers())
             {
-                userList.add(toDomainUserInfosResultToUser(domainUserInfosResult));
+                userList.add(toDomainUserResultToUser(domainUserResult));
             }
             users.setUsers(userList);
         }
@@ -88,17 +91,15 @@ public class UserApiMapper
         return user;
     }
 
-    public User toDomainUserInfosResultToUser(final DomainUserInfosResult domainUserInfosResult)
+    public User toDomainUserResultToUser(final DomainUserResult domainUserResult)
     {
 
         User user = new User();
 
-        if (domainUserInfosResult.isOk())
+        if (domainUserResult.isOk())
         {
-            final DomainUser domainUser = domainUserInfosResult.getDomainUser();
-            final DomainMediasResult domainMediasResult = domainUserInfosResult.getDomainMediasResult();
-
-            user = toDomainUserAndDomainMediasResultToUser(domainUser, domainMediasResult);
+            final DomainUser domainUser = domainUserResult.getDomainUser();
+            user = toDomainUserToUser(domainUser);
         }
         return user;
     }
@@ -118,39 +119,6 @@ public class UserApiMapper
 
         return mediaList;
 
-    }
-
-    public User toDomainUserAndDomainMediasResultToUser(final DomainUser domainUser,
-                                                        final DomainMediasResult domainMediasResult)
-    {
-
-        final User user = new User();
-
-        if (domainUser != null && domainMediasResult != null)
-        {
-            user.setUuid(domainUser.getUuid());
-            user.setFirstname(domainUser.getFirstName());
-            user.setLastname(domainUser.getLastName());
-            user.setUsername(domainUser.getUsername());
-            user.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
-
-        }
-        return user;
-    }
-
-    public List<Media> toDomainMediasResultToMediasList(DomainMediasResult domainMediasResult)
-    {
-
-        List<Media> mediaList = new ArrayList<>();
-
-        if (domainMediasResult.isOk())
-        {
-            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias())
-            {
-                mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
-            }
-        }
-        return mediaList;
     }
 
     public UserAuth toDomainUserInfosAuthResultToUserAuth(final DomainUserInfosAuthResult domainUserInfosAuthResult)

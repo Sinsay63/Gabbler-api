@@ -7,10 +7,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("gabRepository")
-public interface GabRepository extends JpaRepository<Gab, Integer> {
+public interface GabRepository extends JpaRepository<Gab, Integer>
+{
 
 
     List<Gab> findAllByParentGabIdOrderByPostDateAsc(int parentGabId);
 
     List<Gab> findAllByOrderByPostDateDesc();
+
+    List<Gab> findAllByContentContainingIgnoreCase(String researchContent);
+
 }

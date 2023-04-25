@@ -42,12 +42,11 @@ public class GabblerInfraMapper
         return new DomainUserResult(domainAccessStatus, domainUser);
     }
 
-    public DomainUserInfosResult toDomainUserToDomainUserInfosResult(final DomainAccessStatus domainAccessStatus,
-                                                                     final DomainUser domainUser,
-                                                                     final DomainMediasResult domainMediasResult)
+    public DomainUserResult toUserToDomainUserResult(final User user)
     {
 
-        return new DomainUserInfosResult(domainAccessStatus, domainUser, domainMediasResult);
+        DomainUser domainUser = toUserToDomainUser(user);
+        return new DomainUserResult(OK, domainUser);
     }
 
     public DomainGab toGabToDomainGab(final Gab gab)
@@ -56,6 +55,24 @@ public class GabblerInfraMapper
         return new DomainGab(gab.getId(), gab.getContent(), gab.getPostDate(), toUserToDomainUser(gab.getUser()));
     }
 
+    public DomainGabResult toGabToDomainGabResult(final Gab gab, final DomainMediasResult domainMediasResult)
+    {
+
+        DomainGab domainGab = toGabToDomainGab(gab);
+        return new DomainGabResult(OK, domainGab, domainMediasResult);
+    }
+
+    public DomainGabsResult toGabsToDomainGabsResult(final List<Gab> gabs,
+                                                     final DomainMediasResult domainMediasResult)
+    {
+
+        List<DomainGabResult> domainGabResults = new ArrayList<>();
+        for (Gab gab : gabs)
+        {
+            domainGabResults.add(toGabToDomainGabResult(gab, domainMediasResult));
+        }
+        return new DomainGabsResult(OK, domainGabResults);
+    }
 
     public Gab toDomainGabToGab(final DomainGab domainGab)
     {

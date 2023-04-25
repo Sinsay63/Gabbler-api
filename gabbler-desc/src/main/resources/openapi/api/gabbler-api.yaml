@@ -435,7 +435,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../model/gabbler-model.yaml#/components/schemas/UserAndToken'
+                $ref: '../model/gabbler-model.yaml#/components/schemas/UserToken'
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:
@@ -484,7 +484,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../model/gabbler-model.yaml#/components/schemas/UserAndToken'
+                $ref: '../model/gabbler-model.yaml#/components/schemas/UserToken'
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:
