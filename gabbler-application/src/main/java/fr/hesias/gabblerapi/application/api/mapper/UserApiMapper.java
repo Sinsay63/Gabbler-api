@@ -12,23 +12,29 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserApiMapper {
+public class UserApiMapper
+{
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserApiMapper(PasswordEncoder passwordEncoder) {
+    public UserApiMapper(PasswordEncoder passwordEncoder)
+    {
+
         this.passwordEncoder = passwordEncoder;
     }
 
 
-    public Users toDomainUsersInfosResultToUsers(final DomainUsersInfosResult domainUsersInfosResult) {
+    public Users toDomainUsersInfosResultToUsers(final DomainUsersInfosResult domainUsersInfosResult)
+    {
 
         final Users users = new Users();
 
-        if (domainUsersInfosResult.isOk()) {
+        if (domainUsersInfosResult.isOk())
+        {
             final List<User> userList = new ArrayList<>();
 
-            for (final DomainUserInfosResult domainUserInfosResult : domainUsersInfosResult.getDomainUserInfosResults()) {
+            for (final DomainUserInfosResult domainUserInfosResult : domainUsersInfosResult.getDomainUserInfosResults())
+            {
                 userList.add(toDomainUserInfosResultToUser(domainUserInfosResult));
             }
             users.setUsers(userList);
@@ -36,11 +42,13 @@ public class UserApiMapper {
         return users;
     }
 
-    public Media toDomainMediaToMedia(final DomainMedia domainMedia) {
+    public Media toDomainMediaToMedia(final DomainMedia domainMedia)
+    {
 
         final Media media = new Media();
 
-        if (domainMedia != null) {
+        if (domainMedia != null)
+        {
             media.setId(domainMedia.getId());
             media.setUrl(domainMedia.getUrl());
             media.setType(domainMedia.getType());
@@ -49,11 +57,13 @@ public class UserApiMapper {
         return media;
     }
 
-    public DomainUser toUserToDomainUser(final User user) {
+    public DomainUser toUserToDomainUser(final User user)
+    {
 
         final DomainUser domainUser = new DomainUser();
 
-        if (user != null) {
+        if (user != null)
+        {
 
             domainUser.setUuid(user.getUuid());
             domainUser.setUsername(user.getUsername());
@@ -63,9 +73,12 @@ public class UserApiMapper {
         return domainUser;
     }
 
-    public User toDomainUserToUser(DomainUser domainUser) {
+    public User toDomainUserToUser(DomainUser domainUser)
+    {
+
         User user = new User();
-        if (domainUser != null) {
+        if (domainUser != null)
+        {
             user.setUuid(domainUser.getUuid());
             user.setUsername(domainUser.getUsername());
             user.setFirstname(domainUser.getFirstName());
@@ -74,11 +87,13 @@ public class UserApiMapper {
         return user;
     }
 
-    public User toDomainUserInfosResultToUser(final DomainUserInfosResult domainUserInfosResult) {
+    public User toDomainUserInfosResultToUser(final DomainUserInfosResult domainUserInfosResult)
+    {
 
         User user = new User();
 
-        if (domainUserInfosResult.isOk()) {
+        if (domainUserInfosResult.isOk())
+        {
             final DomainUser domainUser = domainUserInfosResult.getDomainUser();
             final DomainMediasResult domainMediasResult = domainUserInfosResult.getDomainMediasResult();
 
@@ -87,41 +102,46 @@ public class UserApiMapper {
         return user;
     }
 
-    public User toDomainUserAndDomainMediasResultToUser(final DomainUser domainUser, final DomainMediasResult domainMediasResult) {
+    public User toDomainUserAndDomainMediasResultToUser(final DomainUser domainUser,
+                                                        final DomainMediasResult domainMediasResult)
+    {
 
         final User user = new User();
 
-        if (domainUser != null && domainMediasResult != null) {
+        if (domainUser != null && domainMediasResult != null)
+        {
             user.setUuid(domainUser.getUuid());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
             user.setUsername(domainUser.getUsername());
-            user.setMedias(toDomainMediasResultToMedias(domainMediasResult));
+            user.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
 
         }
         return user;
     }
 
-    public Medias toDomainMediasResultToMedias(DomainMediasResult domainMediasResult) {
-        Medias medias = new Medias();
+    public List<Media> toDomainMediasResultToMediasList(DomainMediasResult domainMediasResult)
+    {
+
         List<Media> mediaList = new ArrayList<>();
 
-        if (domainMediasResult.isOk()) {
-            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias()) {
+        if (domainMediasResult.isOk())
+        {
+            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias())
+            {
                 mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
             }
-            medias.setMedias(mediaList);
         }
-
-
-        return medias;
+        return mediaList;
     }
 
-    public UserAuth toDomainUserInfosAuthResultToUserAuth(final DomainUserInfosAuthResult domainUserInfosAuthResult) {
+    public UserAuth toDomainUserInfosAuthResultToUserAuth(final DomainUserInfosAuthResult domainUserInfosAuthResult)
+    {
 
         final UserAuth userAuth = new UserAuth();
 
-        if (domainUserInfosAuthResult != null) {
+        if (domainUserInfosAuthResult != null)
+        {
             final DomainUserAuth domainUserAuth = domainUserInfosAuthResult.getUserAuthInfo();
 
             userAuth.setEmail(domainUserAuth.getUser().getEmail());
@@ -131,11 +151,13 @@ public class UserApiMapper {
         return userAuth;
     }
 
-    public DomainUserRegistrationInfosResult toUserRegisterToDomainUserRegistrationInfosResult(final UserRegister userRegister) {
+    public DomainUserRegistrationInfosResult toUserRegisterToDomainUserRegistrationInfosResult(final UserRegister userRegister)
+    {
 
         final DomainUserRegistration domainUserRegistration = new DomainUserRegistration();
 
-        if (userRegister != null) {
+        if (userRegister != null)
+        {
             domainUserRegistration.setEmail(userRegister.getEmail());
             //On chiffre le mot de passe
             domainUserRegistration.setPassword(passwordEncoder.encode(userRegister.getPassword()));

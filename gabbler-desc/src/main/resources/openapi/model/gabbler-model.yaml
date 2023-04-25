@@ -42,7 +42,9 @@ components:
           description: nom de l'utilisateur
           example: "Houdier"
         medias:
-          $ref: "#/components/schemas/Medias"
+          type: array
+          items:
+            $ref: "#/components/schemas/Media"
 
     Users:
       type: object
@@ -80,7 +82,9 @@ components:
           description: nombre de commentaires du gab
           example: "3"
         medias:
-          $ref: "#/components/schemas/Medias"
+          type: array
+          items:
+            $ref: "#/components/schemas/Media"
         user:
           $ref: "#/components/schemas/User"
 
@@ -186,15 +190,6 @@ components:
           type: string
           description: date de publication du média
           example: "2023-01-25 18:17:35"
-
-    Medias:
-      type: object
-      description: objet correspondant à une liste de médias
-      properties:
-        medias:
-          description: liste de médias
-          items:
-            $ref: "#/components/schemas/Media"
 
     AccessError:
       type: object
