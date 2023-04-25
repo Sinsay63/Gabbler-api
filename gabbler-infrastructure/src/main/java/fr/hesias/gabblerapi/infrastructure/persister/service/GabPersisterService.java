@@ -26,7 +26,8 @@ import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 @Slf4j
-public class GabPersisterService {
+public class GabPersisterService
+{
 
     private final GabDao gabDao;
 
@@ -36,7 +37,11 @@ public class GabPersisterService {
 
     private final GabblerInfraMapper gabblerInfraMapper;
 
-    public GabPersisterService(final GabDao gabDao, MediaDao mediaDao, final InteractionDao interactionDao, final GabblerInfraMapper gabblerInfraMapper) {
+    public GabPersisterService(final GabDao gabDao,
+                               MediaDao mediaDao,
+                               final InteractionDao interactionDao,
+                               final GabblerInfraMapper gabblerInfraMapper)
+    {
 
         this.gabDao = gabDao;
         this.mediaDao = mediaDao;
@@ -45,14 +50,17 @@ public class GabPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainGabResult getGabById(final int id) {
+    public DomainGabResult getGabById(final int id)
+    {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainGab domainGab = null;
         DomainMediasResult domainMediasResult = null;
-        try {
+        try
+        {
             final Gab gab = gabDao.getGabById(id);
-            if (gab != null) {
+            if (gab != null)
+            {
 
                 domainGab = gabblerInfraMapper.toGabToDomainGab(gab);
                 final HashMap<String, Integer> interactions = getInteractionCountByGab(gab);
@@ -60,12 +68,16 @@ public class GabPersisterService {
                 domainGab.setNbLikes(interactions.get("like"));
                 domainGab.setNbDislikes(interactions.get("dislike"));
                 domainGab.setNbComments(nbComments);
-                List<Media> mediaList = mediaDao.getMediaByGabId(domainGab.getId());
-                domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(mediaList);
+                List<Media> gabMediaList = mediaDao.getMediaByGabId(domainGab.getId());
+                List<Media> userMediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(domainGab.getUser().getUuid());
+                domainGab.getUser().setMedias(this.gabblerInfraMapper.toMediaListToDomainMediaList(userMediaList));
+                domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(gabMediaList);
 
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -75,19 +87,25 @@ public class GabPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainGabsResult getGabs() {
+    public DomainGabsResult getGabs()
+    {
 
         List<DomainGabResult> domainGab = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = OK;
-        try {
+        try
+        {
             final List<Gab> gabs = gabDao.getGabs();
-            if (isNotEmpty(gabs)) {
-                for (final Gab gab : gabs) {
+            if (isNotEmpty(gabs))
+            {
+                for (final Gab gab : gabs)
+                {
                     domainGab.add(getGabById(gab.getId()));
                 }
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération de tous les gabs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -95,19 +113,25 @@ public class GabPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainGabsResult getCommentsByParentGabId(final int parentGabId) {
+    public DomainGabsResult getCommentsByParentGabId(final int parentGabId)
+    {
 
         List<DomainGabResult> domainGab = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = OK;
-        try {
+        try
+        {
             final List<Gab> gabs = gabDao.getCommentsByParentGabId(parentGabId);
-            if (isNotEmpty(gabs)) {
-                for (final Gab gab : gabs) {
+            if (isNotEmpty(gabs))
+            {
+                for (final Gab gab : gabs)
+                {
                     domainGab.add(getGabById(gab.getId()));
                 }
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération des commentaires", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -115,13 +139,17 @@ public class GabPersisterService {
     }
 
 
-    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult) {
+    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult)
+    {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainGabCreation domainGabCreation = domainGabCreationResult.getDomainGabCreation();
-        try {
+        try
+        {
             gabDao.createGab(gabblerInfraMapper.toDomainGabCreationToGab(domainGabCreation));
-        } catch (final IllegalArgumentException e) {
+        }
+        catch (final IllegalArgumentException e)
+        {
             log.error("[NA] Erreur survenue lors de la création du gab", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -129,18 +157,25 @@ public class GabPersisterService {
     }
 
     @Transactional(readOnly = true)
-    public DomainGabsResult getFeed() {
+    public DomainGabsResult getFeed()
+    {
+
         List<DomainGabResult> domainGab = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = OK;
-        try {
+        try
+        {
             final List<Gab> gabs = gabDao.getFeed();
-            if (isNotEmpty(gabs)) {
-                for (final Gab gab : gabs) {
+            if (isNotEmpty(gabs))
+            {
+                for (final Gab gab : gabs)
+                {
                     domainGab.add(getGabById(gab.getId()));
                 }
             }
 
-        } catch (final Exception e) {
+        }
+        catch (final Exception e)
+        {
             log.error("[NA] Erreur survenue lors de la récupération des commentaires", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -149,10 +184,14 @@ public class GabPersisterService {
     }
 
 
-    private HashMap<String, Integer> getInteractionCountByGab(Gab gab) {
+    private HashMap<String, Integer> getInteractionCountByGab(Gab gab)
+    {
+
         HashMap<String, Integer> interactionCountByGab = new HashMap<>();
-        interactionCountByGab.put("like", interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.LIKE, gab.getId()));
-        interactionCountByGab.put("dislike", interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.DISLIKE, gab.getId()));
+        interactionCountByGab.put("like",
+                                  interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.LIKE, gab.getId()));
+        interactionCountByGab.put("dislike",
+                                  interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.DISLIKE, gab.getId()));
         return interactionCountByGab;
     }
 

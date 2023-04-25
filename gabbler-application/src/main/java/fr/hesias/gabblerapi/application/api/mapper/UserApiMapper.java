@@ -83,6 +83,7 @@ public class UserApiMapper
             user.setUsername(domainUser.getUsername());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
+            user.setMedias(toDomainMediasListToMediasList(domainUser.getMedias()));
         }
         return user;
     }
@@ -100,6 +101,23 @@ public class UserApiMapper
             user = toDomainUserAndDomainMediasResultToUser(domainUser, domainMediasResult);
         }
         return user;
+    }
+
+    public List<Media> toDomainMediasListToMediasList(List<DomainMedia> domainMediaList)
+    {
+
+        List<Media> mediaList = new ArrayList<>();
+
+        if (domainMediaList != null)
+        {
+            for (DomainMedia domainMedia : domainMediaList)
+            {
+                mediaList.add(toDomainMediaToMedia(domainMedia));
+            }
+        }
+
+        return mediaList;
+
     }
 
     public User toDomainUserAndDomainMediasResultToUser(final DomainUser domainUser,
