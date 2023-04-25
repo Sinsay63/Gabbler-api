@@ -5,6 +5,7 @@ import fr.hesias.gabblerapi.application.adapter.GabInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.api.mapper.GabApiMapper;
 import fr.hesias.gabblerapi.application.api.mapper.GabblerApiErrorMapper;
+import fr.hesias.gabblerapi.application.api.mapper.SearchApiMapper;
 import fr.hesias.gabblerapi.application.api.mapper.UserApiMapper;
 import fr.hesias.gabblerapi.application.api.service.*;
 import fr.hesias.gabblerapi.application.security.service.JwtService;
@@ -19,47 +20,62 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @Import({InfrastructureAdapterConfiguration.class})
-public class GabblerApiConfig {
+public class GabblerApiConfig
+{
 
 
     @Bean
-    public GabInfosAccessorAdapter gabInfosAccessorAdapter(final GabInfosAccessor gabInfosAccessor) {
+    public GabInfosAccessorAdapter gabInfosAccessorAdapter(final GabInfosAccessor gabInfosAccessor)
+    {
 
         return new GabInfosAccessorAdapter(gabInfosAccessor);
     }
 
     @Bean
-    public AuthAccessorAdapter authAccessorAdapter(final UserInfosAccessor userInfosAccessor) {
+    public AuthAccessorAdapter authAccessorAdapter(final UserInfosAccessor userInfosAccessor)
+    {
 
         return new AuthAccessorAdapter(userInfosAccessor);
     }
 
     @Bean
-    public GabblerApiErrorHandler gabblerApiErrorHandler(final GabblerApiErrorMapper gabblerApiErrorMapper) {
+    public GabblerApiErrorHandler gabblerApiErrorHandler(final GabblerApiErrorMapper gabblerApiErrorMapper)
+    {
 
         return new GabblerApiErrorHandler(gabblerApiErrorMapper);
     }
 
     @Bean
-    public GabblerApiErrorMapper gabblerApiErrorMapper() {
+    public GabblerApiErrorMapper gabblerApiErrorMapper()
+    {
 
         return new GabblerApiErrorMapper();
     }
 
     @Bean
-    public UserApiMapper gabblerUserApiMapper(PasswordEncoder passwordEncoder) {
+    public UserApiMapper gabblerUserApiMapper(PasswordEncoder passwordEncoder)
+    {
 
         return new UserApiMapper(passwordEncoder);
     }
 
     @Bean
-    GabApiMapper gabApiMapper(UserApiMapper userApiMapper) {
+    GabApiMapper gabApiMapper(UserApiMapper userApiMapper)
+    {
 
         return new GabApiMapper(userApiMapper);
     }
 
     @Bean
-    public GabblerApiService gabblerApiService() {
+    public SearchApiMapper searchApiMapper(GabApiMapper gabApiMapper, UserApiMapper userApiMapper)
+    {
+
+        return new SearchApiMapper(gabApiMapper, userApiMapper);
+    }
+
+    @Bean
+    public GabblerApiService gabblerApiService()
+    {
 
         return new GabblerApiService();
     }
@@ -67,31 +83,54 @@ public class GabblerApiConfig {
     @Bean
     public UserApiDelegateImpl userApiDelegateImpl(final UserApiMapper userApiMapper,
                                                    final GabblerApiService gabblerApiService,
-                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter) {
+                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter)
+    {
 
         return new UserApiDelegateImpl(userApiMapper,
-                gabblerApiService,
-                userInfosAccessorAdapter);
+                                       gabblerApiService,
+                                       userInfosAccessorAdapter);
     }
 
     @Bean
     public GabApiDelegateImpl gabApiDelegateImpl(final GabInfosAccessorAdapter gabInfosAccessorAdapter,
                                                  final GabblerApiService gabblerApiService,
-                                                 final GabApiMapper gabApiMapper) {
+                                                 final GabApiMapper gabApiMapper)
+    {
 
         return new GabApiDelegateImpl(gabInfosAccessorAdapter, gabblerApiService, gabApiMapper);
     }
 
     @Bean
-    public DocApiDelegateImpl docApiDelegateImpl() {
+    public DocApiDelegateImpl docApiDelegateImpl()
+    {
 
         return new DocApiDelegateImpl();
     }
 
     @Bean
-    public AuthApiDelegateImpl authApiDelegateImpl(GabblerApiService gabblerApiService, UserInfosAccessorAdapter userInfosAccessorAdapter, AuthAccessorAdapter authAccessorAdapter, UserApiMapper userApiMapper, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthApiDelegateImpl authApiDelegateImpl(GabblerApiService gabblerApiService,
+                                                   UserInfosAccessorAdapter userInfosAccessorAdapter,
+                                                   AuthAccessorAdapter authAccessorAdapter,
+                                                   UserApiMapper userApiMapper,
+                                                   JwtService jwtService,
+                                                   AuthenticationManager authenticationManager)
+    {
 
-        return new AuthApiDelegateImpl(gabblerApiService, userInfosAccessorAdapter, authAccessorAdapter, userApiMapper, jwtService, authenticationManager);
+        return new AuthApiDelegateImpl(gabblerApiService,
+                                       userInfosAccessorAdapter,
+                                       authAccessorAdapter,
+                                       userApiMapper,
+                                       jwtService,
+                                       authenticationManager);
+    }
+
+    @Bean
+    public SearchApiDelegateImpl searchApiDelegateImpl(GabblerApiService gabblerApiService,
+                                                       GabInfosAccessorAdapter gabInfosAccessorAdapter,
+                                                       SearchApiMapper searchApiMapper)
+    {
+
+        return new SearchApiDelegateImpl(gabblerApiService, gabInfosAccessorAdapter, searchApiMapper);
     }
 
 }

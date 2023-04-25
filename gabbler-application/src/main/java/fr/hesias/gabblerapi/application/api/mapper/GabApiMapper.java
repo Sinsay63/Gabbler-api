@@ -2,7 +2,6 @@ package fr.hesias.gabblerapi.application.api.mapper;
 
 import fr.hesias.gabblerapi.desc.api.server.model.Gab;
 import fr.hesias.gabblerapi.desc.api.server.model.GabCreation;
-import fr.hesias.gabblerapi.desc.api.server.model.Gabs;
 import fr.hesias.gabblerapi.desc.api.server.model.Media;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
@@ -46,23 +45,6 @@ public class GabApiMapper
         return gab;
     }
 
-    public Gabs toGabs(final DomainGabsResult domainGabsResult)
-    {
-
-        final Gabs gabs = new Gabs();
-        if (domainGabsResult != null)
-        {
-            final List<Gab> gabsList = new ArrayList<>();
-
-            for (DomainGabResult domainGabResult : domainGabsResult.getGabs())
-            {
-                gabsList.add(toGab(domainGabResult.getGab(), domainGabResult.getMedias()));
-            }
-            gabs.setGabs(gabsList);
-        }
-        return gabs;
-    }
-
     public Media toDomainMediaToMedia(final DomainMedia domainMedia)
     {
 
@@ -103,6 +85,22 @@ public class GabApiMapper
         domainGabCreation.setParentId(gab.getParentGabId() == null ? 0 : gab.getParentGabId());
         domainGabCreation.setUserUuid(gab.getUserUuid());
         return new DomainGabCreationResult(OK, domainGabCreation);
+    }
+
+    public List<Gab> toDomainGabsResultToGabsList(DomainGabsResult domainGabsResult)
+    {
+
+        final List<Gab> gabsList = new ArrayList<>();
+
+        if (domainGabsResult != null)
+        {
+
+            for (DomainGabResult domainGabResult : domainGabsResult.getGabs())
+            {
+                gabsList.add(toGab(domainGabResult.getGab(), domainGabResult.getMedias()));
+            }
+        }
+        return gabsList;
     }
 
 }

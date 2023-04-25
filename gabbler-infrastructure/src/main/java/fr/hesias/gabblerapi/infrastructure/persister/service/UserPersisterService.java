@@ -167,6 +167,33 @@ public class UserPersisterService
         return new DomainUserInfosAuthResult(domainAccessStatus, user);
     }
 
+    @Transactional(readOnly = true)
+    public DomainUsersResult setDomainUserResultDataByUsersList(List<User> users)
+    {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        final List<DomainUserResult> domainUserResultList = new ArrayList<>();
+        try
+        {
+            if (isNotEmpty(users))
+            {
+                for (final User user : users)
+                {
+                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
+                    domainUserResultList.add(toUserToDomainUserResult(user, mediaList));
+                }
+            }
+
+        }
+        catch (final Exception e)
+        {
+            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+
+        return new DomainUsersResult(domainAccessStatus, domainUserResultList);
+    }
+
     private DomainUserResult toUserToDomainUserResult(User user, List<Media> mediaList)
     {
 

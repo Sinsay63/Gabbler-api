@@ -6,13 +6,15 @@ import fr.hesias.gabblerapi.application.api.mapper.GabApiMapper;
 import fr.hesias.gabblerapi.desc.api.server.GabApiDelegate;
 import fr.hesias.gabblerapi.desc.api.server.model.Gab;
 import fr.hesias.gabblerapi.desc.api.server.model.GabCreation;
-import fr.hesias.gabblerapi.desc.api.server.model.Gabs;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public class GabApiDelegateImpl implements GabApiDelegate {
+import java.util.List;
+
+public class GabApiDelegateImpl implements GabApiDelegate
+{
 
     private final GabInfosAccessorAdapter gabInfosAccessorAdapter;
 
@@ -20,7 +22,10 @@ public class GabApiDelegateImpl implements GabApiDelegate {
 
     private final GabApiMapper gabApiMapper;
 
-    public GabApiDelegateImpl(final GabInfosAccessorAdapter gabInfosAccessorAdapter, final GabblerApiService gabblerApiService, final GabApiMapper gabApiMapper) {
+    public GabApiDelegateImpl(final GabInfosAccessorAdapter gabInfosAccessorAdapter,
+                              final GabblerApiService gabblerApiService,
+                              final GabApiMapper gabApiMapper)
+    {
 
         super();
         this.gabInfosAccessorAdapter = gabInfosAccessorAdapter;
@@ -30,41 +35,54 @@ public class GabApiDelegateImpl implements GabApiDelegate {
 
 
     @Override
-    public ResponseEntity<Gabs> getGabs() {
+    public ResponseEntity<List<Gab>> getGabs()
+    {
 
         final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getGabs();
 
-        return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
+        return gabblerApiService.getResponse(gabApiMapper.toDomainGabsResultToGabsList(domainGabsResult),
+                                             domainGabsResult);
     }
 
     @Override
-    public ResponseEntity<Gab> getGabById(Integer id) {
+    public ResponseEntity<Gab> getGabById(Integer id)
+    {
 
         final DomainGabResult domainGabResult = gabInfosAccessorAdapter.getGabById(id);
 
-        return gabblerApiService.getResponse(gabApiMapper.toGab(domainGabResult.getGab(), domainGabResult.getMedias()), domainGabResult);
+        return gabblerApiService.getResponse(gabApiMapper.toGab(domainGabResult.getGab(), domainGabResult.getMedias()),
+                                             domainGabResult);
     }
 
     @Override
-    public ResponseEntity<Gabs> getCommentsByGabId(Integer parentId) {
+    public ResponseEntity<List<Gab>> getCommentsByGabId(Integer parentId)
+    {
 
         final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getCommentsByParentGabId(parentId);
 
-        return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
+        return gabblerApiService.getResponse(gabApiMapper.toDomainGabsResultToGabsList(domainGabsResult),
+                                             domainGabsResult);
     }
 
     @Override
-    public ResponseEntity<String> createGab(String uuidUser, @RequestBody GabCreation gab) {
-        if (gabInfosAccessorAdapter.createGab(gabApiMapper.toGabCreationToDomainGabCreationResult(gab)).isOk()) {
+    public ResponseEntity<String> createGab(String uuidUser, @RequestBody GabCreation gab)
+    {
+
+        if (gabInfosAccessorAdapter.createGab(gabApiMapper.toGabCreationToDomainGabCreationResult(gab)).isOk())
+        {
             return ResponseEntity.ok().body("Gab créé avec succès pour l'utilisateur " + uuidUser);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @Override
-    public ResponseEntity<Gabs> getFeed() {
+    public ResponseEntity<List<Gab>> getFeed()
+    {
+
         final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getFeed();
 
-        return gabblerApiService.getResponse(gabApiMapper.toGabs(domainGabsResult), domainGabsResult);
+        return gabblerApiService.getResponse(gabApiMapper.toDomainGabsResultToGabsList(domainGabsResult),
+                                             domainGabsResult);
     }
+
 }

@@ -3,8 +3,10 @@ package fr.hesias.gabblerapi.domain.port.secondary;
 import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
+import fr.hesias.gabblerapi.domain.result.DomainSearchResult;
 
-public interface GabPersister {
+public interface GabPersister
+{
 
     DomainGabResult getGabById(final int id);
 
@@ -15,6 +17,8 @@ public interface GabPersister {
     DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult);
 
     DomainGabsResult getFeed();
+
+    DomainSearchResult getResultForSearch(String content);
 
 
 }

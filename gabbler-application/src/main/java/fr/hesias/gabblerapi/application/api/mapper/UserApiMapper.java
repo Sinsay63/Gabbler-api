@@ -1,6 +1,9 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
-import fr.hesias.gabblerapi.desc.api.server.model.*;
+import fr.hesias.gabblerapi.desc.api.server.model.Media;
+import fr.hesias.gabblerapi.desc.api.server.model.User;
+import fr.hesias.gabblerapi.desc.api.server.model.UserAuth;
+import fr.hesias.gabblerapi.desc.api.server.model.UserRegister;
 import fr.hesias.gabblerapi.domain.model.DomainMedia;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
@@ -27,22 +30,20 @@ public class UserApiMapper
     }
 
 
-    public Users toDomainUsersResultToUsers(final DomainUsersResult domainUsersResult)
+    public List<User> toDomainUsersResultToUsersList(final DomainUsersResult domainUsersResult)
     {
 
-        final Users users = new Users();
+        final List<User> userList = new ArrayList<>();
 
         if (domainUsersResult.isOk())
         {
-            final List<User> userList = new ArrayList<>();
 
             for (final DomainUserResult domainUserResult : domainUsersResult.getUsers())
             {
                 userList.add(toDomainUserResultToUser(domainUserResult));
             }
-            users.setUsers(userList);
         }
-        return users;
+        return userList;
     }
 
     public Media toDomainMediaToMedia(final DomainMedia domainMedia)

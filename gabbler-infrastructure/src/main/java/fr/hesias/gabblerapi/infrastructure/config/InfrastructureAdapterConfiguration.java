@@ -49,10 +49,16 @@ public class InfrastructureAdapterConfiguration
                                             final UserDao userDao,
                                             MediaDao mediaDao,
                                             final InteractionDao interactionDao,
+                                            final UserPersisterService userPersisterService,
                                             final GabblerInfraMapper gabblerInfraMapper)
     {
 
-        return new GabPersisterService(gabDao, userDao, mediaDao, interactionDao, gabblerInfraMapper);
+        return new GabPersisterService(gabDao,
+                                       userDao,
+                                       mediaDao,
+                                       interactionDao,
+                                       userPersisterService,
+                                       gabblerInfraMapper);
     }
 
     @Bean

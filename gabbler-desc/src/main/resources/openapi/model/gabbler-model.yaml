@@ -12,6 +12,8 @@ tags:
     description: Opérations sur le json doc
   - name: auth
     description: Opérations d'authentification
+  - name: search
+    description: Opérations sur les recherches
 paths: { }
 components:
   schemas:
@@ -45,14 +47,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Media"
-
-    Users:
-      type: object
-      description: objet correspondant à une liste d'utilisateurs
-      properties:
-        users:
-          items:
-            $ref: "#/components/schemas/User"
 
     Gab:
       type: object
@@ -88,15 +82,6 @@ components:
         user:
           $ref: "#/components/schemas/User"
 
-    Gabs:
-      type: object
-      description: objet correspondant à une liste de gabs
-      properties:
-        gabs:
-          type: array
-          description: liste de gabs
-          items:
-            $ref: "#/components/schemas/Gab"
 
     GabCreation:
       type: object
@@ -189,6 +174,17 @@ components:
           type: string
           description: date de publication du média
           example: "2023-01-25 18:17:35"
+
+    SearchContent:
+      type: object
+      description: objet correspondant à un contenu de recherche
+      properties:
+        users:
+          items:
+            $ref: "#/components/schemas/User"
+        gabs:
+          items:
+            $ref: "#/components/schemas/Gab"
 
     AccessError:
       type: object

@@ -4,21 +4,25 @@ import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
 import fr.hesias.gabblerapi.domain.result.DomainGabCreationResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
+import fr.hesias.gabblerapi.domain.result.DomainSearchResult;
 import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
 
-public class GabPersisterAdapter implements GabPersister {
+public class GabPersisterAdapter implements GabPersister
+{
 
 
     private final GabPersisterService gabPersisterService;
 
-    public GabPersisterAdapter(final GabPersisterService gabPersisterService) {
+    public GabPersisterAdapter(final GabPersisterService gabPersisterService)
+    {
 
         super();
         this.gabPersisterService = gabPersisterService;
     }
 
     @Override
-    public DomainGabResult getGabById(final int id) {
+    public DomainGabResult getGabById(final int id)
+    {
 
         return this.gabPersisterService.getGabById(id);
     }
@@ -27,23 +31,42 @@ public class GabPersisterAdapter implements GabPersister {
      * @return
      */
     @Override
-    public DomainGabsResult getGabs() {
+    public DomainGabsResult getGabs()
+    {
 
         return this.gabPersisterService.getGabs();
     }
 
     @Override
-    public DomainGabsResult getCommentsByParentGabId(int parentGabId) {
+    public DomainGabsResult getCommentsByParentGabId(int parentGabId)
+    {
+
         return this.gabPersisterService.getCommentsByParentGabId(parentGabId);
     }
 
     @Override
-    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult) {
+    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult)
+    {
+
         return this.gabPersisterService.createGab(domainGabCreationResult);
     }
 
     @Override
-    public DomainGabsResult getFeed() {
+    public DomainGabsResult getFeed()
+    {
+
         return this.gabPersisterService.getFeed();
     }
+
+    /**
+     * @param content
+     * @return
+     */
+    @Override
+    public DomainSearchResult getResultForSearch(String content)
+    {
+
+        return this.gabPersisterService.getResultForSearch(content);
+    }
+
 }

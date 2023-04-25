@@ -1,13 +1,17 @@
 package fr.hesias.gabblerapi.domain.result;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class DomainSearchResult extends DomainResultable
 {
 
-    private DomainGabsResult gabs;
+    private DomainGabsResult domainGabsResult;
 
-    private DomainUsersResult usersInfos;
+    private DomainUsersResult domainUsersResult;
 
     public DomainSearchResult(final DomainAccessStatus domainAccessStatus)
     {
@@ -16,13 +20,13 @@ public class DomainSearchResult extends DomainResultable
     }
 
     public DomainSearchResult(final DomainAccessStatus domainAccessStatus,
-                              final DomainGabsResult gabs,
-                              final DomainUsersResult usersInfos)
+                              final DomainGabsResult domainGabsResult,
+                              final DomainUsersResult domainUsersResult)
     {
 
         super(domainAccessStatus);
-        this.gabs = gabs;
-        this.usersInfos = usersInfos;
+        this.domainGabsResult = domainGabsResult;
+        this.domainUsersResult = domainUsersResult;
     }
 
 }
