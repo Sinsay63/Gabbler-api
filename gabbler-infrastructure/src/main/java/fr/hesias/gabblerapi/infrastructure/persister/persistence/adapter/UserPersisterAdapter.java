@@ -53,4 +53,18 @@ public class UserPersisterAdapter implements UserPersister
         return userPersisterService.register(user);
     }
 
+    @Override
+    public DomainUsersResult getSuggestionsUserNotConnected()
+    {
+
+        return userPersisterService.getSuggestionsUserNotConnected();
+    }
+
+    @Override
+    public DomainUsersResult getSuggestionsUserConnected(String userUuid)
+    {
+
+        return userPersisterService.getSuggestionsUserConnected(userUuid);
+    }
+
 }

@@ -373,9 +373,9 @@ paths:
       tags:
         - gab
 
-  /gabs/feed:
+  /feed:
     get:
-      operationId: getFeed
+      operationId: getFeedUserNotConnected
       summary: Récupère le feed
       description: Récupère le feed
       security:
@@ -420,6 +420,164 @@ paths:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
       tags:
         - gab
+
+  /feed/{user_uuid}:
+    get:
+      operationId: getFeedUserConnected
+      summary: Récupère le feed
+      description: Récupère le feed
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: user_uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne la liste des gabs triée par le plus récent au moins récent correspondant au feed pour un utilisateur connecté.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - gab
+
+  /suggestion:
+    get:
+      operationId: getSuggestionUserNotConnected
+      summary: Récupère les suggestions pour un utilisateur non connecté
+      description: Récupère les suggestions pour un utilisateur non connecté
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Retourne la liste des gabs triée par le plus récent au moins récent correspondant au feed.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '../model/gabbler-model.yaml#/components/schemas/User'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - user
+
+  /suggestion/{user_uuid}:
+    get:
+      operationId: getSuggestionUserConnected
+      summary: Récupère les suggestions pour un utilisateur connecté
+      description: Récupère les suggestions pour un utilisateur connecté
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: user_uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne la liste des gabs triée par le plus récent au moins récent correspondant au feed pour un utilisateur connecté.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '../model/gabbler-model.yaml#/components/schemas/User'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - user
 
   /authenticate:
     post:

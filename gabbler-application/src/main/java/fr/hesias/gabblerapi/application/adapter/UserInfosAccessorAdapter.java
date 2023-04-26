@@ -29,4 +29,16 @@ public class UserInfosAccessorAdapter
         return userInfosAccessor.getUserByEmail(email);
     }
 
+    public DomainUsersResult getSuggestionsUserNotConnected()
+    {
+
+        return userInfosAccessor.getSuggestionsUserNotConnected();
+    }
+
+    public DomainUsersResult getSuggestionsUserConnected(String userUuid)
+    {
+
+        return userInfosAccessor.getSuggestionsUserConnected(userUuid);
+    }
+
 }

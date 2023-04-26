@@ -103,13 +103,13 @@ public class GabInfosAccessorImpl implements GabInfosAccessor
     }
 
     @Override
-    public DomainGabsResult getFeed()
+    public DomainGabsResult getFeedUserNotConnected()
     {
 
         List<DomainGabResult> gabs = new ArrayList<>();
         DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
 
-        DomainGabsResult domainGabsResult = gabPersister.getFeed();
+        DomainGabsResult domainGabsResult = gabPersister.getFeedUserNotConnected();
 
         if (domainGabsResult.isOk())
         {
@@ -122,6 +122,28 @@ public class GabInfosAccessorImpl implements GabInfosAccessor
         }
         return new DomainGabsResult(domainAccessStatus, gabs);
     }
+
+    @Override
+    public DomainGabsResult getFeedUserConnected(String userUuid)
+    {
+
+        List<DomainGabResult> gabs = new ArrayList<>();
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+
+        DomainGabsResult domainGabsResult = gabPersister.getFeedUserConnected(userUuid);
+
+        if (domainGabsResult.isOk())
+        {
+
+            gabs = domainGabsResult.getGabs();
+        }
+        else
+        {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+        return new DomainGabsResult(domainAccessStatus, gabs);
+    }
+
 
     /**
      * @param content la recherche de l'utilisateur

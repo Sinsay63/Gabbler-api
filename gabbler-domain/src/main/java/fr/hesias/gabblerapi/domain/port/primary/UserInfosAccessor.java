@@ -15,6 +15,10 @@ public interface UserInfosAccessor
      */
     DomainUsersResult getUsers();
 
+    DomainUsersResult getSuggestionsUserNotConnected();
+
+    DomainUsersResult getSuggestionsUserConnected(String userUuid);
+
     DomainUserResult getUserByEmail(String email);
 
     DomainUserInfosAuthResult getUserCredentialByEmail(String email);

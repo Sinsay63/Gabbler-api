@@ -15,6 +15,11 @@ public interface UserPersister
      */
     DomainUsersResult getUsers();
 
+
+    DomainUsersResult getSuggestionsUserNotConnected();
+
+    DomainUsersResult getSuggestionsUserConnected(String userUuid);
+
     /**
      * Récupérer un utilisateur par son id
      *

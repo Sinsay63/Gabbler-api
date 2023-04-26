@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.InteractionTypeEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @Table(name = "user_relationships", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"uuid_user", "uuid_user_related"})
 })
-public class UserRelationships {
+public class UserRelationships
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,7 @@ public class UserRelationships {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private InteractionTypeEnum type;
+    private RelationshipTypeEnum type;
 
     @Column(name = "date")
     private LocalDateTime date = LocalDateTime.now();

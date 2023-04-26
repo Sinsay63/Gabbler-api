@@ -16,7 +16,11 @@ public interface GabPersister
 
     DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult);
 
-    DomainGabsResult getFeed();
+    DomainGabsResult getFeedUserNotConnected();
+
+
+    DomainGabsResult getFeedUserConnected(String userUuid);
+
 
     DomainSearchResult getResultForSearch(String content);
 

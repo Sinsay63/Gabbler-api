@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.InteractionTypeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
         @UniqueConstraint(columnNames = {"uuid_user", "id_gab"})
 })
 
-public class Interaction {
+public class Interaction
+{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -24,7 +25,7 @@ public class Interaction {
 
     @Column(name = "action")
     @Enumerated(EnumType.STRING)
-    private ActionTypeEnum action;
+    private InteractionTypeEnum action;
 
     @Column(name = "action_date")
     private LocalDateTime actionDate = LocalDateTime.now();

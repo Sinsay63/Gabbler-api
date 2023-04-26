@@ -16,7 +16,9 @@ public interface GabInfosAccessor
 
     DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult);
 
-    DomainGabsResult getFeed();
+    DomainGabsResult getFeedUserNotConnected();
+
+    DomainGabsResult getFeedUserConnected(String userUuid);
 
     DomainSearchResult getResultForSearch(String content);
 

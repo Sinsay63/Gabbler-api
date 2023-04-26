@@ -76,10 +76,20 @@ public class GabApiDelegateImpl implements GabApiDelegate
     }
 
     @Override
-    public ResponseEntity<List<Gab>> getFeed()
+    public ResponseEntity<List<Gab>> getFeedUserNotConnected()
     {
 
-        final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getFeed();
+        final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getFeedUserNotConnected();
+
+        return gabblerApiService.getResponse(gabApiMapper.toDomainGabsResultToGabsList(domainGabsResult),
+                                             domainGabsResult);
+    }
+
+    @Override
+    public ResponseEntity<List<Gab>> getFeedUserConnected(String userUuid)
+    {
+
+        final DomainGabsResult domainGabsResult = gabInfosAccessorAdapter.getFeedUserConnected(userUuid);
 
         return gabblerApiService.getResponse(gabApiMapper.toDomainGabsResultToGabsList(domainGabsResult),
                                              domainGabsResult);

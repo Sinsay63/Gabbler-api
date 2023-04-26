@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.dao;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.GabRepository;
 
 import java.util.List;
@@ -51,6 +52,12 @@ public class GabDao
     {
 
         return gabRepository.findAllByContentContainingIgnoreCase(researchContent);
+    }
+
+    public List<Gab> getGabsByUsersNotBlocked(List<User> users)
+    {
+
+        return gabRepository.findAllByUserNotInOrderByPostDateDesc(users);
     }
 
 }

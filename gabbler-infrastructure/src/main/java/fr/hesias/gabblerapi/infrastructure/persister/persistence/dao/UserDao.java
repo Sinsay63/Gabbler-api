@@ -49,4 +49,18 @@ public class UserDao
 
     }
 
+    public List<User> getRandomUsersForSuggestionsUserNotConnected()
+    {
+
+        return userRepository.getRandomUsersForSuggestionsUserNotConnected();
+
+    }
+
+    public List<User> getRandomUsersForSuggestionsUserConnected(List<String> userUuidList)
+    {
+
+        return userRepository.getRandomUsersForSuggestionsUserConnected(userUuidList);
+
+    }
+
 }

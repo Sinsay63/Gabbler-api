@@ -42,10 +42,16 @@ public class GabInfosAccessorAdapter
         return gabInfosAccessor.createGab(domainGabCreationResult);
     }
 
-    public DomainGabsResult getFeed()
+    public DomainGabsResult getFeedUserNotConnected()
     {
 
-        return gabInfosAccessor.getFeed();
+        return gabInfosAccessor.getFeedUserNotConnected();
+    }
+
+    public DomainGabsResult getFeedUserConnected(String userUuid)
+    {
+
+        return gabInfosAccessor.getFeedUserConnected(userUuid);
     }
 
     public DomainSearchResult getResultForSearch(String content)

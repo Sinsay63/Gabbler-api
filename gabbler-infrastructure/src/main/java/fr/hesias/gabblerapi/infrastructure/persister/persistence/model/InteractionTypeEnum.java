@@ -1,15 +1,21 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.model;
 
-public enum InteractionTypeEnum {
-    BLOCKED("blocked"), AUTHORIZED("authorized");
+public enum InteractionTypeEnum
+{
+    LIKE("like"), DISLIKE("dislike");
 
-    private final String type;
+    private final String action;
 
-    InteractionTypeEnum(final String name) {
-        this.type = name;
+    InteractionTypeEnum(final String name)
+    {
+
+        this.action = name;
     }
 
-    public String getInteractionType() {
-        return type;
+    public String getActionType()
+    {
+
+        return action;
     }
+
 }

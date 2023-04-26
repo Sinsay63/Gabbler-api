@@ -52,16 +52,19 @@ public class GabPersisterAdapter implements GabPersister
     }
 
     @Override
-    public DomainGabsResult getFeed()
+    public DomainGabsResult getFeedUserNotConnected()
     {
 
-        return this.gabPersisterService.getFeed();
+        return this.gabPersisterService.getFeedUserNotConnected();
     }
 
-    /**
-     * @param content
-     * @return
-     */
+    @Override
+    public DomainGabsResult getFeedUserConnected(String userUuid)
+    {
+
+        return this.gabPersisterService.getFeedUserConnected(userUuid);
+    }
+
     @Override
     public DomainSearchResult getResultForSearch(String content)
     {

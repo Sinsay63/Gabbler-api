@@ -4,14 +4,13 @@ import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainGab;
 import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
 import fr.hesias.gabblerapi.domain.result.*;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.GabDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.InteractionDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.UserRelationships;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.ActionTypeEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.InteractionTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,7 @@ import java.util.List;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
+import static fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum.BLOCKED;
 import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 @Slf4j
@@ -35,6 +35,8 @@ public class GabPersisterService
 
     private final InteractionDao interactionDao;
 
+    private final UserRelationshipsDao userRelationshipsDao;
+
     private final GabblerInfraMapper gabblerInfraMapper;
 
     private final UserPersisterService userPersisterService;
@@ -43,6 +45,7 @@ public class GabPersisterService
                                final UserDao userDao,
                                MediaDao mediaDao,
                                final InteractionDao interactionDao,
+                               final UserRelationshipsDao userRelationshipsDao,
                                final UserPersisterService userPersisterService,
                                final GabblerInfraMapper gabblerInfraMapper)
     {
@@ -51,6 +54,7 @@ public class GabPersisterService
         this.userDao = userDao;
         this.mediaDao = mediaDao;
         this.interactionDao = interactionDao;
+        this.userRelationshipsDao = userRelationshipsDao;
         this.userPersisterService = userPersisterService;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
@@ -149,7 +153,7 @@ public class GabPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainGabsResult getFeed()
+    public DomainGabsResult getFeedUserNotConnected()
     {
 
         List<DomainGabResult> domainGab = new ArrayList<>();
@@ -228,6 +232,40 @@ public class GabPersisterService
     }
 
     @Transactional(readOnly = true)
+    public DomainGabsResult getFeedUserConnected(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        List<DomainGabResult> domainGabResultList = new ArrayList<>();
+        try
+        {
+            List<UserRelationships> userRelationshipsList = userRelationshipsDao.findAllByUser_UuidAndTypeIs(userUuid,
+                                                                                                             BLOCKED);
+
+            List<User> userBlocked = new ArrayList<>();
+            for (UserRelationships userRelationships : userRelationshipsList)
+            {
+                userBlocked.add(userRelationships.getUserRelated());
+            }
+            List<Gab> gabs = gabDao.getGabsByUsersNotBlocked(userBlocked);
+            if (isNotEmpty(gabs))
+            {
+                for (final Gab gab : gabs)
+                {
+                    domainGabResultList.add(setDomainGabResultDataByGab(gab));
+                }
+            }
+        }
+        catch (final Exception e)
+        {
+            log.error("[{}] Erreur survenue lors de la récupération du feed pour un utilisateur connecté", userUuid, e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+
+        return new DomainGabsResult(domainAccessStatus, domainGabResultList);
+    }
+
+    @Transactional(readOnly = true)
     public DomainGabsResult setDomainGabsResultDataByGabsList(List<Gab> gabs)
     {
 
@@ -247,9 +285,11 @@ public class GabPersisterService
 
         HashMap<String, Integer> interactionCountByGab = new HashMap<>();
         interactionCountByGab.put("like",
-                                  interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.LIKE, gab.getId()));
+                                  interactionDao.countInteractionByActionAndGabId(InteractionTypeEnum.LIKE,
+                                                                                  gab.getId()));
         interactionCountByGab.put("dislike",
-                                  interactionDao.countInteractionByActionAndGabId(ActionTypeEnum.DISLIKE, gab.getId()));
+                                  interactionDao.countInteractionByActionAndGabId(InteractionTypeEnum.DISLIKE,
+                                                                                  gab.getId()));
         return interactionCountByGab;
     }
 

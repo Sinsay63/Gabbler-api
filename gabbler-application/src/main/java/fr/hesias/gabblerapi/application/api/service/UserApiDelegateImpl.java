@@ -43,4 +43,25 @@ public class UserApiDelegateImpl implements UserApiDelegate
                                              domainUsersResult);
     }
 
+    @Override
+    public ResponseEntity<List<User>> getSuggestionUserConnected(String userUuid)
+    {
+
+        final DomainUsersResult domainUsersResult = userInfosAccessorAdapter.getSuggestionsUserConnected(userUuid);
+
+        return gabblerApiService.getResponse(userApiMapper.toDomainUsersResultToUsersList(domainUsersResult),
+                                             domainUsersResult);
+    }
+
+    @Override
+    public ResponseEntity<List<User>> getSuggestionUserNotConnected()
+    {
+
+        final DomainUsersResult domainUsersResult = userInfosAccessorAdapter.getSuggestionsUserNotConnected();
+
+        return gabblerApiService.getResponse(userApiMapper.toDomainUsersResultToUsersList(domainUsersResult),
+                                             domainUsersResult);
+    }
+
+
 }

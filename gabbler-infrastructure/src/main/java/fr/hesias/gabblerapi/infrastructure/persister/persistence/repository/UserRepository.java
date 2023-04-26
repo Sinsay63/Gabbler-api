@@ -2,6 +2,7 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.repository;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +17,13 @@ public interface UserRepository extends JpaRepository<User, String>
     Optional<User> findByEmail(String email);
 
     List<User> findAllByUsernameContainingIgnoreCase(String researchContent);
+
+    @Query(value = "SELECT * FROM user ORDER BY RAND() LIMIT 3", nativeQuery = true)
+    List<User> getRandomUsersForSuggestionsUserNotConnected();
+
+
+    @Query(value = "SELECT * FROM user WHERE uuid NOT IN :usersUuid ORDER BY RAND() LIMIT 3", nativeQuery = true)
+    List<User> getRandomUsersForSuggestionsUserConnected(List<String> usersUuid);
+
 
 }

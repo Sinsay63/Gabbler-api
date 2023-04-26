@@ -9,8 +9,10 @@ import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserRelationshipsDao;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.UserRelationships;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,15 +32,19 @@ public class UserPersisterService
 
     private final MediaDao mediaDao;
 
+    private final UserRelationshipsDao userRelationshipsDao;
+
     private final GabblerInfraMapper gabblerInfraMapper;
 
     public UserPersisterService(final UserDao userDao,
                                 final MediaDao mediaDao,
+                                final UserRelationshipsDao userRelationshipsDao,
                                 final GabblerInfraMapper gabblerInfraMapper)
     {
 
         this.userDao = userDao;
         this.mediaDao = mediaDao;
+        this.userRelationshipsDao = userRelationshipsDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
 
@@ -91,6 +97,76 @@ public class UserPersisterService
 
         return domainUserResult;
     }
+
+
+    @Transactional(readOnly = true)
+    public DomainUsersResult getSuggestionsUserNotConnected()
+    {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        final List<DomainUserResult> users = new ArrayList<>();
+        try
+        {
+            final List<User> userList = userDao.getRandomUsersForSuggestionsUserNotConnected();
+            if (isNotEmpty(userList))
+            {
+                for (final User user : userList)
+                {
+                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
+                    users.add(toUserToDomainUserResult(user, mediaList));
+                }
+            }
+
+        }
+        catch (final Exception e)
+        {
+            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+
+        return new DomainUsersResult(domainAccessStatus, users);
+
+    }
+
+    @Transactional(readOnly = true)
+    public DomainUsersResult getSuggestionsUserConnected(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        final List<DomainUserResult> users = new ArrayList<>();
+        try
+        {
+            List<UserRelationships> userRelationshipsList = userRelationshipsDao.findAllByUser_Uuid(userUuid);
+
+            List<String> usersFollowedOrBlockedUuid = new ArrayList<>();
+            for (UserRelationships userRelationships : userRelationshipsList)
+            {
+                usersFollowedOrBlockedUuid.add(userRelationships.getUserRelated().getUuid());
+            }
+            usersFollowedOrBlockedUuid.add(userUuid);
+
+            final List<User> userList = userDao.getRandomUsersForSuggestionsUserConnected(usersFollowedOrBlockedUuid);
+            
+            if (isNotEmpty(userList))
+            {
+                for (final User user : userList)
+                {
+                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
+                    users.add(toUserToDomainUserResult(user, mediaList));
+                }
+            }
+
+        }
+        catch (final Exception e)
+        {
+            log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+
+        return new DomainUsersResult(domainAccessStatus, users);
+
+    }
+
 
     @Transactional(rollbackFor = Exception.class)
     public DomainUserResult register(final DomainUserRegistrationInfosResult user)

@@ -98,4 +98,47 @@ public class UserInfosAccessorImpl implements UserInfosAccessor
 
     }
 
+    @Override
+    public DomainUsersResult getSuggestionsUserNotConnected()
+    {
+
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        List<DomainUserResult> domainUserResults = null;
+        DomainUsersResult domainUsersResult = userPersister.getSuggestionsUserNotConnected();
+
+        if (domainUsersResult.isOk())
+        {
+
+            domainUserResults = domainUsersResult.getUsers();
+        }
+        else
+        {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+
+        return new DomainUsersResult(domainAccessStatus, domainUserResults);
+
+    }
+
+    @Override
+    public DomainUsersResult getSuggestionsUserConnected(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        List<DomainUserResult> domainUserResults = null;
+        DomainUsersResult domainUsersResult = userPersister.getSuggestionsUserConnected(userUuid);
+
+        if (domainUsersResult.isOk())
+        {
+
+            domainUserResults = domainUsersResult.getUsers();
+        }
+        else
+        {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+
+        return new DomainUsersResult(domainAccessStatus, domainUserResults);
+    }
+
 }
