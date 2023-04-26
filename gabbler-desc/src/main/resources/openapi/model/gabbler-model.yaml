@@ -43,10 +43,10 @@ components:
           type: string
           description: nom de l'utilisateur
           example: "Houdier"
-        medias:
-          type: array
-          items:
-            $ref: "#/components/schemas/Media"
+        avatar:
+          $ref: "#/components/schemas/Media"
+        banner:
+          $ref: "#/components/schemas/Media"
 
     Gab:
       type: object
