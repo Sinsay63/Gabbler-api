@@ -85,6 +85,7 @@ public class JwtService
                    .setClaims(claims)
                    .setSubject(userName)
                    .claim("roles", userInfosAccessorAdapter.getUserByEmail(userName).getDomainUser().getRoles())
+                   .claim("uuid", userInfosAccessorAdapter.getUserByEmail(userName).getDomainUser().getUuid())
                    .setIssuedAt(new Date(System.currentTimeMillis()))
                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                    .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
