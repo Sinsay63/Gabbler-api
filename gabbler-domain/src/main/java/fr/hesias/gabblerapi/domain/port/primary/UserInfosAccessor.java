@@ -15,6 +15,8 @@ public interface UserInfosAccessor
      */
     DomainUsersResult getUsers();
 
+    DomainUserResult getUserByUuid(String userUuid);
+
     DomainUsersResult getSuggestionsUserNotConnected();
 
     DomainUsersResult getSuggestionsUserConnected(String userUuid);

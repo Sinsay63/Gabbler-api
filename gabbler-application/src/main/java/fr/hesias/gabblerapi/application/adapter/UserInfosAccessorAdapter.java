@@ -23,6 +23,12 @@ public class UserInfosAccessorAdapter
         return userInfosAccessor.getUsers();
     }
 
+    public DomainUserResult getUserByUuid(String userUuid)
+    {
+
+        return userInfosAccessor.getUserByUuid(userUuid);
+    }
+
     public DomainUserResult getUserByEmail(String email)
     {
 

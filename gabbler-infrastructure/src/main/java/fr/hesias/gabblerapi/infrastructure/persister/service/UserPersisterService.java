@@ -85,9 +85,9 @@ public class UserPersisterService
         try
         {
             final User user = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
-            user.setMedias(mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid()));
+            List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
 
-            domainUserResult = this.gabblerInfraMapper.toUserToDomainUserResult(user);
+            domainUserResult = toUserToDomainUserResult(user, mediaList);
 
         }
         catch (final Exception e)
@@ -146,7 +146,7 @@ public class UserPersisterService
             usersFollowedOrBlockedUuid.add(userUuid);
 
             final List<User> userList = userDao.getRandomUsersForSuggestionsUserConnected(usersFollowedOrBlockedUuid);
-            
+
             if (isNotEmpty(userList))
             {
                 for (final User user : userList)

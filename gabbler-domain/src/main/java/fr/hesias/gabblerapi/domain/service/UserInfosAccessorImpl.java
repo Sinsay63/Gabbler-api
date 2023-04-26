@@ -45,6 +45,28 @@ public class UserInfosAccessorImpl implements UserInfosAccessor
     }
 
     @Override
+    public DomainUserResult getUserByUuid(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainUser domainUser = null;
+        DomainUserResult domainUserResult = userPersister.getUserByUuid(userUuid);
+
+        if (domainUserResult.isOk())
+        {
+
+            domainUser = domainUserResult.getDomainUser();
+        }
+        else
+        {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+
+        return new DomainUserResult(domainAccessStatus, domainUser);
+    }
+
+
+    @Override
     public DomainUserResult getUserByEmail(String email)
     {
 

@@ -105,7 +105,7 @@ paths:
     get:
       summary: Récupère un utilisateur par son uuid
       description: Récupère un utilisateur par son uuid
-      operationId: getUserById
+      operationId: getUserByUuid
       security:
         - bearerAuth: [ ]
       parameters:

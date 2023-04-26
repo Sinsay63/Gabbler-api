@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
+
+
 public class UserApiMapper
 {
 
@@ -88,11 +91,14 @@ public class UserApiMapper
             user.setUsername(domainUser.getUsername());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
-            HashMap<String, Media> hashMap = getUserMediaMap(domainUser.getMedias());
-            if (!hashMap.isEmpty())
+            if (isNotEmpty(domainUser.getMedias()))
             {
-                user.setAvatar(hashMap.get("avatar"));
-                user.setBanner(hashMap.get("banner"));
+                HashMap<String, Media> hashMap = getUserMediaMap(domainUser.getMedias());
+                if (!hashMap.isEmpty())
+                {
+                    user.setAvatar(hashMap.get("avatar"));
+                    user.setBanner(hashMap.get("banner"));
+                }
             }
         }
         return user;
