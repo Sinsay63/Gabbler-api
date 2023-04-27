@@ -30,4 +30,17 @@ public class InteractionDao
         return interactionRepository.countInteractionByActionAndGab_Id(action, gabId).orElse(0);
     }
 
+    public Interaction save(Interaction interaction)
+    {
+
+        return interactionRepository.save(interaction);
+    }
+
+    public List<Interaction> getInteractionsByUserUuid(String userUuid)
+    {
+
+        return interactionRepository.getInteractionByUser_Uuid(userUuid);
+    }
+
+
 }

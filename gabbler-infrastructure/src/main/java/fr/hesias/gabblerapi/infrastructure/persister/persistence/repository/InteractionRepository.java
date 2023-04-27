@@ -16,4 +16,6 @@ public interface InteractionRepository extends JpaRepository<Interaction, Intege
 
     Optional<Integer> countInteractionByActionAndGab_Id(InteractionTypeEnum action, int gabId);
 
+    List<Interaction> getInteractionByUser_Uuid(String userUuid);
+
 }

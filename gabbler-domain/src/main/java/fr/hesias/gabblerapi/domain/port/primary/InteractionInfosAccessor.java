@@ -1,8 +1,8 @@
-package fr.hesias.gabblerapi.domain.port.secondary;
+package fr.hesias.gabblerapi.domain.port.primary;
 
 import fr.hesias.gabblerapi.domain.result.DomainUserInteractionsResult;
 
-public interface InteractionPersister
+public interface InteractionInfosAccessor
 {
 
     DomainUserInteractionsResult getInteractionsByUserUuid(String userUuid);

@@ -3,6 +3,7 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper;
 import fr.hesias.gabblerapi.domain.model.*;
 import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Interaction;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
 
@@ -178,6 +179,26 @@ public class GabblerInfraMapper
 
         return new DomainMediasResult(domainAccessStatus, domainMediaResultList);
 
+    }
+
+    public DomainUserInteractionResult toInteractionToDomainUserInteractionResult(final Interaction interaction)
+    {
+
+        return new DomainUserInteractionResult(OK,
+                                               (interaction.getUser().getUuid()),
+                                               interaction.getAction().getActionType(),
+                                               interaction.getGab().getId());
+    }
+
+    public DomainUserInteractionsResult toInteractionsListToDomainUserInteractionsResult(final List<Interaction> interactions)
+    {
+
+        List<DomainUserInteractionResult> domainUserInteractionResults = new ArrayList<>();
+        for (Interaction interaction : interactions)
+        {
+            domainUserInteractionResults.add(toInteractionToDomainUserInteractionResult(interaction));
+        }
+        return new DomainUserInteractionsResult(OK, domainUserInteractionResults);
     }
 
 }

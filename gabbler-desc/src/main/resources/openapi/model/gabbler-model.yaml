@@ -14,6 +14,8 @@ tags:
     description: Opérations d'authentification
   - name: search
     description: Opérations sur les recherches
+  - name: interaction
+    description: Opérations sur les intéractions
 paths: { }
 components:
   schemas:
@@ -185,6 +187,22 @@ components:
         gabs:
           items:
             $ref: "#/components/schemas/Gab"
+
+    InteractionUser:
+      type: object
+      description: objet correspondant à une interaction d'un utilisateur
+      properties:
+        user_uuid:
+          type: string
+          description: uuid de l'utilisateur
+        interaction:
+          type: string
+          description: type d'interaction
+          example: "follow"
+        gab_id:
+          type: integer
+          description: id du gab
+          example: "56"
 
     AccessError:
       type: object

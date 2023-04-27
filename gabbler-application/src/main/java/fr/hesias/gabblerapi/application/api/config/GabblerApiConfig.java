@@ -2,11 +2,9 @@ package fr.hesias.gabblerapi.application.api.config;
 
 import fr.hesias.gabblerapi.application.adapter.AuthAccessorAdapter;
 import fr.hesias.gabblerapi.application.adapter.GabInfosAccessorAdapter;
+import fr.hesias.gabblerapi.application.adapter.InteractionInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
-import fr.hesias.gabblerapi.application.api.mapper.GabApiMapper;
-import fr.hesias.gabblerapi.application.api.mapper.GabblerApiErrorMapper;
-import fr.hesias.gabblerapi.application.api.mapper.SearchApiMapper;
-import fr.hesias.gabblerapi.application.api.mapper.UserApiMapper;
+import fr.hesias.gabblerapi.application.api.mapper.*;
 import fr.hesias.gabblerapi.application.api.service.*;
 import fr.hesias.gabblerapi.application.security.service.JwtService;
 import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
@@ -74,6 +72,13 @@ public class GabblerApiConfig
     }
 
     @Bean
+    InteractionApiMapper interactionApiMapper()
+    {
+
+        return new InteractionApiMapper();
+    }
+
+    @Bean
     public GabblerApiService gabblerApiService()
     {
 
@@ -82,13 +87,17 @@ public class GabblerApiConfig
 
     @Bean
     public UserApiDelegateImpl userApiDelegateImpl(final UserApiMapper userApiMapper,
+                                                   final InteractionApiMapper interactionApiMapper,
                                                    final GabblerApiService gabblerApiService,
-                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter)
+                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter,
+                                                   final InteractionInfosAccessorAdapter interactionInfosAccessorAdapter)
     {
 
         return new UserApiDelegateImpl(userApiMapper,
+                                       interactionApiMapper,
                                        gabblerApiService,
-                                       userInfosAccessorAdapter);
+                                       userInfosAccessorAdapter,
+                                       interactionInfosAccessorAdapter);
     }
 
     @Bean
