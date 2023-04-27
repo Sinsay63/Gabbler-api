@@ -579,7 +579,7 @@ paths:
       tags:
         - user
 
-  /users/{user_uuid}/interactions:
+  /interactions/user/{user_uuid}:
     get:
       operationId: getInteractionsByUserUuid
       summary: Récupère les interactions d'un utilisateur
@@ -632,7 +632,72 @@ paths:
               schema:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
       tags:
-        - user
+        - interaction
+
+  /interactions/addOrEdit:
+    get:
+      operationId: interactionCUD
+      summary: Ajoute ou modifie une interaction
+      description: Ajoute ou modifie une interaction
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Gab à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_uuid:
+                  type: string
+                gab_id:
+                  type: integer
+                type:
+                  type: string
+              required:
+                - user_uuid
+                - gab_id
+                - type
+      responses:
+        '200':
+          description: Retourne la liste des interactions de l'utilisateur.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/InteractionUser'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - interaction
 
   /authenticate:
     post:

@@ -17,7 +17,8 @@ import java.util.UUID;
         @UniqueConstraint(columnNames = "email")
 })
 
-public class User {
+public class User
+{
 
     @Id
     @Column(name = "uuid")
@@ -65,7 +66,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Media> medias;
 
-    public User() {
+    public User()
+    {
 
         super();
     }
@@ -79,7 +81,8 @@ public class User {
                 final String authToken,
                 final String biography,
                 final Boolean isValidated,
-                final String roles) {
+                final String roles)
+    {
 
         super();
         this.username = username;
@@ -104,7 +107,8 @@ public class User {
                 final String authToken,
                 final String biography,
                 final Boolean isValidated,
-                final String roles) {
+                final String roles)
+    {
 
         super();
         this.uuid = uuid;
@@ -126,7 +130,8 @@ public class User {
             final String firstname,
             final String lastname,
             final String roles
-    ) {
+               )
+    {
 
         super();
         this.email = email;
@@ -144,7 +149,8 @@ public class User {
             final String firstname,
             final String lastname,
             final LocalDate birthday
-    ) {
+               )
+    {
 
         super();
         this.username = username;
@@ -154,4 +160,11 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public User(String uuid)
+    {
+
+        this.uuid = uuid;
+    }
+
 }

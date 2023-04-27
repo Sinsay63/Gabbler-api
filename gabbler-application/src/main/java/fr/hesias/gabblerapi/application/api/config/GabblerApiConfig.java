@@ -87,17 +87,24 @@ public class GabblerApiConfig
 
     @Bean
     public UserApiDelegateImpl userApiDelegateImpl(final UserApiMapper userApiMapper,
-                                                   final InteractionApiMapper interactionApiMapper,
                                                    final GabblerApiService gabblerApiService,
-                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter,
-                                                   final InteractionInfosAccessorAdapter interactionInfosAccessorAdapter)
+                                                   final UserInfosAccessorAdapter userInfosAccessorAdapter)
     {
 
         return new UserApiDelegateImpl(userApiMapper,
-                                       interactionApiMapper,
                                        gabblerApiService,
-                                       userInfosAccessorAdapter,
-                                       interactionInfosAccessorAdapter);
+                                       userInfosAccessorAdapter);
+    }
+
+    @Bean
+    public InteractionApiDelegateImpl interactionApiDelegateImpl(InteractionInfosAccessorAdapter interactionInfosAccessorAdapter,
+                                                                 InteractionApiMapper interactionApiMapper,
+                                                                 GabblerApiService gabblerApiService)
+    {
+
+        return new InteractionApiDelegateImpl(interactionInfosAccessorAdapter,
+                                              interactionApiMapper,
+                                              gabblerApiService);
     }
 
     @Bean

@@ -18,4 +18,6 @@ public interface InteractionRepository extends JpaRepository<Interaction, Intege
 
     List<Interaction> getInteractionByUser_Uuid(String userUuid);
 
+    Optional<Interaction> getInteractionByUser_UuidAndGab_Id(String userUuid, int gabId);
+
 }
