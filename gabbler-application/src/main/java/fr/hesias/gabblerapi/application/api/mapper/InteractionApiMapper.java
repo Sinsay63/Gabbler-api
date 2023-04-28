@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
 import fr.hesias.gabblerapi.desc.api.server.model.InteractionUser;
+import fr.hesias.gabblerapi.domain.model.DomainInteraction;
 import fr.hesias.gabblerapi.domain.result.DomainUserInteractionResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserInteractionsResult;
 
@@ -35,6 +36,37 @@ public class InteractionApiMapper
             interactionUser.setInteraction(domainUserInteractionsResult.getInteractionType());
             interactionUser.setUserUuid(domainUserInteractionsResult.getUserUuid());
             interactionUser.setGabId(domainUserInteractionsResult.getGabId());
+
+        }
+        return interactionUser;
+    }
+
+    public List<InteractionUser> toDomainInteractionListToInteractionUserList(List<DomainInteraction> domainInteractions)
+    {
+
+        final List<InteractionUser> interactionUserList = new ArrayList<>();
+
+        if (domainInteractions != null)
+        {
+            for (DomainInteraction domainInteraction : domainInteractions)
+            {
+                interactionUserList.add(toDomainInteractionToInteractionUser(domainInteraction));
+            }
+        }
+        return interactionUserList;
+
+    }
+
+    private InteractionUser toDomainInteractionToInteractionUser(DomainInteraction domainInteraction)
+    {
+
+        final InteractionUser interactionUser = new InteractionUser();
+
+        if (domainInteraction != null)
+        {
+            interactionUser.setInteraction(domainInteraction.getInteractionType());
+            interactionUser.setUserUuid(domainInteraction.getUserUuid());
+            interactionUser.setGabId(domainInteraction.getGabId());
 
         }
         return interactionUser;

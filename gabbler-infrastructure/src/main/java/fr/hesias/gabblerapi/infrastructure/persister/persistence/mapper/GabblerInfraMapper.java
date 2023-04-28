@@ -6,6 +6,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Interaction;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.MediaTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,11 @@ public class GabblerInfraMapper
     public DomainGab toGabToDomainGab(final Gab gab)
     {
 
-        return new DomainGab(gab.getId(), gab.getContent(), gab.getPostDate(), toUserToDomainUser(gab.getUser()));
+        return new DomainGab(gab.getId(),
+                             gab.getContent(),
+                             gab.getPostDate(),
+                             toUserToDomainUser(gab.getUser()),
+                             toMediaListToDomainMediaList(gab.getMedias()));
     }
 
     public DomainGabResult toGabToDomainGabResult(final Gab gab, final DomainMediasResult domainMediasResult)
@@ -73,6 +78,18 @@ public class GabblerInfraMapper
             domainGabResults.add(toGabToDomainGabResult(gab, domainMediasResult));
         }
         return new DomainGabsResult(OK, domainGabResults);
+    }
+
+    public List<DomainGab> toGabsToDomainGabsResult(final List<Gab> gabs)
+    {
+
+        List<DomainGab> domainGabs = new ArrayList<>();
+        for (Gab gab : gabs)
+        {
+            domainGabs.add(toGabToDomainGab(gab));
+        }
+        return domainGabs;
+
     }
 
     public Gab toDomainGabToGab(final DomainGab domainGab)
@@ -98,6 +115,28 @@ public class GabblerInfraMapper
             gab.setParentGab(parentGab);
         }
         return gab;
+    }
+
+    public List<DomainInteraction> toInteractionsListToDomainInteractionList(final List<Interaction> interactions)
+    {
+
+        List<DomainInteraction> domainInteractions = new ArrayList<>();
+        for (Interaction interaction : interactions)
+        {
+            domainInteractions.add(toInteractionToDomainInteraction(interaction));
+        }
+        return domainInteractions;
+
+    }
+
+    private DomainInteraction toInteractionToDomainInteraction(Interaction interaction)
+    {
+
+        return new DomainInteraction(interaction.getAction().getActionType(),
+                                     interaction.getActionDate(),
+                                     interaction.getUser().getUuid(),
+                                     interaction.getGab().getId());
+
     }
 
 
@@ -181,6 +220,7 @@ public class GabblerInfraMapper
 
     }
 
+
     public DomainUserInteractionResult toInteractionToDomainUserInteractionResult(final Interaction interaction)
     {
 
@@ -199,6 +239,39 @@ public class GabblerInfraMapper
             domainUserInteractionResults.add(toInteractionToDomainUserInteractionResult(interaction));
         }
         return new DomainUserInteractionsResult(OK, domainUserInteractionResults);
+    }
+
+    public DomainUserProfile toUserToDomainUserProfile(User daoUser,
+                                                       List<Media> mediaList,
+                                                       List<Interaction> interactions,
+                                                       List<Gab> gabs)
+    {
+
+        DomainUserProfile domainUserProfile = new DomainUserProfile();
+        domainUserProfile.setUuid(daoUser.getUuid());
+        domainUserProfile.setUsername(daoUser.getUsername());
+        domainUserProfile.setFirstName(daoUser.getFirstname());
+        domainUserProfile.setLastName(daoUser.getLastname());
+        domainUserProfile.setBiography(daoUser.getBiography());
+        domainUserProfile.setBirthday(daoUser.getBirthday());
+        domainUserProfile.setGabs(toGabsToDomainGabsResult(gabs));
+        domainUserProfile.setInteractions(toInteractionsListToDomainInteractionList(interactions));
+        if (mediaList != null)
+        {
+            for (Media media : mediaList)
+            {
+                if (media.getType() == MediaTypeEnum.AVATAR)
+                {
+                    domainUserProfile.setAvatar(toMediaToDomainMedia(media));
+                }
+                else if (media.getType() == MediaTypeEnum.BANNER)
+                {
+                    domainUserProfile.setBanner(toMediaToDomainMedia(media));
+                }
+            }
+        }
+
+        return domainUserProfile;
     }
 
 }

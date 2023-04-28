@@ -36,6 +36,9 @@ public class Gab
     @OneToMany(mappedBy = "parentGab")
     private List<Gab> subGabs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "gab")
+    private List<Media> medias = new ArrayList<>();
+
     public Gab(int id, String content, LocalDateTime postDate, User user)
     {
 

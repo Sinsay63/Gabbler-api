@@ -3,16 +3,10 @@ package fr.hesias.gabblerapi.infrastructure.persister.service;
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.MediaDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.UserRelationshipsDao;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.UserRelationships;
+import fr.hesias.gabblerapi.domain.model.DomainUserProfile;
+import fr.hesias.gabblerapi.domain.result.*;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,21 +24,29 @@ public class UserPersisterService
 
     private final UserDao userDao;
 
+    private final GabDao gabDao;
+
     private final MediaDao mediaDao;
 
     private final UserRelationshipsDao userRelationshipsDao;
 
+    private final InteractionDao interactionDao;
+
     private final GabblerInfraMapper gabblerInfraMapper;
 
     public UserPersisterService(final UserDao userDao,
+                                final GabDao gabDao,
                                 final MediaDao mediaDao,
                                 final UserRelationshipsDao userRelationshipsDao,
+                                final InteractionDao interactionDao,
                                 final GabblerInfraMapper gabblerInfraMapper)
     {
 
         this.userDao = userDao;
+        this.gabDao = gabDao;
         this.mediaDao = mediaDao;
         this.userRelationshipsDao = userRelationshipsDao;
+        this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
 
@@ -277,6 +279,42 @@ public class UserPersisterService
         domainUser.setMedias(this.gabblerInfraMapper.toMediaListToDomainMediaList(mediaList));
 
         return new DomainUserResult(OK, domainUser);
+    }
+
+    @Transactional(readOnly = true)
+    public DomainUserProfileResult getUserProfile(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = OK;
+        DomainUserProfile domainUserProfile = null;
+        try
+        {
+            User daoUser = userDao.getUserByUuid(userUuid).orElse(null);
+            if (daoUser != null)
+            {
+                List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(userUuid);
+                List<Interaction> interactions = interactionDao.getInteractionsByUserUuid(userUuid);
+                List<Gab> gabs = gabDao.getGabsByUserUuid(userUuid);
+                for (Gab gab : gabs)
+                {
+                    List<Media> gabMediasList = mediaDao.getMediaByGabId(gab.getId());
+                    gab.setMedias(gabMediasList);
+                }
+                domainUserProfile = this.gabblerInfraMapper.toUserToDomainUserProfile(daoUser,
+                                                                                      mediaList,
+                                                                                      interactions,
+                                                                                      gabs);
+            }
+        }
+        catch (final Exception e)
+        {
+            log.error(
+                    "[{}] Erreur survenue lors de la récupération des données du profile d'un utilisateur à partir de son uuid",
+                    userUuid,
+                    e);
+            domainAccessStatus = INTERNAL_ERROR;
+        }
+        return new DomainUserProfileResult(domainAccessStatus, domainUserProfile);
     }
 
 }

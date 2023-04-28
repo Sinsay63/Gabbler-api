@@ -2,12 +2,10 @@ package fr.hesias.gabblerapi.domain.service;
 
 import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
 import fr.hesias.gabblerapi.domain.model.DomainUser;
+import fr.hesias.gabblerapi.domain.model.DomainUserProfile;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
 
 import java.util.List;
 
@@ -161,6 +159,26 @@ public class UserInfosAccessorImpl implements UserInfosAccessor
         }
 
         return new DomainUsersResult(domainAccessStatus, domainUserResults);
+    }
+
+    @Override
+    public DomainUserProfileResult getUserProfile(String userUuid)
+    {
+
+        DomainAccessStatus domainAccessStatus = DomainAccessStatus.OK;
+        DomainUserProfile domainUserProfile = null;
+        DomainUserProfileResult domainUserProfileResult = userPersister.getUserProfile(userUuid);
+
+        if (domainUserProfileResult.isOk())
+        {
+
+            domainUserProfile = domainUserProfileResult.getDomainUserProfile();
+        }
+        else
+        {
+            domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+        }
+        return new DomainUserProfileResult(domainAccessStatus, domainUserProfile);
     }
 
 }

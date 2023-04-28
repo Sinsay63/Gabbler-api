@@ -1,9 +1,6 @@
 package fr.hesias.gabblerapi.domain.port.primary;
 
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.domain.result.*;
 
 public interface UserInfosAccessor
 {
@@ -27,5 +24,7 @@ public interface UserInfosAccessor
 
     DomainUserResult register(final DomainUserRegistrationInfosResult user);
 
+
+    DomainUserProfileResult getUserProfile(String userUuid);
 
 }

@@ -30,6 +30,12 @@ public class GabDao
         return gabRepository.findAll();
     }
 
+    public List<Gab> getGabsByUserUuid(final String userUuid)
+    {
+
+        return gabRepository.findAllByUserUuidOrderByPostDateDesc(userUuid);
+    }
+
     public List<Gab> getCommentsByParentGabId(final int parentGabId)
     {
 

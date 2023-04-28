@@ -50,6 +50,51 @@ components:
         banner:
           $ref: "#/components/schemas/Media"
 
+
+    UserInfosProfile:
+      type: object
+      description: objet correspondant à un utilisateur avec ses informations de profil
+      properties:
+        uuid:
+          type: string
+          description: uuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
+        username:
+          type: string
+          description: pseudonyme de l'utilisateur
+          example: "Sinsay"
+        firstname:
+          type: string
+          description: prénom de l'utilisateur
+          example: "Yanis"
+        lastname:
+          type: string
+          description: nom de l'utilisateur
+          example: "Houdier"
+        birthday:
+          type: string
+          description: date d'anniversaire de l'utilisateur
+          example: "2001-07-28"
+        biography:
+          type: string
+          description: biographie de l'utilisateur
+          example: "Je suis un développeur web"
+        avatar:
+          $ref: "#/components/schemas/Media"
+        banner:
+          $ref: "#/components/schemas/Media"
+        interactions:
+          type: array
+          items:
+            $ref: "#/components/schemas/InteractionUser"
+        gabs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Gab"
+
+
+
+
     Gab:
       type: object
       description: objet correspondant à un gab

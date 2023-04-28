@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.application.adapter;
 
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
+import fr.hesias.gabblerapi.domain.result.DomainUserProfileResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
 
@@ -45,6 +46,12 @@ public class UserInfosAccessorAdapter
     {
 
         return userInfosAccessor.getSuggestionsUserConnected(userUuid);
+    }
+
+    public DomainUserProfileResult getUserProfile(String userUuid)
+    {
+
+        return userInfosAccessor.getUserProfile(userUuid);
     }
 
 }

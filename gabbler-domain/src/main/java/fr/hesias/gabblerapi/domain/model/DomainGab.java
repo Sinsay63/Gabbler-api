@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
-public class DomainGab {
+public class DomainGab
+{
 
     private int id;
 
@@ -23,18 +25,27 @@ public class DomainGab {
 
     private DomainUser user;
 
+    private List<DomainMedia> medias;
 
-    public DomainGab() {
+
+    public DomainGab()
+    {
+
     }
 
-    public DomainGab(int id, String content, LocalDateTime postDate, DomainUser user) {
+    public DomainGab(int id, String content, LocalDateTime postDate, DomainUser user, List<DomainMedia> medias)
+    {
+
         this.id = id;
         this.content = content;
         this.postDate = postDate;
         this.user = user;
+        this.medias = medias;
     }
 
-    public DomainGab(String content, LocalDateTime postDate, DomainUser user) {
+    public DomainGab(String content, LocalDateTime postDate, DomainUser user)
+    {
+
         this.content = content;
         this.postDate = postDate;
         this.user = user;
@@ -45,7 +56,9 @@ public class DomainGab {
                      final int nbLikes,
                      final int nbDislikes,
                      final int nbComments,
-                     final DomainUser user) {
+                     final DomainUser user)
+    {
+
         this.id = id;
         this.content = content;
         this.postDate = postDate;
@@ -55,4 +68,15 @@ public class DomainGab {
 
         this.user = user;
     }
+
+    public DomainGab(int id, String content, LocalDateTime postDate, DomainUser userToDomainUser)
+    {
+
+        this.id = id;
+        this.content = content;
+        this.postDate = postDate;
+        this.user = userToDomainUser;
+
+    }
+
 }

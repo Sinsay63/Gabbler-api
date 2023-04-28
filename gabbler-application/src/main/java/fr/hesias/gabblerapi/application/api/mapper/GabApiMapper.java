@@ -103,4 +103,20 @@ public class GabApiMapper
         return gabsList;
     }
 
+    public List<Gab> toDomainGabListToGabsList(List<DomainGab> gabs)
+    {
+
+        final List<Gab> gabsList = new ArrayList<>();
+
+        if (gabs != null)
+        {
+
+            for (DomainGab domainGab : gabs)
+            {
+                gabsList.add(toGab(domainGab, null));
+            }
+        }
+        return gabsList;
+    }
+
 }

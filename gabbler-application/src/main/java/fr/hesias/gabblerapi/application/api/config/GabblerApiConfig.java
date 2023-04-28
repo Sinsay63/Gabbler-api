@@ -51,10 +51,10 @@ public class GabblerApiConfig
     }
 
     @Bean
-    public UserApiMapper gabblerUserApiMapper(PasswordEncoder passwordEncoder)
+    public UserApiMapper userApiMapper(PasswordEncoder passwordEncoder, InteractionApiMapper interactionApiMapper)
     {
 
-        return new UserApiMapper(passwordEncoder);
+        return new UserApiMapper(passwordEncoder, interactionApiMapper);
     }
 
     @Bean

@@ -155,6 +155,60 @@ paths:
       tags:
         - user
 
+  /users/{user_uuid}/profile:
+    get:
+      operationId: getUserProfile
+      summary: Récupère les informations de profil d'un utilisateur
+      description: Récupère les informations de profil d'un utilisateur
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: user_uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Récupère les informations de profil d'un utilisateur
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/UserInfosProfile'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - user
+
   /gabs:
     get:
       summary: Récupère la liste des gabs

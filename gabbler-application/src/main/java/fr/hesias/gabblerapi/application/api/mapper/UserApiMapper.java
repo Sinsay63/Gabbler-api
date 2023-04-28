@@ -1,17 +1,8 @@
 package fr.hesias.gabblerapi.application.api.mapper;
 
-import fr.hesias.gabblerapi.desc.api.server.model.Media;
-import fr.hesias.gabblerapi.desc.api.server.model.User;
-import fr.hesias.gabblerapi.desc.api.server.model.UserAuth;
-import fr.hesias.gabblerapi.desc.api.server.model.UserRegister;
-import fr.hesias.gabblerapi.domain.model.DomainMedia;
-import fr.hesias.gabblerapi.domain.model.DomainUser;
-import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
-import fr.hesias.gabblerapi.domain.model.DomainUserRegistration;
-import fr.hesias.gabblerapi.domain.result.DomainUserInfosAuthResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserRegistrationInfosResult;
-import fr.hesias.gabblerapi.domain.result.DomainUserResult;
-import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
+import fr.hesias.gabblerapi.desc.api.server.model.*;
+import fr.hesias.gabblerapi.domain.model.*;
+import fr.hesias.gabblerapi.domain.result.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -25,12 +16,15 @@ import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 public class UserApiMapper
 {
 
+    private final InteractionApiMapper interactionApiMapper;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserApiMapper(PasswordEncoder passwordEncoder)
+    public UserApiMapper(PasswordEncoder passwordEncoder, InteractionApiMapper interactionApiMapper)
     {
 
         this.passwordEncoder = passwordEncoder;
+        this.interactionApiMapper = interactionApiMapper;
     }
 
 
@@ -177,6 +171,91 @@ public class UserApiMapper
             mediaMap.put(domainMedia.getType(), toDomainMediaToMedia(domainMedia));
         }
         return mediaMap;
+    }
+
+    public UserInfosProfile toDomainUserProfileResultToUserInfosProfile(DomainUserProfileResult domainUserProfileResult)
+    {
+
+        UserInfosProfile userInfosProfile = new UserInfosProfile();
+
+        if (domainUserProfileResult.isOk())
+        {
+            final DomainUserProfile domainUserProfile = domainUserProfileResult.getDomainUserProfile();
+            userInfosProfile = toDomainUserProfileToUserInfosProfile(domainUserProfile);
+        }
+        return userInfosProfile;
+    }
+
+    public UserInfosProfile toDomainUserProfileToUserInfosProfile(DomainUserProfile domainUserProfile)
+    {
+
+        UserInfosProfile userInfosProfile = new UserInfosProfile();
+
+        if (domainUserProfile != null)
+        {
+            userInfosProfile.setUuid(domainUserProfile.getUuid());
+            userInfosProfile.setUsername(domainUserProfile.getUsername());
+            userInfosProfile.setFirstname(domainUserProfile.getFirstName());
+            userInfosProfile.setLastname(domainUserProfile.getLastName());
+            userInfosProfile.setBirthday(domainUserProfile.getBirthday().toString());
+            userInfosProfile.setBiography(domainUserProfile.getBiography());
+            userInfosProfile.setAvatar(toDomainMediaToMedia(domainUserProfile.getAvatar()));
+            userInfosProfile.setBanner(toDomainMediaToMedia(domainUserProfile.getBanner()));
+            userInfosProfile.setGabs(toDomainGabListToGabsList(domainUserProfile.getGabs()));
+            userInfosProfile.setInteractions(this.interactionApiMapper.toDomainInteractionListToInteractionUserList(
+                    domainUserProfile.getInteractions()));
+        }
+        return userInfosProfile;
+    }
+
+    public Gab toGab(final DomainGab domainGab)
+    {
+
+        final Gab gab = new Gab();
+
+        if (domainGab != null)
+        {
+            gab.setId(domainGab.getId());
+            gab.setContent(domainGab.getContent());
+            gab.setPostDate(domainGab.getPostDate().toString());
+            gab.setNbLikes(domainGab.getNbLikes());
+            gab.setNbDislikes(domainGab.getNbDislikes());
+            gab.setNbComments(domainGab.getNbComments());
+            gab.setMedias(toDomainMediasListToMediasList(domainGab.getMedias()));
+            gab.setUser(toDomainUserToUser(domainGab.getUser()));
+        }
+        return gab;
+    }
+
+    public List<Media> toDomainMediasResultToMediasList(DomainMediasResult domainMediasResult)
+    {
+
+        List<Media> mediaList = new ArrayList<>();
+
+        if (domainMediasResult.isOk())
+        {
+            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias())
+            {
+                mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
+            }
+        }
+        return mediaList;
+    }
+
+    public List<Gab> toDomainGabListToGabsList(List<DomainGab> gabs)
+    {
+
+        final List<Gab> gabsList = new ArrayList<>();
+
+        if (gabs != null)
+        {
+
+            for (DomainGab domainGab : gabs)
+            {
+                gabsList.add(toGab(domainGab));
+            }
+        }
+        return gabsList;
     }
 
 }
