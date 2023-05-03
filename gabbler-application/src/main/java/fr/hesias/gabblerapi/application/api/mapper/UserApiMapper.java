@@ -7,10 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 
 public class UserApiMapper
@@ -20,7 +17,9 @@ public class UserApiMapper
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserApiMapper(PasswordEncoder passwordEncoder, InteractionApiMapper interactionApiMapper)
+    public UserApiMapper(
+            PasswordEncoder passwordEncoder,
+            InteractionApiMapper interactionApiMapper)
     {
 
         this.passwordEncoder = passwordEncoder;
@@ -85,15 +84,8 @@ public class UserApiMapper
             user.setUsername(domainUser.getUsername());
             user.setFirstname(domainUser.getFirstName());
             user.setLastname(domainUser.getLastName());
-            if (isNotEmpty(domainUser.getMedias()))
-            {
-                HashMap<String, Media> hashMap = getUserMediaMap(domainUser.getMedias());
-                if (!hashMap.isEmpty())
-                {
-                    user.setAvatar(hashMap.get("avatar"));
-                    user.setBanner(hashMap.get("banner"));
-                }
-            }
+            user.setAvatar(toDomainMediaToMedia(domainUser.getAvatar()));
+            user.setBanner(toDomainMediaToMedia(domainUser.getBanner()));
         }
         return user;
     }
@@ -177,17 +169,6 @@ public class UserApiMapper
             domainUserRegistration.setBirthday(LocalDate.parse(userRegister.getBirthday()));
         }
         return new DomainUserRegistrationInfosResult(domainUserRegistration);
-    }
-
-    public HashMap<String, Media> getUserMediaMap(List<DomainMedia> mediaList)
-    {
-
-        HashMap<String, Media> mediaMap = new HashMap<>();
-        for (DomainMedia domainMedia : mediaList)
-        {
-            mediaMap.put(domainMedia.getType(), toDomainMediaToMedia(domainMedia));
-        }
-        return mediaMap;
     }
 
     public UserInfosProfile toDomainUserProfileResultToUserInfosProfile(DomainUserProfileResult domainUserProfileResult)

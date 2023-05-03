@@ -275,8 +275,9 @@ public class UserPersisterService
     private DomainUserResult toUserToDomainUserResult(User user, List<Media> mediaList)
     {
 
-        DomainUser domainUser = this.gabblerInfraMapper.toUserToDomainUser(user);
-        domainUser.setMedias(this.gabblerInfraMapper.toMediaListToDomainMediaList(mediaList));
+        DomainUser domainUser = new DomainUser();
+        user.setMedias(mediaList);
+        domainUser = gabblerInfraMapper.toUserToDomainUserRelationships(user);
 
         return new DomainUserResult(OK, domainUser);
     }
@@ -302,6 +303,18 @@ public class UserPersisterService
                 {
                     List<Media> gabMediasList = mediaDao.getMediaByGabId(gab.getId());
                     gab.setMedias(gabMediasList);
+                }
+                for (UserRelationships userRelationships : userFollowers)
+                {
+                    List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUserRelated()
+                                                                                                            .getUuid());
+                    userRelationships.getUser().setMedias(gabMediasList);
+                }
+                for (UserRelationships userRelationships : userFollows)
+                {
+                    List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUser()
+                                                                                                            .getUuid());
+                    userRelationships.getUser().setMedias(gabMediasList);
                 }
                 domainUserProfile = this.gabblerInfraMapper.toUserToDomainUserProfile(daoUser,
                                                                                       mediaList,

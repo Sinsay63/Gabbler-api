@@ -7,6 +7,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.MediaType
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
@@ -23,6 +24,7 @@ public class GabblerInfraMapper
                               user.getFirstname(),
                               user.getLastname(),
                               user.getRoles());
+
     }
 
     public User toDomainUserToUser(final DomainUser domainUser)
@@ -269,7 +271,7 @@ public class GabblerInfraMapper
         {
             for (UserRelationships follower : followers)
             {
-                domainFollowers.add(toUserToDomainUser(follower.getUserRelated()));
+                domainFollowers.add(toUserToDomainUserRelationships(follower.getUserRelated()));
 
             }
         }
@@ -277,7 +279,7 @@ public class GabblerInfraMapper
         {
             for (UserRelationships follow : follows)
             {
-                domainFollows.add(toUserToDomainUser(follow.getUser()));
+                domainFollows.add(toUserToDomainUserRelationships(follow.getUser()));
             }
         }
         domainUserProfile.setUuid(daoUser.getUuid());
@@ -294,6 +296,20 @@ public class GabblerInfraMapper
         return domainUserProfile;
     }
 
+    public DomainUser toUserToDomainUserRelationships(User userRelated)
+    {
+
+        DomainUser domainUser = toUserToDomainUser(userRelated);
+        HashMap<String, DomainMedia> mediaMap = getUserMediaMap(userRelated.getMedias());
+        if (mediaMap != null)
+        {
+            domainUser.setAvatar(mediaMap.get(MediaTypeEnum.AVATAR.getMediaType()));
+            domainUser.setBanner(mediaMap.get(MediaTypeEnum.BANNER.getMediaType()));
+        }
+
+        return domainUser;
+    }
+
     public UserRelationships toDomainUserRelationshipsCreationResultToUserRelationships(final DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult)
     {
 
@@ -308,6 +324,17 @@ public class GabblerInfraMapper
                                      new User(domainUserRelationshipsCreation.getUserUuid()),
                                      new User(domainUserRelationshipsCreation.getUserRelatedUuid()));
 
+    }
+
+    public HashMap<String, DomainMedia> getUserMediaMap(List<Media> mediaList)
+    {
+
+        HashMap<String, DomainMedia> mediaMap = new HashMap<>();
+        for (Media media : mediaList)
+        {
+            mediaMap.put(media.getType().getMediaType(), toMediaToDomainMedia(media));
+        }
+        return mediaMap;
     }
 
 

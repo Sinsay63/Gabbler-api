@@ -3,11 +3,10 @@ package fr.hesias.gabblerapi.domain.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class DomainUser {
+public class DomainUser
+{
 
     private String uuid;
 
@@ -19,12 +18,15 @@ public class DomainUser {
 
     private String lastName;
 
-    private List<DomainMedia> medias;
+    private DomainMedia avatar;
+
+    private DomainMedia banner;
 
     private String roles;
 
 
-    public DomainUser() {
+    public DomainUser()
+    {
 
         super();
     }
@@ -33,7 +35,8 @@ public class DomainUser {
                       final String username,
                       final String firstName,
                       final String lastName,
-                      final String roles) {
+                      final String roles)
+    {
 
         super();
         this.email = email;
@@ -48,7 +51,8 @@ public class DomainUser {
                       final String username,
                       final String firstName,
                       final String lastName,
-                      final String roles) {
+                      final String roles)
+    {
 
         super();
         this.uuid = uuid;
@@ -60,7 +64,8 @@ public class DomainUser {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
 
         return "DomainUser{" +
                 "uuid='" + uuid + '\'' +
@@ -68,7 +73,8 @@ public class DomainUser {
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", medias=" + medias +
+                ", avatar=" + avatar + '\'' +
+                ", banner=" + banner + '\'' +
                 ", roles='" + roles + '\'' +
                 '}';
     }

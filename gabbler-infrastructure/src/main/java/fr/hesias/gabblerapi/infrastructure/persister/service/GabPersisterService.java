@@ -220,7 +220,8 @@ public class GabPersisterService
             domainGab.setNbComments(nbComments);
             List<Media> gabMediaList = mediaDao.getMediaByGabId(domainGab.getId());
             List<Media> userMediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(domainGab.getUser().getUuid());
-            domainGab.getUser().setMedias(this.gabblerInfraMapper.toMediaListToDomainMediaList(userMediaList));
+            gab.getUser().setMedias(userMediaList);
+            domainGab.setUser(gabblerInfraMapper.toUserToDomainUserRelationships(gab.getUser()));
             domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(gabMediaList);
         }
         catch (final Exception e)
