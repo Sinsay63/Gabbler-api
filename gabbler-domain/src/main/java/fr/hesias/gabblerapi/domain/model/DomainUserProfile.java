@@ -31,4 +31,8 @@ public class DomainUserProfile
 
     private List<DomainInteraction> interactions;
 
+    private List<DomainUser> followers;
+
+    private List<DomainUser> follows;
+
 }

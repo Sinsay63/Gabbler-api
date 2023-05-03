@@ -2,19 +2,14 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "user_relationships", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"uuid_user", "uuid_user_related"})
-})
+@Table(name = "user_relationships")
 public class UserRelationships
 {
 
@@ -37,5 +32,30 @@ public class UserRelationships
     @JoinColumn(name = "uuid_user_related", nullable = false, referencedColumnName = "uuid")
     @ManyToOne
     private User userRelated;
+
+    public UserRelationships()
+    {
+
+        super();
+    }
+
+    public UserRelationships(final RelationshipTypeEnum type, final User user, final User userRelated)
+    {
+
+        super();
+        this.type = type;
+        this.user = user;
+        this.userRelated = userRelated;
+    }
+
+    @Check(constraints = "(type = 'AUTHORIZED' AND uuid_user_related IS NULL) "
+            + "OR (type = 'BLOCKED' AND uuid_user_related IS NULL) "
+            + "OR (type = 'FOLLOWED' AND uuid_user_related IS NOT NULL AND uuid_user_related <> uuid_user) "
+            + "OR (type NOT IN ('AUTHORIZED', 'BLOCKED', 'FOLLOWED'))")
+    @Transient
+    public void checkTypeAndUuid()
+    {
+
+    }
 
 }

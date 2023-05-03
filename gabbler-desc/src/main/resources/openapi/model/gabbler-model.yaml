@@ -91,6 +91,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Gab"
+        followers:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        follows:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
 
 
 

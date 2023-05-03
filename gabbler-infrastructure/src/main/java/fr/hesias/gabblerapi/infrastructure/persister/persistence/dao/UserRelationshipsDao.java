@@ -6,6 +6,8 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.repository.User
 
 import java.util.List;
 
+import static fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum.FOLLOWED;
+
 public class UserRelationshipsDao
 {
 
@@ -28,6 +30,24 @@ public class UserRelationshipsDao
     {
 
         return userRelationshipsRepository.findAllByUser_Uuid(user_uuid);
+    }
+
+    public void save(UserRelationships userRelationships)
+    {
+
+        userRelationshipsRepository.save(userRelationships);
+    }
+
+    public List<UserRelationships> findAllFollowersByUserUuid(String userUuid)
+    {
+
+        return userRelationshipsRepository.findAllByTypeAndUser_Uuid(FOLLOWED, userUuid);
+    }
+
+    public List<UserRelationships> findAllFollowsByUserUuid(String userUuid)
+    {
+
+        return userRelationshipsRepository.findAllByTypeAndUserRelated_Uuid(FOLLOWED, userUuid);
     }
 
 }

@@ -2,11 +2,9 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper;
 
 import fr.hesias.gabblerapi.domain.model.*;
 import fr.hesias.gabblerapi.domain.result.*;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Interaction;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.MediaTypeEnum;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,18 +242,15 @@ public class GabblerInfraMapper
     public DomainUserProfile toUserToDomainUserProfile(User daoUser,
                                                        List<Media> mediaList,
                                                        List<Interaction> interactions,
-                                                       List<Gab> gabs)
+                                                       List<Gab> gabs,
+                                                       List<UserRelationships> followers,
+                                                       List<UserRelationships> follows)
     {
 
         DomainUserProfile domainUserProfile = new DomainUserProfile();
-        domainUserProfile.setUuid(daoUser.getUuid());
-        domainUserProfile.setUsername(daoUser.getUsername());
-        domainUserProfile.setFirstName(daoUser.getFirstname());
-        domainUserProfile.setLastName(daoUser.getLastname());
-        domainUserProfile.setBiography(daoUser.getBiography());
-        domainUserProfile.setBirthday(daoUser.getBirthday());
-        domainUserProfile.setGabs(toGabsToDomainGabsResult(gabs));
-        domainUserProfile.setInteractions(toInteractionsListToDomainInteractionList(interactions));
+        List<DomainUser> domainFollowers = new ArrayList<>();
+        List<DomainUser> domainFollows = new ArrayList<>();
+
         if (mediaList != null)
         {
             for (Media media : mediaList)
@@ -270,8 +265,50 @@ public class GabblerInfraMapper
                 }
             }
         }
+        if (followers != null)
+        {
+            for (UserRelationships follower : followers)
+            {
+                domainFollowers.add(toUserToDomainUser(follower.getUserRelated()));
+
+            }
+        }
+        if (follows != null)
+        {
+            for (UserRelationships follow : follows)
+            {
+                domainFollows.add(toUserToDomainUser(follow.getUser()));
+            }
+        }
+        domainUserProfile.setUuid(daoUser.getUuid());
+        domainUserProfile.setUsername(daoUser.getUsername());
+        domainUserProfile.setFirstName(daoUser.getFirstname());
+        domainUserProfile.setLastName(daoUser.getLastname());
+        domainUserProfile.setBiography(daoUser.getBiography());
+        domainUserProfile.setBirthday(daoUser.getBirthday());
+        domainUserProfile.setGabs(toGabsToDomainGabsResult(gabs));
+        domainUserProfile.setInteractions(toInteractionsListToDomainInteractionList(interactions));
+        domainUserProfile.setFollowers(domainFollowers);
+        domainUserProfile.setFollows(domainFollows);
 
         return domainUserProfile;
     }
+
+    public UserRelationships toDomainUserRelationshipsCreationResultToUserRelationships(final DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult)
+    {
+
+        return toDomainUserRelationshipsToUserRelationships(domainUserRelationshipsCreationResult.getDomainUserRelationshipsCreation());
+    }
+
+    public UserRelationships toDomainUserRelationshipsToUserRelationships(final DomainUserRelationshipsCreation domainUserRelationshipsCreation)
+    {
+
+        RelationshipTypeEnum relationshipTypeEnum = RelationshipTypeEnum.valueOf(domainUserRelationshipsCreation.getType());
+        return new UserRelationships(relationshipTypeEnum,
+                                     new User(domainUserRelationshipsCreation.getUserUuid()),
+                                     new User(domainUserRelationshipsCreation.getUserRelatedUuid()));
+
+    }
+
 
 }

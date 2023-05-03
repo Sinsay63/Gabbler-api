@@ -98,6 +98,23 @@ public class UserApiMapper
         return user;
     }
 
+    public List<User> toDomainUserListToUserList(List<DomainUser> domainUserList)
+    {
+
+        List<User> userList = new ArrayList<>();
+
+        if (domainUserList != null)
+        {
+            for (DomainUser domainUser : domainUserList)
+            {
+                userList.add(toDomainUserToUser(domainUser));
+            }
+        }
+
+        return userList;
+
+    }
+
     public User toDomainUserResultToUser(final DomainUserResult domainUserResult)
     {
 
@@ -204,6 +221,8 @@ public class UserApiMapper
             userInfosProfile.setGabs(toDomainGabListToGabsList(domainUserProfile.getGabs()));
             userInfosProfile.setInteractions(this.interactionApiMapper.toDomainInteractionListToInteractionUserList(
                     domainUserProfile.getInteractions()));
+            userInfosProfile.setFollowers(toDomainUserListToUserList(domainUserProfile.getFollowers()));
+            userInfosProfile.setFollows(toDomainUserListToUserList(domainUserProfile.getFollows()));
         }
         return userInfosProfile;
     }

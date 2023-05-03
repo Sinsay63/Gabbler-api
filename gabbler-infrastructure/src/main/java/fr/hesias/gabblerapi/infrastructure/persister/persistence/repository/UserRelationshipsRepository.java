@@ -16,4 +16,8 @@ public interface UserRelationshipsRepository extends JpaRepository<UserRelations
 
     List<UserRelationships> findAllByUser_Uuid(String uuid);
 
+    List<UserRelationships> findAllByTypeAndUser_Uuid(RelationshipTypeEnum type, String uuid);
+
+    List<UserRelationships> findAllByTypeAndUserRelated_Uuid(RelationshipTypeEnum type, String uuid);
+
 }

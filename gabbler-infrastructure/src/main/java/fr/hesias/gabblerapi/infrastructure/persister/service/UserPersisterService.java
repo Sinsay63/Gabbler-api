@@ -295,6 +295,9 @@ public class UserPersisterService
                 List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(userUuid);
                 List<Interaction> interactions = interactionDao.getInteractionsByUserUuid(userUuid);
                 List<Gab> gabs = gabDao.getGabsByUserUuid(userUuid);
+                List<UserRelationships> userFollowers = userRelationshipsDao.findAllFollowersByUserUuid(userUuid);
+                List<UserRelationships> userFollows = userRelationshipsDao.findAllFollowsByUserUuid(userUuid);
+
                 for (Gab gab : gabs)
                 {
                     List<Media> gabMediasList = mediaDao.getMediaByGabId(gab.getId());
@@ -303,7 +306,9 @@ public class UserPersisterService
                 domainUserProfile = this.gabblerInfraMapper.toUserToDomainUserProfile(daoUser,
                                                                                       mediaList,
                                                                                       interactions,
-                                                                                      gabs);
+                                                                                      gabs,
+                                                                                      userFollowers,
+                                                                                      userFollows);
             }
         }
         catch (final Exception e)

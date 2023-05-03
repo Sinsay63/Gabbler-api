@@ -1,4 +1,10 @@
 package fr.hesias.gabblerapi.domain.port.secondary;
 
-public interface UserRelationshipsPersister {
+import fr.hesias.gabblerapi.domain.result.DomainUserRelationshipsCreationResult;
+
+public interface UserRelationshipsPersister
+{
+
+    void insertRelationShips(DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult);
+
 }
