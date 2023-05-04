@@ -50,4 +50,18 @@ public class UserRelationshipsDao
         return userRelationshipsRepository.findAllByTypeAndUserRelated_Uuid(FOLLOWED, userUuid);
     }
 
+    public UserRelationships findByUser_UuidAndUserRelated_UuidAndTypeIs(String userUuid,
+                                                                         String userRelatedUuid,
+                                                                         RelationshipTypeEnum type)
+    {
+
+        return userRelationshipsRepository.findByUser_UuidAndUserRelated_UuidAndTypeIs(userUuid, userRelatedUuid, type);
+    }
+
+    public void delete(UserRelationships userRelationships)
+    {
+
+        userRelationshipsRepository.delete(userRelationships);
+    }
+
 }

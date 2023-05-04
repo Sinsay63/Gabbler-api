@@ -7,12 +7,15 @@ import fr.hesias.gabblerapi.desc.config.OpenApiConfig;
 import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.primary.InteractionInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
+import fr.hesias.gabblerapi.domain.port.primary.UserRelationshipsAccessor;
 import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
 import fr.hesias.gabblerapi.domain.port.secondary.InteractionPersister;
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
+import fr.hesias.gabblerapi.domain.port.secondary.UserRelationshipsPersister;
 import fr.hesias.gabblerapi.domain.service.GabInfosAccessorImpl;
 import fr.hesias.gabblerapi.domain.service.InteractionInfosAccessorImpl;
 import fr.hesias.gabblerapi.domain.service.UserInfosAccessorImpl;
+import fr.hesias.gabblerapi.domain.service.UserRelationshipsAccessorImpl;
 import org.springframework.context.annotation.*;
 
 @Configuration
@@ -41,6 +44,13 @@ public class GabblerConfiguration
     {
 
         return new InteractionInfosAccessorImpl(interactionPersister);
+    }
+
+    @Bean
+    public UserRelationshipsAccessor userRelationshipsAccessor(final UserRelationshipsPersister userRelationshipsPersister)
+    {
+
+        return new UserRelationshipsAccessorImpl(userRelationshipsPersister);
     }
 
 }

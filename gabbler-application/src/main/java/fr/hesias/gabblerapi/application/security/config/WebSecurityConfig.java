@@ -2,11 +2,13 @@ package fr.hesias.gabblerapi.application.security.config;
 
 import fr.hesias.gabblerapi.application.adapter.InteractionInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
+import fr.hesias.gabblerapi.application.adapter.UserRelationshipsAccessorAdapter;
 import fr.hesias.gabblerapi.application.security.filter.JwtAuthFilter;
 import fr.hesias.gabblerapi.application.security.service.JwtService;
 import fr.hesias.gabblerapi.application.security.service.UserInfosAuthService;
 import fr.hesias.gabblerapi.domain.port.primary.InteractionInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
+import fr.hesias.gabblerapi.domain.port.primary.UserRelationshipsAccessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,6 +51,13 @@ public class WebSecurityConfig
     {
 
         return new UserInfosAccessorAdapter(userInfosAccessor);
+    }
+
+    @Bean
+    public UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter(UserRelationshipsAccessor userRelationshipsAccessor)
+    {
+
+        return new UserRelationshipsAccessorAdapter(userRelationshipsAccessor);
     }
 
     @Bean

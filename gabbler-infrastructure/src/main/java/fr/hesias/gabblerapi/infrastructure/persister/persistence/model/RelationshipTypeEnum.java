@@ -12,6 +12,19 @@ public enum RelationshipTypeEnum
         this.type = name;
     }
 
+    static public RelationshipTypeEnum getInteractionByName(String name)
+    {
+
+        for (RelationshipTypeEnum interactionTypeEnum : RelationshipTypeEnum.values())
+        {
+            if (interactionTypeEnum.getInteractionType().equals(name))
+            {
+                return interactionTypeEnum;
+            }
+        }
+        return null;
+    }
+
     public String getInteractionType()
     {
 

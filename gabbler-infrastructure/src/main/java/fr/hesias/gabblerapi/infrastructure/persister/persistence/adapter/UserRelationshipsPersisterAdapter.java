@@ -16,10 +16,10 @@ public class UserRelationshipsPersisterAdapter implements UserRelationshipsPersi
     }
 
     @Override
-    public void insertRelationShips(DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult)
+    public void relationshipsCUD(DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult)
     {
 
-        userRelationshipsPersisterService.insertRelationShips(domainUserRelationshipsCreationResult);
+        userRelationshipsPersisterService.relationshipsCUD(domainUserRelationshipsCreationResult);
 
     }
 

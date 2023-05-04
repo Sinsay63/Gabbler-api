@@ -1,9 +1,6 @@
 package fr.hesias.gabblerapi.application.api.config;
 
-import fr.hesias.gabblerapi.application.adapter.AuthAccessorAdapter;
-import fr.hesias.gabblerapi.application.adapter.GabInfosAccessorAdapter;
-import fr.hesias.gabblerapi.application.adapter.InteractionInfosAccessorAdapter;
-import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
+import fr.hesias.gabblerapi.application.adapter.*;
 import fr.hesias.gabblerapi.application.api.mapper.*;
 import fr.hesias.gabblerapi.application.api.service.*;
 import fr.hesias.gabblerapi.application.security.service.JwtService;
@@ -94,6 +91,13 @@ public class GabblerApiConfig
         return new UserApiDelegateImpl(userApiMapper,
                                        gabblerApiService,
                                        userInfosAccessorAdapter);
+    }
+
+    @Bean
+    public RelationshipsApiDelegateImpl relationshipsApiDelegateImpl(final UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
+    {
+
+        return new RelationshipsApiDelegateImpl(userRelationshipsAccessorAdapter);
     }
 
     @Bean
