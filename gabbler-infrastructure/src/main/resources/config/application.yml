@@ -2,7 +2,7 @@ spring:
   datasource:
     password: root
     username: root
-    url: jdbc:mysql://34.155.246.78/gabbler
+    url: jdbc:mysql://localhost/gabbler
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
