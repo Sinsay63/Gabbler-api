@@ -21,6 +21,10 @@ SET time_zone = "+00:00";
 -- Base de données : `gabbler`
 --
 
+DROP DATABASE IF EXISTS gabbler;
+CREATE DATABASE gabbler;
+USE gabbler;
+
 -- --------------------------------------------------------
 
 --
@@ -86,6 +90,21 @@ CREATE TABLE `media` (
   `id_gab` int(11) DEFAULT NULL,
   `uuid_user` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `media`
+--
+
+INSERT INTO `media` (`id`, `date`, `type`, `url`,`id_gab`, `uuid_user`) VALUES
+(1,	'2023-04-24 21:46:04',	'AVATAR',	'yanispp.jpg',	null,	'7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
+(2,	'2023-04-24 21:46:04',	'BANNER',	'yanisbanner.jpg',	null,	'7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
+(3,	'2023-04-24 22:55:04',	'POST',	'yanisbanner.jpg',	1, null),
+(4,	'2023-04-24 22:55:04',	'AVATAR',	'lorispp.jpg',		null, '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
+(6,	'2023-04-24 22:55:04',	'AVATAR',	'nathpp.jpg',	null, 'aa5ced03-9e16-4a57-93bd-400671efaa77'),
+(7,	'2023-04-24 21:46:04',	'BANNER',	'lorisbanner.jpg',	null,	'3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
+(9,	'2023-04-24 21:46:04',	'BANNER',	'nathbanner.jpg',	null,	'aa5ced03-9e16-4a57-93bd-400671efaa77'),
+(10,	'2023-04-24 22:55:04',	'AVATAR',	'jadenpp.jpg',	null,	'f9291aac-3a2f-42b8-8060-1ac370dce173'),
+(11,	'2023-04-24 21:46:04',	'BANNER',	'jadenbanner.jpg', null,	'f9291aac-3a2f-42b8-8060-1ac370dce173');
 
 -- --------------------------------------------------------
 
