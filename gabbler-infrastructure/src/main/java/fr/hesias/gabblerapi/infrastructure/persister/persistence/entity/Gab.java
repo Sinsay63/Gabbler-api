@@ -69,11 +69,10 @@ public class Gab
         this.subGabs = subGabs;
     }
 
-    public Gab(String content, LocalDateTime postDate, User user)
+    public Gab(String content, User user)
     {
 
         this.content = content;
-        this.postDate = postDate;
         this.user = user;
     }
 

@@ -8,7 +8,6 @@ import fr.hesias.gabblerapi.domain.model.DomainGabCreation;
 import fr.hesias.gabblerapi.domain.model.DomainMedia;
 import fr.hesias.gabblerapi.domain.result.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +80,6 @@ public class GabApiMapper
         final DomainGabCreation domainGabCreation = new DomainGabCreation();
 
         domainGabCreation.setContent(gab.getContent());
-        domainGabCreation.setPostDate(LocalDateTime.parse(gab.getPostDate()));
         domainGabCreation.setParentId(gab.getParentGabId() == null ? 0 : gab.getParentGabId());
         domainGabCreation.setUserUuid(gab.getUserUuid());
         return new DomainGabCreationResult(OK, domainGabCreation);

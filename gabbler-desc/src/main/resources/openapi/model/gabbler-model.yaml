@@ -137,7 +137,6 @@ components:
         user:
           $ref: "#/components/schemas/User"
 
-
     GabCreation:
       type: object
       description: objet correspondant à un gab pour sa création
@@ -146,10 +145,6 @@ components:
           type: string
           description: contenu du gab
           example: "Ratio macron, vive la république!"
-        post_date:
-          type: string
-          description: date de publication du gab
-          example: "2023-01-25 18:17:35"
         parent_gab_id:
           type: integer
           description: id du gab parent

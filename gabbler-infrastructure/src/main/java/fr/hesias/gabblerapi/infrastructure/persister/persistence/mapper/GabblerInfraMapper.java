@@ -107,7 +107,7 @@ public class GabblerInfraMapper
         User user = new User();
         user.setUuid(domainCreationGab.getUserUuid());
 
-        Gab gab = new Gab(domainCreationGab.getContent(), domainCreationGab.getPostDate(), user);
+        Gab gab = new Gab(domainCreationGab.getContent(), user);
         if (domainCreationGab.getParentId() > 0)
         {
             Gab parentGab = new Gab();
