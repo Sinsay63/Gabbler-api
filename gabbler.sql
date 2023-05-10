@@ -70,11 +70,11 @@ CREATE TABLE `interaction` (
 --
 
 INSERT INTO `interaction` (`id`, `action`, `action_date`, `id_gab`, `uuid_user`) VALUES
-(1, 'like', '2023-05-09 09:57:38', 5, '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
-(2, 'dislike', '2023-05-09 09:57:38', 5, '7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
-(3, 'like', '2023-05-09 09:57:38', 4, '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
-(4, 'like', '2023-05-09 09:57:38', 1, 'aa5ced03-9e16-4a57-93bd-400671efaa77'),
-(5, 'like', '2023-05-09 09:57:38', 2, 'f9291aac-3a2f-42b8-8060-1ac370dce173');
+(1, 'LIKE', '2023-05-09 09:57:38', 5, '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
+(2, 'DISLIKE', '2023-05-09 09:57:38', 5, '7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
+(3, 'LIKE', '2023-05-09 09:57:38', 4, '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
+(4, 'LIKE', '2023-05-09 09:57:38', 1, 'aa5ced03-9e16-4a57-93bd-400671efaa77'),
+(5, 'LIKE', '2023-05-09 09:57:38', 2, 'f9291aac-3a2f-42b8-8060-1ac370dce173');
 
 -- --------------------------------------------------------
 
@@ -187,9 +187,9 @@ CREATE TABLE `user_relationships` (
 --
 
 INSERT INTO `user_relationships` (`id`, `date`, `type`, `uuid_user`, `uuid_user_related`) VALUES
-(1, '2023-05-09 10:04:13', 'blocked', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917', '7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
-(3, '2023-05-09 10:04:13', 'authorized', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917', 'aa5ced03-9e16-4a57-93bd-400671efaa77'),
-(4, '2023-05-09 10:05:06', 'blocked', 'f9291aac-3a2f-42b8-8060-1ac370dce173', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917');
+(1, '2023-05-09 10:04:13', 'BLOCKED', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917', '7b64bc72-ed0a-43cc-8cb5-8014cae763db'),
+(3, '2023-05-09 10:04:13', 'AUTHORIZED', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917', 'aa5ced03-9e16-4a57-93bd-400671efaa77'),
+(4, '2023-05-09 10:05:06', 'BLOCKED', 'f9291aac-3a2f-42b8-8060-1ac370dce173', '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917');
 
 --
 -- Index pour les tables déchargées
