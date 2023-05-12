@@ -66,4 +66,10 @@ public class GabDao
         return gabRepository.findAllByUserNotInOrderByPostDateDesc(users);
     }
 
+    public List<Gab> getGabsForUserConnectedFeed(String userUuid)
+    {
+
+        return gabRepository.findAllByUser_UuidNot(userUuid);
+    }
+
 }

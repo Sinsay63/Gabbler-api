@@ -22,4 +22,6 @@ public interface GabRepository extends JpaRepository<Gab, Integer>
 
     List<Gab> findAllByUserUuidOrderByPostDateDesc(String userUuid);
 
+    List<Gab> findAllByUser_UuidNot(String userUuid);
+
 }

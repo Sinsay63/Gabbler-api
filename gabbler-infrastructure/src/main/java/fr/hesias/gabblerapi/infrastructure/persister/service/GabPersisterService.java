@@ -256,6 +256,17 @@ public class GabPersisterService
                     domainGabResultList.add(setDomainGabResultDataByGab(gab));
                 }
             }
+            else
+            {
+                List<Gab> gabList = gabDao.getGabsForUserConnectedFeed(userUuid);
+                if (isNotEmpty(gabList))
+                {
+                    for (final Gab gab : gabList)
+                    {
+                        domainGabResultList.add(setDomainGabResultDataByGab(gab));
+                    }
+                }
+            }
         }
         catch (final Exception e)
         {
