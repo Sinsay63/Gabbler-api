@@ -3,12 +3,10 @@ package fr.hesias.gabblerapi.application.api.service;
 import fr.hesias.gabblerapi.application.adapter.InteractionInfosAccessorAdapter;
 import fr.hesias.gabblerapi.application.api.mapper.InteractionApiMapper;
 import fr.hesias.gabblerapi.desc.api.server.InteractionApiDelegate;
-import fr.hesias.gabblerapi.desc.api.server.model.InteractionCUDRequest;
 import fr.hesias.gabblerapi.desc.api.server.model.InteractionUser;
 import fr.hesias.gabblerapi.domain.result.DomainUserInteractionResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserInteractionsResult;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -44,18 +42,38 @@ public class InteractionApiDelegateImpl implements InteractionApiDelegate
                                              domainUserInteractionsResult);
     }
 
+//    @Override
+//    public ResponseEntity<InteractionUser> interactionCUD(InteractionUser objet)
+//    {
+//
+//        final DomainUserInteractionResult domainUserInteractionResult = interactionInfosAccessorAdapter.interactionCUD(
+//                objet.getUserUuid(),
+//                objet.getGabId(),
+//                objet.getInteraction());
+//        return gabblerApiService.getResponse(interactionApiMapper.toDomainUserInteractionResultToInteractionUser(
+//                                                     domainUserInteractionResult),
+//                                             domainUserInteractionResult);
+//
+//    }
+
+
+    /**
+     * @param gabId       id du gab (required)
+     * @param userUuid    uuid de l&#39;utilisateur (required)
+     * @param interaction type d&#39;interaction (required)
+     * @return
+     */
     @Override
-    public ResponseEntity<InteractionUser> interactionCUD(@RequestBody InteractionCUDRequest objet)
+    public ResponseEntity<InteractionUser> interactionCUD(Integer gabId, String userUuid, String interaction)
     {
 
         final DomainUserInteractionResult domainUserInteractionResult = interactionInfosAccessorAdapter.interactionCUD(
-                objet.getUserUuid(),
-                objet.getGabId(),
-                objet.getType());
+                userUuid,
+                gabId,
+                interaction);
         return gabblerApiService.getResponse(interactionApiMapper.toDomainUserInteractionResultToInteractionUser(
                                                      domainUserInteractionResult),
                                              domainUserInteractionResult);
-
     }
 
 }

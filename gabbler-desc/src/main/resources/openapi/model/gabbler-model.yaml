@@ -266,6 +266,23 @@ components:
           description: id du gab
           example: "56"
 
+    RelationUser:
+      type: object
+      description: objet correspondant à une relation d'un utilisateur
+      properties:
+        user_uuid:
+          type: string
+          description: uuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
+        user_uuid_related:
+          type: string
+          description: tuuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314fdsf"
+        type:
+          type: string
+          description: type d'interaction
+          example: "follow"
+
     AccessError:
       type: object
       description: objet correspondant à une erreur d'accès

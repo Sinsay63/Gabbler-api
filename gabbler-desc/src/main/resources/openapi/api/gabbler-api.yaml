@@ -737,24 +737,25 @@ paths:
       description: Ajoute ou modifie une interaction
       security:
         - bearerAuth: [ ]
-      requestBody:
-        description: interaction à ajouter ou modifier
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_uuid:
-                  type: string
-                gab_id:
-                  type: integer
-                type:
-                  type: string
-              required:
-                - user_uuid
-                - gab_id
-                - type
+      parameters:
+        - name: gab_id
+          in: query
+          description: id du gab
+          required: true
+          schema:
+            type: integer
+        - name: user_uuid
+          in: query
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+        - name: interaction
+          in: query
+          description: type d'interaction
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Retourne la liste des interactions de l'utilisateur.
@@ -808,21 +809,10 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                type:
-                  type: string
-                user_uuid:
-                  type: string
-                user_related_uuid:
-                  type: string
-              required:
-                - user_uuid
-                - user_related_uuid
-                - type
+              $ref: '../model/gabbler-model.yaml#/components/schemas/RelationUser'
       responses:
         '200':
-          description: Retourne la liste des interactions de l'utilisateur.
+          description: Retourne ok si la relation a été ajoutée ou modifiée.
           content:
             application/json:
               schema:
