@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MediaRepository extends JpaRepository<Media, Integer> {
+public interface MediaRepository extends JpaRepository<Media, Integer>
+{
 
     List<Media> findAllByUser_UuidAndTypeIsNot(String userUuid, MediaTypeEnum type);
 
     List<Media> findAllByGab_IdAndTypeIs(Integer gabId, MediaTypeEnum type);
+
 }

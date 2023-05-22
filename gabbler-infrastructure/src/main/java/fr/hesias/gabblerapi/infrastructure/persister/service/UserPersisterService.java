@@ -180,7 +180,10 @@ public class UserPersisterService
         try
         {
             User usr = this.gabblerInfraMapper.toDomainUserRegistrationInfosResultToUser(user);
+
             newUser = userDao.addUser(usr);
+            mediaDao.addDefaultUserMedias(newUser.getUuid());
+
         }
         catch (final Exception e)
         {
