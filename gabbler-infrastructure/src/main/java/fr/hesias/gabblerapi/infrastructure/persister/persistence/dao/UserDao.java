@@ -63,4 +63,22 @@ public class UserDao
 
     }
 
+    public void validateUserByUserUuuid(String userUuid)
+    {
+
+        try
+        {
+            Optional<User> user = userRepository.findById(userUuid);
+            if (user.isPresent())
+            {
+                user.get().setIsValidated(true);
+                userRepository.validateUserByUserUuuid(userUuid);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

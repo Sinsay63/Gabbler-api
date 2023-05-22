@@ -7,6 +7,48 @@ servers:
   - url: /api
     description: serveur de l'api
 paths:
+
+  /sendMail:
+    post:
+      summary: "POST sendMail"
+      operationId: "sendMail"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '../model/gabbler-model.yaml#/components/schemas/EmailDetails'
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+      tags:
+        - doc
+
+  /confirmMail/{uuid}:
+    put:
+      summary: "GET confirmMail"
+      operationId: "confirmMail"
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+      tags:
+        - doc
+
   /doc/json:
     get:
       summary: Récupère le json doc
@@ -784,7 +826,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '../model/gabbler-model.yaml#/components/schemas/InteractionUser'
+                type: string
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:

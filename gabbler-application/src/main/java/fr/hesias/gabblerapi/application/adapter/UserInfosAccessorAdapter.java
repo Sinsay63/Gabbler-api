@@ -54,4 +54,10 @@ public class UserInfosAccessorAdapter
         return userInfosAccessor.getUserProfile(userUuid);
     }
 
+    public void confirmEmailByUserUuid(String userUuid)
+    {
+
+        userInfosAccessor.confirmEmailByUserUuid(userUuid);
+    }
+
 }

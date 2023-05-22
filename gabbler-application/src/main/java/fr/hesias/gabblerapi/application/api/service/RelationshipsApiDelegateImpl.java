@@ -2,7 +2,6 @@ package fr.hesias.gabblerapi.application.api.service;
 
 import fr.hesias.gabblerapi.application.adapter.UserRelationshipsAccessorAdapter;
 import fr.hesias.gabblerapi.desc.api.server.RelationshipApiDelegate;
-import fr.hesias.gabblerapi.desc.api.server.model.InteractionUser;
 import fr.hesias.gabblerapi.desc.api.server.model.RelationshipsCUDRequest;
 import fr.hesias.gabblerapi.domain.model.DomainUserRelationshipsCreation;
 import fr.hesias.gabblerapi.domain.result.DomainUserRelationshipsCreationResult;
@@ -22,7 +21,7 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
     }
 
     @Override
-    public ResponseEntity<InteractionUser> relationshipsCUD(RelationshipsCUDRequest relationshipCUDRequest)
+    public ResponseEntity<String> relationshipsCUD(RelationshipsCUDRequest relationshipCUDRequest)
     {
 
         DomainUserRelationshipsCreation domainUserRelationshipsCreation = new DomainUserRelationshipsCreation(
@@ -31,7 +30,7 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
                 relationshipCUDRequest.getType());
         userRelationshipsAccessorAdapter.relationshipsCUD(new DomainUserRelationshipsCreationResult(OK,
                                                                                                     domainUserRelationshipsCreation));
-        return RelationshipApiDelegate.super.relationshipsCUD(relationshipCUDRequest);
+        return ResponseEntity.ok("OK");
     }
 
 }

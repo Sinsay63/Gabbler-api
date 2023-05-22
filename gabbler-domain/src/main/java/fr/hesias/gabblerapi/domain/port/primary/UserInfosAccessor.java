@@ -27,4 +27,6 @@ public interface UserInfosAccessor
 
     DomainUserProfileResult getUserProfile(String userUuid);
 
+    void confirmEmailByUserUuid(String userUuid);
+
 }

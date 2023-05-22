@@ -3,6 +3,8 @@ package fr.hesias.gabblerapi.application.api.config;
 import fr.hesias.gabblerapi.application.adapter.*;
 import fr.hesias.gabblerapi.application.api.mapper.*;
 import fr.hesias.gabblerapi.application.api.service.*;
+import fr.hesias.gabblerapi.application.api.test2.EmailService;
+import fr.hesias.gabblerapi.application.api.test2.EmailServiceImpl;
 import fr.hesias.gabblerapi.application.security.service.JwtService;
 import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
@@ -10,8 +12,12 @@ import fr.hesias.gabblerapi.infrastructure.config.InfrastructureAdapterConfigura
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Properties;
 
 @Configuration
 @Import({InfrastructureAdapterConfiguration.class})
@@ -83,6 +89,13 @@ public class GabblerApiConfig
     }
 
     @Bean
+    EmailService emailService()
+    {
+
+        return new EmailServiceImpl();
+    }
+
+    @Bean
     public UserApiDelegateImpl userApiDelegateImpl(final UserApiMapper userApiMapper,
                                                    final GabblerApiService gabblerApiService,
                                                    final UserInfosAccessorAdapter userInfosAccessorAdapter)
@@ -121,10 +134,11 @@ public class GabblerApiConfig
     }
 
     @Bean
-    public DocApiDelegateImpl docApiDelegateImpl()
+    public DocApiDelegateImpl docApiDelegateImpl(final EmailService emailService,
+                                                 final UserInfosAccessorAdapter userInfosAccessorAdapter)
     {
 
-        return new DocApiDelegateImpl();
+        return new DocApiDelegateImpl(emailService, userInfosAccessorAdapter);
     }
 
     @Bean
@@ -147,10 +161,35 @@ public class GabblerApiConfig
     @Bean
     public SearchApiDelegateImpl searchApiDelegateImpl(GabblerApiService gabblerApiService,
                                                        GabInfosAccessorAdapter gabInfosAccessorAdapter,
-                                                       SearchApiMapper searchApiMapper)
+                                                       SearchApiMapper searchApiMapper,
+                                                       UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
     {
 
-        return new SearchApiDelegateImpl(gabblerApiService, gabInfosAccessorAdapter, searchApiMapper);
+        return new SearchApiDelegateImpl(gabblerApiService,
+                                         gabInfosAccessorAdapter,
+                                         searchApiMapper,
+                                         userRelationshipsAccessorAdapter);
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender()
+    {
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+
+
+        mailSender.setUsername("yanis.houdier@gmail.com");
+        mailSender.setPassword("dkopandgxvhtgihg");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        return mailSender;
     }
 
 }

@@ -335,4 +335,20 @@ public class UserPersisterService
         return new DomainUserProfileResult(domainAccessStatus, domainUserProfile);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void confirmEmailByUserUuid(String userUuid)
+    {
+
+        try
+        {
+            userDao.validateUserByUserUuuid(userUuid);
+        }
+        catch (final Exception e)
+        {
+            log.error("[{}] Erreur survenue lors de la confirmation de l'email d'un utilisateur à partir de son uuid",
+                      userUuid,
+                      e);
+        }
+    }
+
 }

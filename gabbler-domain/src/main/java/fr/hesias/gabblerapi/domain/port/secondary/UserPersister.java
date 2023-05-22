@@ -33,4 +33,6 @@ public interface UserPersister
 
     DomainUserProfileResult getUserProfile(String userUuid);
 
+    void confirmEmailByUserUuid(String userUuid);
+
 }

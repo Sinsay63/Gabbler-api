@@ -71,4 +71,11 @@ public class UserPersisterAdapter implements UserPersister
         return userPersisterService.getUserProfile(userUuid);
     }
 
+    @Override
+    public void confirmEmailByUserUuid(String userUuid)
+    {
+
+        userPersisterService.confirmEmailByUserUuid(userUuid);
+    }
+
 }

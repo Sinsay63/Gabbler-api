@@ -16,9 +16,23 @@ tags:
     description: Opérations sur les recherches
   - name: interaction
     description: Opérations sur les intéractions
+  - name: relationship
+    description: Opérations sur les relations
 paths: { }
 components:
   schemas:
+
+    EmailDetails:
+      type: object
+      properties:
+        recipient:
+          type: string
+        msgBody:
+          type: string
+        subject:
+          type: string
+        attachment:
+          type: string
 
     JsonDoc:
       type: string

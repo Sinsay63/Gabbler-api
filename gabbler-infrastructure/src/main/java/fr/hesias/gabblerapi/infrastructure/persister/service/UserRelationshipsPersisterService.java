@@ -51,7 +51,17 @@ public class UserRelationshipsPersisterService
                                                                                                              AUTHORIZED);
                 if (userRelationshipsToUpdate == null)
                 {
-                    userRelationshipsDao.save(userRelationships);
+                    userRelationshipsToUpdate = userRelationshipsDao.findByUser_UuidAndUserRelated_UuidAndTypeIs(user.getUuid(),
+                                                                                                                 userRelated.getUuid(),
+                                                                                                                 BLOCKED);
+                    if (userRelationshipsToUpdate == null)
+                    {
+                        userRelationshipsDao.save(userRelationships);
+                    }
+                    else
+                    {
+                        userRelationshipsDao.delete(userRelationshipsToUpdate);
+                    }
                 }
                 else
                 {
@@ -67,7 +77,17 @@ public class UserRelationshipsPersisterService
                                                                                                              BLOCKED);
                 if (userRelationshipsToUpdate == null)
                 {
-                    userRelationshipsDao.save(userRelationships);
+                    userRelationshipsToUpdate = userRelationshipsDao.findByUser_UuidAndUserRelated_UuidAndTypeIs(user.getUuid(),
+                                                                                                                 userRelated.getUuid(),
+                                                                                                                 BLOCKED);
+                    if (userRelationshipsToUpdate == null)
+                    {
+                        userRelationshipsDao.save(userRelationships);
+                    }
+                    else
+                    {
+                        userRelationshipsDao.delete(userRelationshipsToUpdate);
+                    }
                 }
                 else
                 {

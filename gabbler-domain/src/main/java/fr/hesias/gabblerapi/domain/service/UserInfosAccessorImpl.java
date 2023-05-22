@@ -181,4 +181,11 @@ public class UserInfosAccessorImpl implements UserInfosAccessor
         return new DomainUserProfileResult(domainAccessStatus, domainUserProfile);
     }
 
+    @Override
+    public void confirmEmailByUserUuid(String userUuid)
+    {
+
+        userPersister.confirmEmailByUserUuid(userUuid);
+    }
+
 }
