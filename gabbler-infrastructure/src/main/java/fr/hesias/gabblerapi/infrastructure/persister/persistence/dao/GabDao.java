@@ -33,7 +33,7 @@ public class GabDao
     public List<Gab> getGabsByUserUuid(final String userUuid)
     {
 
-        return gabRepository.findAllByUserUuidOrderByPostDateDesc(userUuid);
+        return gabRepository.findAllByUserUuidAndParentGabNullOrderByPostDateDesc(userUuid);
     }
 
     public List<Gab> getCommentsByParentGabId(final int parentGabId)
@@ -57,19 +57,19 @@ public class GabDao
     public List<Gab> getGabsBySearch(String researchContent)
     {
 
-        return gabRepository.findAllByContentContainingIgnoreCase(researchContent);
+        return gabRepository.findAllByContentContainingIgnoreCaseAndParentGabNull(researchContent);
     }
 
     public List<Gab> getGabsByUsersNotBlocked(List<User> users)
     {
 
-        return gabRepository.findAllByUserNotInOrderByPostDateDesc(users);
+        return gabRepository.findAllByUserNotInAndParentGabNullOrderByPostDateDesc(users);
     }
 
     public List<Gab> getGabsForUserConnectedFeed(String userUuid)
     {
 
-        return gabRepository.findAllByUser_UuidNot(userUuid);
+        return gabRepository.findAllByUser_UuidNotAndParentGabNull(userUuid);
     }
 
 }
