@@ -886,9 +886,9 @@ paths:
         '200':
           description: Retourne la relation entre les 2 utilisateurs.
           content:
-            application/json:
+            application/text:
               schema:
-                type: string
+                type: object
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:
