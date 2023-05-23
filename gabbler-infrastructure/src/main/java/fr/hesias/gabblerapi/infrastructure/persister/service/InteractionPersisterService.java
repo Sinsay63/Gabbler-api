@@ -61,16 +61,19 @@ public class InteractionPersisterService
             if (interactionToUpdate == null)
             {
                 interactionToUpdate = addInteraction(interaction);
+                interactionToUpdate.setGab(new Gab(0));
             }
             else if (interactionToUpdate.getAction() != interaction.getAction())
             {
 
                 interactionToUpdate.setAction(interaction.getAction());
                 updateInteraction(interactionToUpdate);
+                interactionToUpdate.setGab(new Gab(-2));
             }
             else
             {
                 removeInteraction(interactionToUpdate);
+                interactionToUpdate.setGab(new Gab(-1));
             }
         }
         catch (Exception e)
