@@ -6,6 +6,8 @@ import fr.hesias.gabblerapi.domain.model.DomainUserRelationshipsCreation;
 import fr.hesias.gabblerapi.domain.result.DomainUserRelationshipsCreationResult;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
+
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 
 public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
@@ -33,11 +35,14 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
     }
 
     @Override
-    public ResponseEntity<String> getRelationByUserAndUserRelated(String userUuid, String userRelatedUuid)
+    public ResponseEntity<Object> getRelationByUserAndUserRelated(String userUuid, String userRelatedUuid)
     {
 
-        return ResponseEntity.ok(relationshipsAccessorAdapter.getRelationByUserAndUserRelated(userUuid,
-                                                                                              userRelatedUuid));
+        HashMap<String, String> response = new HashMap<>();
+        response.put("relation",
+                     relationshipsAccessorAdapter.getRelationByUserAndUserRelated(userUuid,
+                                                                                  userRelatedUuid));
+        return ResponseEntity.ok(response);
     }
 
 }
