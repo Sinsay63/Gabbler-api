@@ -56,7 +56,20 @@ public class UserRelationshipsPersisterService
                                                                                                                  BLOCKED);
                     if (userRelationshipsToUpdate == null)
                     {
-                        userRelationshipsDao.save(userRelationships);
+                        userRelationshipsToUpdate = userRelationshipsDao.findByUser_UuidAndUserRelated_UuidAndTypeIs(
+                                user.getUuid(),
+                                userRelated.getUuid(),
+                                FOLLOWED);
+                        if (userRelationshipsToUpdate == null)
+                        {
+                            userRelationshipsDao.save(userRelationships);
+                        }
+                        else
+                        {
+                            userRelationshipsDao.delete(userRelationshipsToUpdate);
+                            userRelationshipsDao.save(userRelationships);
+                        }
+
                     }
                     else
                     {
@@ -67,6 +80,14 @@ public class UserRelationshipsPersisterService
                 {
                     userRelationshipsToUpdate.setType(BLOCKED);
                     userRelationshipsDao.save(userRelationshipsToUpdate);
+
+                    userRelationshipsToUpdate = userRelationshipsDao.findByUser_UuidAndUserRelated_UuidAndTypeIs(user.getUuid(),
+                                                                                                                 userRelated.getUuid(),
+                                                                                                                 FOLLOWED);
+                    if (userRelationshipsToUpdate != null)
+                    {
+                        userRelationshipsDao.delete(userRelationshipsToUpdate);
+                    }
                 }
 
             }
