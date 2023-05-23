@@ -64,12 +64,10 @@ public class RelationshipsDao
         relationshipsRepository.delete(userRelationships);
     }
 
-    public boolean doFollowUser(String userUuid, String userRelatedUuid)
+    public List<UserRelationships> getRelationsByUserAndUserRelated(String userUuid, String userRelatedUuid)
     {
 
-        return relationshipsRepository.existsByUser_UuidAndUserRelated_UuidAndTypeIs(userUuid,
-                                                                                     userRelatedUuid,
-                                                                                     FOLLOWED);
+        return relationshipsRepository.findAllByUser_UuidAndUserRelated_Uuid(userUuid, userRelatedUuid);
     }
 
 }

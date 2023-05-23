@@ -24,10 +24,10 @@ public class RelationshipsPersisterAdapter implements RelationshipsPersister
     }
 
     @Override
-    public boolean doFollowUser(String uuidUser, String uuidUserToFollow)
+    public String getRelationByUserAndUserRelated(String uuidUser, String uuidUserToFollow)
     {
 
-        return relationshipsPersisterService.doFollowUser(uuidUser, uuidUserToFollow);
+        return relationshipsPersisterService.getRelationByUserAndUserRelated(uuidUser, uuidUserToFollow);
     }
 
 }

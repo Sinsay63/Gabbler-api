@@ -21,10 +21,10 @@ public class RelationshipsAccessorAdapter
 
     }
 
-    public boolean doFollowUser(String uuidUser, String uuidUserToFollow)
+    public String getRelationByUserAndUserRelated(String uuidUser, String uuidUserToFollow)
     {
 
-        return relationshipsAccessor.doFollowUser(uuidUser, uuidUserToFollow);
+        return relationshipsAccessor.getRelationByUserAndUserRelated(uuidUser, uuidUserToFollow);
     }
 
 }

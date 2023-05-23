@@ -862,9 +862,9 @@ paths:
       tags:
         - relationship
 
-  /relationships/get:
+  /relationships/betweenUsers:
     get:
-      operationId: doFollowUser
+      operationId: getRelationByUserAndUserRelated
       summary: Ajoute ou modifie une interaction
       description: Ajoute ou modifie une interaction
       security:
@@ -872,23 +872,23 @@ paths:
       parameters:
         - name: user_uuid
           in: query
-          description: id du gab
+          description: uuid de l'utilisateur
           required: true
           schema:
             type: string
         - name: user_related_uuid
           in: query
-          description: uuid de l'utilisateur
+          description: uuid de l'utilisateur 2
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Retourne true ou false si le user1 follow le user2
+          description: Retourne la relation entre les 2 utilisateurs.
           content:
             application/json:
               schema:
-                type: boolean
+                type: string
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.
           content:

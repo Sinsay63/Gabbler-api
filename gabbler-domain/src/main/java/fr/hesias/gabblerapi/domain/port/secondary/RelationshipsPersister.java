@@ -7,6 +7,6 @@ public interface RelationshipsPersister
 
     void relationshipsCUD(DomainUserRelationshipsCreationResult domainUserRelationshipsCreationResult);
 
-    boolean doFollowUser(String uuidUser, String uuidUserToFollow);
+    String getRelationByUserAndUserRelated(String uuidUser, String uuidUserToFollow);
 
 }

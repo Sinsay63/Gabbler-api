@@ -8,6 +8,8 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerI
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 import static fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum.*;
 
 @Slf4j
@@ -143,10 +145,26 @@ public class RelationshipsPersisterService
     }
 
 
-    public boolean doFollowUser(String uuidUser, String uuidUserToFollow)
+    public String getRelationByUserAndUserRelated(String uuidUser, String uuidUserToFollow)
     {
 
-        return relationshipsDao.doFollowUser(uuidUser, uuidUserToFollow);
+        List<UserRelationships> relations = relationshipsDao.getRelationsByUserAndUserRelated(uuidUser,
+                                                                                              uuidUserToFollow);
+        String relation = "";
+
+        if (relations.isEmpty())
+        {
+            relation = "";
+        }
+        else if (relations.size() == 1)
+        {
+            relation = relations.get(0).getType().getInteractionType();
+        }
+        else if (relations.size() == 2)
+        {
+            relation = "authorized_followed";
+        }
+        return relation;
     }
 
 }

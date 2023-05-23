@@ -24,10 +24,10 @@ public class RelationshipsAccessorImpl implements RelationshipsAccessor
     }
 
     @Override
-    public boolean doFollowUser(String uuidUser, String uuidUserToFollow)
+    public String getRelationByUserAndUserRelated(String uuidUser, String uuidUserToFollow)
     {
 
-        return relationshipsPersister.doFollowUser(uuidUser, uuidUserToFollow);
+        return relationshipsPersister.getRelationByUserAndUserRelated(uuidUser, uuidUserToFollow);
     }
 
 }

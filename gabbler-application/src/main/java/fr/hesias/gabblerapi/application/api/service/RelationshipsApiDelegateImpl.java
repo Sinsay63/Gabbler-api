@@ -33,10 +33,11 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
     }
 
     @Override
-    public ResponseEntity<Boolean> doFollowUser(String userUuid, String userRelatedUuid)
+    public ResponseEntity<String> getRelationByUserAndUserRelated(String userUuid, String userRelatedUuid)
     {
 
-        return ResponseEntity.ok(relationshipsAccessorAdapter.doFollowUser(userUuid, userRelatedUuid));
+        return ResponseEntity.ok(relationshipsAccessorAdapter.getRelationByUserAndUserRelated(userUuid,
+                                                                                              userRelatedUuid));
     }
 
 }
