@@ -803,13 +803,25 @@ paths:
       description: Ajoute ou modifie une interaction
       security:
         - bearerAuth: [ ]
-      requestBody:
-        description: relation à ajouter ou modifier
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '../model/gabbler-model.yaml#/components/schemas/RelationUser'
+      parameters:
+        - name: user_uuid
+          in: query
+          description: id du gab
+          required: true
+          schema:
+            type: string
+        - name: user_related_uuid
+          in: query
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+        - name: relation
+          in: query
+          description: type d'interaction
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Retourne ok si la relation a été ajoutée ou modifiée.

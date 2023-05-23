@@ -42,27 +42,6 @@ public class InteractionApiDelegateImpl implements InteractionApiDelegate
                                              domainUserInteractionsResult);
     }
 
-//    @Override
-//    public ResponseEntity<InteractionUser> interactionCUD(InteractionUser objet)
-//    {
-//
-//        final DomainUserInteractionResult domainUserInteractionResult = interactionInfosAccessorAdapter.interactionCUD(
-//                objet.getUserUuid(),
-//                objet.getGabId(),
-//                objet.getInteraction());
-//        return gabblerApiService.getResponse(interactionApiMapper.toDomainUserInteractionResultToInteractionUser(
-//                                                     domainUserInteractionResult),
-//                                             domainUserInteractionResult);
-//
-//    }
-
-
-    /**
-     * @param gabId       id du gab (required)
-     * @param userUuid    uuid de l&#39;utilisateur (required)
-     * @param interaction type d&#39;interaction (required)
-     * @return
-     */
     @Override
     public ResponseEntity<InteractionUser> interactionCUD(Integer gabId, String userUuid, String interaction)
     {

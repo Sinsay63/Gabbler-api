@@ -2,7 +2,6 @@ package fr.hesias.gabblerapi.application.api.service;
 
 import fr.hesias.gabblerapi.application.adapter.UserRelationshipsAccessorAdapter;
 import fr.hesias.gabblerapi.desc.api.server.RelationshipApiDelegate;
-import fr.hesias.gabblerapi.desc.api.server.model.RelationUser;
 import fr.hesias.gabblerapi.domain.model.DomainUserRelationshipsCreation;
 import fr.hesias.gabblerapi.domain.result.DomainUserRelationshipsCreationResult;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +20,13 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
     }
 
     @Override
-    public ResponseEntity<String> relationshipsCUD(RelationUser relationshipCUDRequest)
+    public ResponseEntity<String> relationshipsCUD(String userUuid, String userRelatedUuid, String relation)
     {
 
         DomainUserRelationshipsCreation domainUserRelationshipsCreation = new DomainUserRelationshipsCreation(
-                relationshipCUDRequest.getUserUuid(),
-                relationshipCUDRequest.getUserUuidRelated(),
-                relationshipCUDRequest.getType());
+                userUuid,
+                userRelatedUuid,
+                relation);
         userRelationshipsAccessorAdapter.relationshipsCUD(new DomainUserRelationshipsCreationResult(OK,
                                                                                                     domainUserRelationshipsCreation));
         return ResponseEntity.ok("OK");
