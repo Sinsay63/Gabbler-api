@@ -28,7 +28,7 @@ public class UserPersisterService
 
     private final MediaDao mediaDao;
 
-    private final UserRelationshipsDao userRelationshipsDao;
+    private final RelationshipsDao relationshipsDao;
 
     private final InteractionDao interactionDao;
 
@@ -37,7 +37,7 @@ public class UserPersisterService
     public UserPersisterService(final UserDao userDao,
                                 final GabDao gabDao,
                                 final MediaDao mediaDao,
-                                final UserRelationshipsDao userRelationshipsDao,
+                                final RelationshipsDao relationshipsDao,
                                 final InteractionDao interactionDao,
                                 final GabblerInfraMapper gabblerInfraMapper)
     {
@@ -45,7 +45,7 @@ public class UserPersisterService
         this.userDao = userDao;
         this.gabDao = gabDao;
         this.mediaDao = mediaDao;
-        this.userRelationshipsDao = userRelationshipsDao;
+        this.relationshipsDao = relationshipsDao;
         this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
@@ -138,7 +138,7 @@ public class UserPersisterService
         final List<DomainUserResult> users = new ArrayList<>();
         try
         {
-            List<UserRelationships> userRelationshipsList = userRelationshipsDao.findAllByUser_Uuid(userUuid);
+            List<UserRelationships> userRelationshipsList = relationshipsDao.findAllByUser_Uuid(userUuid);
 
             List<String> usersFollowedOrBlockedUuid = new ArrayList<>();
             for (UserRelationships userRelationships : userRelationshipsList)
@@ -299,8 +299,8 @@ public class UserPersisterService
                 List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(userUuid);
                 List<Interaction> interactions = interactionDao.getInteractionsByUserUuid(userUuid);
                 List<Gab> gabs = gabDao.getGabsByUserUuid(userUuid);
-                List<UserRelationships> userFollowers = userRelationshipsDao.findAllFollowersByUserUuid(userUuid);
-                List<UserRelationships> userFollows = userRelationshipsDao.findAllFollowsByUserUuid(userUuid);
+                List<UserRelationships> userFollowers = relationshipsDao.findAllFollowersByUserUuid(userUuid);
+                List<UserRelationships> userFollows = relationshipsDao.findAllFollowsByUserUuid(userUuid);
 
                 for (Gab gab : gabs)
                 {

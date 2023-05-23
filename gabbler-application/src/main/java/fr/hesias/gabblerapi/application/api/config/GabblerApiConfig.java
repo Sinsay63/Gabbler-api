@@ -107,10 +107,10 @@ public class GabblerApiConfig
     }
 
     @Bean
-    public RelationshipsApiDelegateImpl relationshipsApiDelegateImpl(final UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
+    public RelationshipsApiDelegateImpl relationshipsApiDelegateImpl(final RelationshipsAccessorAdapter relationshipsAccessorAdapter)
     {
 
-        return new RelationshipsApiDelegateImpl(userRelationshipsAccessorAdapter);
+        return new RelationshipsApiDelegateImpl(relationshipsAccessorAdapter);
     }
 
     @Bean
@@ -162,13 +162,13 @@ public class GabblerApiConfig
     public SearchApiDelegateImpl searchApiDelegateImpl(GabblerApiService gabblerApiService,
                                                        GabInfosAccessorAdapter gabInfosAccessorAdapter,
                                                        SearchApiMapper searchApiMapper,
-                                                       UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
+                                                       RelationshipsAccessorAdapter relationshipsAccessorAdapter)
     {
 
         return new SearchApiDelegateImpl(gabblerApiService,
                                          gabInfosAccessorAdapter,
                                          searchApiMapper,
-                                         userRelationshipsAccessorAdapter);
+                                         relationshipsAccessorAdapter);
     }
 
     @Bean

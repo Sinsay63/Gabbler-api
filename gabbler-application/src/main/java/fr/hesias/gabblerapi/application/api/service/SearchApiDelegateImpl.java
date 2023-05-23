@@ -1,7 +1,7 @@
 package fr.hesias.gabblerapi.application.api.service;
 
 import fr.hesias.gabblerapi.application.adapter.GabInfosAccessorAdapter;
-import fr.hesias.gabblerapi.application.adapter.UserRelationshipsAccessorAdapter;
+import fr.hesias.gabblerapi.application.adapter.RelationshipsAccessorAdapter;
 import fr.hesias.gabblerapi.application.api.mapper.SearchApiMapper;
 import fr.hesias.gabblerapi.desc.api.server.SearchApiDelegate;
 import fr.hesias.gabblerapi.desc.api.server.model.SearchContent;
@@ -17,20 +17,20 @@ public class SearchApiDelegateImpl implements SearchApiDelegate
 
     private final SearchApiMapper searchApiMapper;
 
-    private final UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter;
+    private final RelationshipsAccessorAdapter relationshipsAccessorAdapter;
 
 
     public SearchApiDelegateImpl(final GabblerApiService gabblerApiService,
                                  final GabInfosAccessorAdapter gabInfosAccessorAdapter,
                                  final SearchApiMapper searchApiMapper,
-                                 final UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
+                                 final RelationshipsAccessorAdapter relationshipsAccessorAdapter)
     {
 
         super();
         this.gabblerApiService = gabblerApiService;
         this.gabInfosAccessorAdapter = gabInfosAccessorAdapter;
         this.searchApiMapper = searchApiMapper;
-        this.userRelationshipsAccessorAdapter = userRelationshipsAccessorAdapter;
+        this.relationshipsAccessorAdapter = relationshipsAccessorAdapter;
     }
 
     /**

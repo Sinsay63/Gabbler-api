@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository("userRelationshipsRepository")
-public interface UserRelationshipsRepository extends JpaRepository<UserRelationships, Integer>
+public interface RelationshipsRepository extends JpaRepository<UserRelationships, Integer>
 {
 
 
@@ -23,5 +23,9 @@ public interface UserRelationshipsRepository extends JpaRepository<UserRelations
     UserRelationships findByUser_UuidAndUserRelated_UuidAndTypeIs(String uuid,
                                                                   String uuidRelated,
                                                                   RelationshipTypeEnum type);
+
+    Boolean existsByUser_UuidAndUserRelated_UuidAndTypeIs(String uuid,
+                                                          String uuidRelated,
+                                                          RelationshipTypeEnum type);
 
 }

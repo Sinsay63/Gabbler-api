@@ -35,7 +35,7 @@ public class GabPersisterService
 
     private final InteractionDao interactionDao;
 
-    private final UserRelationshipsDao userRelationshipsDao;
+    private final RelationshipsDao relationshipsDao;
 
     private final GabblerInfraMapper gabblerInfraMapper;
 
@@ -45,7 +45,7 @@ public class GabPersisterService
                                final UserDao userDao,
                                MediaDao mediaDao,
                                final InteractionDao interactionDao,
-                               final UserRelationshipsDao userRelationshipsDao,
+                               final RelationshipsDao relationshipsDao,
                                final UserPersisterService userPersisterService,
                                final GabblerInfraMapper gabblerInfraMapper)
     {
@@ -54,7 +54,7 @@ public class GabPersisterService
         this.userDao = userDao;
         this.mediaDao = mediaDao;
         this.interactionDao = interactionDao;
-        this.userRelationshipsDao = userRelationshipsDao;
+        this.relationshipsDao = relationshipsDao;
         this.userPersisterService = userPersisterService;
         this.gabblerInfraMapper = gabblerInfraMapper;
     }
@@ -240,8 +240,8 @@ public class GabPersisterService
         List<DomainGabResult> domainGabResultList = new ArrayList<>();
         try
         {
-            List<UserRelationships> userRelationshipsList = userRelationshipsDao.findAllByUser_UuidAndTypeIs(userUuid,
-                                                                                                             BLOCKED);
+            List<UserRelationships> userRelationshipsList = relationshipsDao.findAllByUser_UuidAndTypeIs(userUuid,
+                                                                                                         BLOCKED);
 
             List<User> userBlocked = new ArrayList<>();
             for (UserRelationships userRelationships : userRelationshipsList)

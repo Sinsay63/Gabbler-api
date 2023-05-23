@@ -862,6 +862,66 @@ paths:
       tags:
         - relationship
 
+  /relationships/get:
+    get:
+      operationId: doFollowUser
+      summary: Ajoute ou modifie une interaction
+      description: Ajoute ou modifie une interaction
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: user_uuid
+          in: query
+          description: id du gab
+          required: true
+          schema:
+            type: string
+        - name: user_related_uuid
+          in: query
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne true ou false si le user1 follow le user2
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - relationship
+
   /authenticate:
     post:
       operationId: authenticateAndGetToken

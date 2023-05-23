@@ -14,52 +14,61 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages = "fr.hesias.gabblerapi.infrastructure.persister.persistence.entity")
 @ComponentScan(basePackages = "fr.hesias.gabblerapi.infrastructure.persister")
 @PropertySource("classpath:application.yml")
-public class PersistenceConfiguration {
+public class PersistenceConfiguration
+{
 
-    public PersistenceConfiguration() {
+    public PersistenceConfiguration()
+    {
 
         super();
 
     }
 
     @Bean
-    public UserDao userDao(final UserRepository userRepository) {
+    public UserDao userDao(final UserRepository userRepository)
+    {
 
         return new UserDao(userRepository);
     }
 
     @Bean
-    public GabDao gabDao(final GabRepository gabRepository) {
+    public GabDao gabDao(final GabRepository gabRepository)
+    {
 
         return new GabDao(gabRepository);
     }
 
     @Bean
-    public SubscriptionDao subscriptionDao(final SubscriptionRepository subscriptionRepository) {
+    public SubscriptionDao subscriptionDao(final SubscriptionRepository subscriptionRepository)
+    {
 
         return new SubscriptionDao(subscriptionRepository);
     }
 
     @Bean
-    public SubscriptionOfferDao subscriptionOfferDao(final SubscriptionOfferRepository subscriptionOfferRepository) {
+    public SubscriptionOfferDao subscriptionOfferDao(final SubscriptionOfferRepository subscriptionOfferRepository)
+    {
 
         return new SubscriptionOfferDao(subscriptionOfferRepository);
     }
 
     @Bean
-    public InteractionDao interactionDao(final InteractionRepository interactionRepository) {
+    public InteractionDao interactionDao(final InteractionRepository interactionRepository)
+    {
 
         return new InteractionDao(interactionRepository);
     }
 
     @Bean
-    public UserRelationshipsDao userRelationshipsDao(final UserRelationshipsRepository userRelationshipsRepository) {
+    public RelationshipsDao userRelationshipsDao(final RelationshipsRepository relationshipsRepository)
+    {
 
-        return new UserRelationshipsDao(userRelationshipsRepository);
+        return new RelationshipsDao(relationshipsRepository);
     }
 
     @Bean
-    public MediaDao mediaDao(final MediaRepository mediaRepository) {
+    public MediaDao mediaDao(final MediaRepository mediaRepository)
+    {
 
         return new MediaDao(mediaRepository);
     }

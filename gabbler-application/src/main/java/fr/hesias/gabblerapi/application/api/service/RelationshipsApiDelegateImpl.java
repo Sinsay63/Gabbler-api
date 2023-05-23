@@ -1,6 +1,6 @@
 package fr.hesias.gabblerapi.application.api.service;
 
-import fr.hesias.gabblerapi.application.adapter.UserRelationshipsAccessorAdapter;
+import fr.hesias.gabblerapi.application.adapter.RelationshipsAccessorAdapter;
 import fr.hesias.gabblerapi.desc.api.server.RelationshipApiDelegate;
 import fr.hesias.gabblerapi.domain.model.DomainUserRelationshipsCreation;
 import fr.hesias.gabblerapi.domain.result.DomainUserRelationshipsCreationResult;
@@ -11,12 +11,12 @@ import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
 {
 
-    private final UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter;
+    private final RelationshipsAccessorAdapter relationshipsAccessorAdapter;
 
-    public RelationshipsApiDelegateImpl(UserRelationshipsAccessorAdapter userRelationshipsAccessorAdapter)
+    public RelationshipsApiDelegateImpl(RelationshipsAccessorAdapter relationshipsAccessorAdapter)
     {
 
-        this.userRelationshipsAccessorAdapter = userRelationshipsAccessorAdapter;
+        this.relationshipsAccessorAdapter = relationshipsAccessorAdapter;
     }
 
     @Override
@@ -27,9 +27,16 @@ public class RelationshipsApiDelegateImpl implements RelationshipApiDelegate
                 userUuid,
                 userRelatedUuid,
                 relation);
-        userRelationshipsAccessorAdapter.relationshipsCUD(new DomainUserRelationshipsCreationResult(OK,
-                                                                                                    domainUserRelationshipsCreation));
+        relationshipsAccessorAdapter.relationshipsCUD(new DomainUserRelationshipsCreationResult(OK,
+                                                                                                domainUserRelationshipsCreation));
         return ResponseEntity.ok("OK");
+    }
+
+    @Override
+    public ResponseEntity<Boolean> doFollowUser(String userUuid, String userRelatedUuid)
+    {
+
+        return ResponseEntity.ok(relationshipsAccessorAdapter.doFollowUser(userUuid, userRelatedUuid));
     }
 
 }

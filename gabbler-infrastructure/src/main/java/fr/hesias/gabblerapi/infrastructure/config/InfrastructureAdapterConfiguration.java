@@ -2,19 +2,19 @@ package fr.hesias.gabblerapi.infrastructure.config;
 
 import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
 import fr.hesias.gabblerapi.domain.port.secondary.InteractionPersister;
+import fr.hesias.gabblerapi.domain.port.secondary.RelationshipsPersister;
 import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.UserRelationshipsPersister;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.GabPersisterAdapter;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.InteractionPersisterAdapter;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.RelationshipsPersisterAdapter;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.UserPersisterAdapter;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.UserRelationshipsPersisterAdapter;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.config.PersistenceConfiguration;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
 import fr.hesias.gabblerapi.infrastructure.persister.service.InteractionPersisterService;
+import fr.hesias.gabblerapi.infrastructure.persister.service.RelationshipsPersisterService;
 import fr.hesias.gabblerapi.infrastructure.persister.service.UserPersisterService;
-import fr.hesias.gabblerapi.infrastructure.persister.service.UserRelationshipsPersisterService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -47,17 +47,17 @@ public class InfrastructureAdapterConfiguration
 
 
     @Bean
-    UserRelationshipsPersister userRelationshipsPersister(final UserRelationshipsPersisterService userRelationshipsPersisterService)
+    RelationshipsPersister userRelationshipsPersister(final RelationshipsPersisterService relationshipsPersisterService)
     {
 
-        return new UserRelationshipsPersisterAdapter(userRelationshipsPersisterService);
+        return new RelationshipsPersisterAdapter(relationshipsPersisterService);
     }
 
     @Bean
     UserPersisterService userPersisterService(final UserDao userDao,
                                               final GabDao gabDao,
                                               final MediaDao mediaDao,
-                                              final UserRelationshipsDao userRelationshipsDao,
+                                              final RelationshipsDao relationshipsDao,
                                               final InteractionDao interactionDao,
                                               final GabblerInfraMapper gabblerInfraMapper)
     {
@@ -65,7 +65,7 @@ public class InfrastructureAdapterConfiguration
         return new UserPersisterService(userDao,
                                         gabDao,
                                         mediaDao,
-                                        userRelationshipsDao,
+                                        relationshipsDao,
                                         interactionDao,
                                         gabblerInfraMapper);
     }
@@ -75,7 +75,7 @@ public class InfrastructureAdapterConfiguration
                                             final UserDao userDao,
                                             MediaDao mediaDao,
                                             final InteractionDao interactionDao,
-                                            final UserRelationshipsDao userRelationshipsDao,
+                                            final RelationshipsDao relationshipsDao,
                                             final UserPersisterService userPersisterService,
                                             final GabblerInfraMapper gabblerInfraMapper)
     {
@@ -84,7 +84,7 @@ public class InfrastructureAdapterConfiguration
                                        userDao,
                                        mediaDao,
                                        interactionDao,
-                                       userRelationshipsDao,
+                                       relationshipsDao,
                                        userPersisterService,
                                        gabblerInfraMapper);
     }
@@ -98,11 +98,11 @@ public class InfrastructureAdapterConfiguration
     }
 
     @Bean
-    UserRelationshipsPersisterService userRelationshipsPersisterService(final UserRelationshipsDao userRelationshipsDao,
-                                                                        final GabblerInfraMapper gabblerInfraMapper)
+    RelationshipsPersisterService userRelationshipsPersisterService(final RelationshipsDao relationshipsDao,
+                                                                    final GabblerInfraMapper gabblerInfraMapper)
     {
 
-        return new UserRelationshipsPersisterService(userRelationshipsDao, gabblerInfraMapper);
+        return new RelationshipsPersisterService(relationshipsDao, gabblerInfraMapper);
     }
 
     @Bean
