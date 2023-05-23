@@ -115,8 +115,6 @@ components:
             $ref: "#/components/schemas/User"
 
 
-
-
     Gab:
       type: object
       description: objet correspondant à un gab
