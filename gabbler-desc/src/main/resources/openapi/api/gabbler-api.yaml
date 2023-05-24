@@ -888,7 +888,6 @@ paths:
           content:
             application/text:
               schema:
-                type: object
                 $ref: '../model/gabbler-model.yaml#/components/schemas/RelationUser'
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.

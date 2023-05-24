@@ -18,6 +18,7 @@ import fr.hesias.gabblerapi.infrastructure.persister.service.UserPersisterServic
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
 
 @Import({PersistenceConfiguration.class})
 @Configuration
@@ -59,7 +60,8 @@ public class InfrastructureAdapterConfiguration
                                               final MediaDao mediaDao,
                                               final RelationshipsDao relationshipsDao,
                                               final InteractionDao interactionDao,
-                                              final GabblerInfraMapper gabblerInfraMapper)
+                                              final GabblerInfraMapper gabblerInfraMapper,
+                                              @Lazy final GabPersisterService gabPersisterService)
     {
 
         return new UserPersisterService(userDao,
@@ -67,7 +69,8 @@ public class InfrastructureAdapterConfiguration
                                         mediaDao,
                                         relationshipsDao,
                                         interactionDao,
-                                        gabblerInfraMapper);
+                                        gabblerInfraMapper,
+                                        gabPersisterService);
     }
 
     @Bean
@@ -76,7 +79,7 @@ public class InfrastructureAdapterConfiguration
                                             MediaDao mediaDao,
                                             final InteractionDao interactionDao,
                                             final RelationshipsDao relationshipsDao,
-                                            final UserPersisterService userPersisterService,
+                                            @Lazy final UserPersisterService userPersisterService,
                                             final GabblerInfraMapper gabblerInfraMapper)
     {
 

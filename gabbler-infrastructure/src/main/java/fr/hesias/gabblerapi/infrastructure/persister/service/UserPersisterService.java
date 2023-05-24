@@ -1,9 +1,6 @@
 package fr.hesias.gabblerapi.infrastructure.persister.service;
 
-import fr.hesias.gabblerapi.domain.model.DomainAccessStatus;
-import fr.hesias.gabblerapi.domain.model.DomainUser;
-import fr.hesias.gabblerapi.domain.model.DomainUserAuth;
-import fr.hesias.gabblerapi.domain.model.DomainUserProfile;
+import fr.hesias.gabblerapi.domain.model.*;
 import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.*;
@@ -34,12 +31,15 @@ public class UserPersisterService
 
     private final GabblerInfraMapper gabblerInfraMapper;
 
+    private final GabPersisterService gabPersisterService;
+
     public UserPersisterService(final UserDao userDao,
                                 final GabDao gabDao,
                                 final MediaDao mediaDao,
                                 final RelationshipsDao relationshipsDao,
                                 final InteractionDao interactionDao,
-                                final GabblerInfraMapper gabblerInfraMapper)
+                                final GabblerInfraMapper gabblerInfraMapper,
+                                final GabPersisterService gabPersisterService)
     {
 
         this.userDao = userDao;
@@ -48,6 +48,7 @@ public class UserPersisterService
         this.relationshipsDao = relationshipsDao;
         this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
+        this.gabPersisterService = gabPersisterService;
     }
 
     @Transactional(readOnly = true)
@@ -291,6 +292,8 @@ public class UserPersisterService
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainUserProfile domainUserProfile = null;
+        List<DomainGabResult> domainGabResultList = new ArrayList<>();
+        List<DomainGab> domainGabList = new ArrayList<>();
         try
         {
             User daoUser = userDao.getUserByUuid(userUuid).orElse(null);
@@ -304,8 +307,11 @@ public class UserPersisterService
 
                 for (Gab gab : gabs)
                 {
-                    List<Media> gabMediasList = mediaDao.getMediaByGabId(gab.getId());
-                    gab.setMedias(gabMediasList);
+                    domainGabResultList.add(this.gabPersisterService.setDomainGabResultDataByGab(gab));
+                }
+                for (DomainGabResult domainGabResult : domainGabResultList)
+                {
+                    domainGabList.add(domainGabResult.getGab());
                 }
                 for (UserRelationships userRelationships : userFollowers)
                 {
@@ -325,6 +331,7 @@ public class UserPersisterService
                                                                                       gabs,
                                                                                       userFollowers,
                                                                                       userFollows);
+                domainUserProfile.setGabs(domainGabList);
             }
         }
         catch (final Exception e)
@@ -337,6 +344,7 @@ public class UserPersisterService
         }
         return new DomainUserProfileResult(domainAccessStatus, domainUserProfile);
     }
+
 
     @Transactional(rollbackFor = Exception.class)
     public void confirmEmailByUserUuid(String userUuid)
