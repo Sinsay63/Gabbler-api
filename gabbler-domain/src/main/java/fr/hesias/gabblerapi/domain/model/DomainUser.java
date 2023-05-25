@@ -24,6 +24,8 @@ public class DomainUser
 
     private String roles;
 
+    private boolean isPremium;
+
 
     public DomainUser()
     {
@@ -76,6 +78,7 @@ public class DomainUser
                 ", avatar=" + avatar + '\'' +
                 ", banner=" + banner + '\'' +
                 ", roles='" + roles + '\'' +
+                ", isPremium='" + isPremium + '\'' +
                 '}';
     }
 

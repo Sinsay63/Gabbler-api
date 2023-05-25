@@ -2,16 +2,13 @@ package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.model.DurationTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "subscription_offer")
-public class SubscriptionOffer {
+public class SubscriptionOffer
+{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,5 +26,26 @@ public class SubscriptionOffer {
     @Column(name = "duration")
     @Enumerated(EnumType.STRING)
     private DurationTypeEnum duration;
+
+    public SubscriptionOffer()
+    {
+
+    }
+
+    public SubscriptionOffer(int id, String name, String description, float price, DurationTypeEnum duration)
+    {
+
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.duration = duration;
+    }
+
+    public SubscriptionOffer(int id)
+    {
+
+        this.id = id;
+    }
 
 }

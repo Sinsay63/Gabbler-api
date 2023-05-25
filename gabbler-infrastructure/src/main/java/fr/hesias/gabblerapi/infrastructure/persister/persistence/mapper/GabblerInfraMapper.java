@@ -337,5 +337,25 @@ public class GabblerInfraMapper
         return mediaMap;
     }
 
+    public Subscription toDomainSubscriptionToSubscription(DomainSubscription domainSubscription)
+    {
+
+        Subscription subscription = new Subscription();
+        subscription.setUser(new User(domainSubscription.getUserUuid()));
+        subscription.setStartDate(domainSubscription.getStartDate());
+        subscription.setEndDate(domainSubscription.getEndDate());
+        subscription.setSubscriptionOffer(new SubscriptionOffer(domainSubscription.getSubscriptionOfferId()));
+        return subscription;
+    }
+
+    public DomainSubscription toSubscriptionToDomainSubscription(Subscription subscription)
+    {
+
+        return new DomainSubscription(subscription.getStartDate(),
+                                      subscription.getEndDate(),
+                                      subscription.getUser().getUuid(),
+                                      subscription.getSubscriptionOffer().getId());
+    }
+
 
 }

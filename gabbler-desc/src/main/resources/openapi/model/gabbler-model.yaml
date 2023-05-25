@@ -18,6 +18,8 @@ tags:
     description: Opérations sur les intéractions
   - name: relationship
     description: Opérations sur les relations
+  - name: subscription
+    description: Opérations sur les abonnements
 paths: { }
 components:
   schemas:
@@ -63,6 +65,10 @@ components:
           $ref: "#/components/schemas/Media"
         banner:
           $ref: "#/components/schemas/Media"
+        isPremium:
+          type: boolean
+          description: indique si l'utilisateur est premium
+          example: "true"
 
 
     UserInfosProfile:
@@ -114,6 +120,26 @@ components:
           items:
             $ref: "#/components/schemas/User"
 
+    UserSubscription:
+      type: object
+      description: objet correspondant à un utilisateur avec ses informations d'abonnement
+      properties:
+        start_date:
+          type: string
+          description: date de début de l'abonnement
+          example: "2021-07-28"
+        end_date:
+          type: string
+          description: date de fin de l'abonnement
+          example: "2022-07-28"
+        user_uuid:
+          type: string
+          description: uuid de l'utilisateur
+          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
+        subscription_offer_id:
+          type: integer
+          description: id de l'offre d'abonnement
+          example: "1"
 
     Gab:
       type: object

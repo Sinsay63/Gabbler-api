@@ -1,20 +1,11 @@
 package fr.hesias.gabblerapi.infrastructure.config;
 
-import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.InteractionPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.RelationshipsPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.GabPersisterAdapter;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.InteractionPersisterAdapter;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.RelationshipsPersisterAdapter;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.UserPersisterAdapter;
+import fr.hesias.gabblerapi.domain.port.secondary.*;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.config.PersistenceConfiguration;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
-import fr.hesias.gabblerapi.infrastructure.persister.service.GabPersisterService;
-import fr.hesias.gabblerapi.infrastructure.persister.service.InteractionPersisterService;
-import fr.hesias.gabblerapi.infrastructure.persister.service.RelationshipsPersisterService;
-import fr.hesias.gabblerapi.infrastructure.persister.service.UserPersisterService;
+import fr.hesias.gabblerapi.infrastructure.persister.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -30,6 +21,13 @@ public class InfrastructureAdapterConfiguration
     {
 
         return new UserPersisterAdapter(userPersisterService);
+    }
+
+    @Bean
+    SubscriptionPersister subscriptionPersister(final SubscriptionPersisterService subscriptionPersisterService)
+    {
+
+        return new SubscriptionPersisterAdapter(subscriptionPersisterService);
     }
 
     @Bean
@@ -71,6 +69,14 @@ public class InfrastructureAdapterConfiguration
                                         interactionDao,
                                         gabblerInfraMapper,
                                         gabPersisterService);
+    }
+
+    @Bean
+    SubscriptionPersisterService subscriptionPersisterService(final SubscriptionDao subscriptionDao,
+                                                              final GabblerInfraMapper gabblerInfraMapper)
+    {
+
+        return new SubscriptionPersisterService(subscriptionDao, gabblerInfraMapper);
     }
 
     @Bean

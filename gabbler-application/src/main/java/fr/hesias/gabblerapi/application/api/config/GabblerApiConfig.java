@@ -61,6 +61,14 @@ public class GabblerApiConfig
     }
 
     @Bean
+    public SubscriptionApiMapper subscriptionApiMapper()
+    {
+
+        return new SubscriptionApiMapper();
+    }
+
+
+    @Bean
     GabApiMapper gabApiMapper(UserApiMapper userApiMapper)
     {
 
@@ -104,6 +112,19 @@ public class GabblerApiConfig
         return new UserApiDelegateImpl(userApiMapper,
                                        gabblerApiService,
                                        userInfosAccessorAdapter);
+    }
+
+    @Bean
+    public SubscriptionApiDelegateImpl subscriptionApiDelegateImpl(final SubscriptionAccessorAdapter subscriptionAccessorAdapter,
+                                                                   final SubscriptionApiMapper subscriptionApiMapper,
+                                                                   final GabblerApiService gabblerApiService
+                                                                  )
+    {
+
+        return new SubscriptionApiDelegateImpl(subscriptionAccessorAdapter,
+                                               subscriptionApiMapper,
+                                               gabblerApiService
+        );
     }
 
     @Bean

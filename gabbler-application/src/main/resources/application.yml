@@ -8,7 +8,6 @@ info:
 server:
   port: 8081
 
-
 spring:
   main:
     allow-circular-references: true
@@ -23,7 +22,6 @@ spring:
           auth: true
           starttls:
             enable: true
-
 
 openapi:
   file:

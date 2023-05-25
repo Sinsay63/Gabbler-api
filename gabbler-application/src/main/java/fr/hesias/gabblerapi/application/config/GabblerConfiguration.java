@@ -4,18 +4,9 @@ import fr.hesias.gabblerapi.application.api.config.GabblerApiConfig;
 import fr.hesias.gabblerapi.application.security.config.CorsConfiguration;
 import fr.hesias.gabblerapi.application.security.config.WebSecurityConfig;
 import fr.hesias.gabblerapi.desc.config.OpenApiConfig;
-import fr.hesias.gabblerapi.domain.port.primary.GabInfosAccessor;
-import fr.hesias.gabblerapi.domain.port.primary.InteractionInfosAccessor;
-import fr.hesias.gabblerapi.domain.port.primary.RelationshipsAccessor;
-import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
-import fr.hesias.gabblerapi.domain.port.secondary.GabPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.InteractionPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.RelationshipsPersister;
-import fr.hesias.gabblerapi.domain.port.secondary.UserPersister;
-import fr.hesias.gabblerapi.domain.service.GabInfosAccessorImpl;
-import fr.hesias.gabblerapi.domain.service.InteractionInfosAccessorImpl;
-import fr.hesias.gabblerapi.domain.service.RelationshipsAccessorImpl;
-import fr.hesias.gabblerapi.domain.service.UserInfosAccessorImpl;
+import fr.hesias.gabblerapi.domain.port.primary.*;
+import fr.hesias.gabblerapi.domain.port.secondary.*;
+import fr.hesias.gabblerapi.domain.service.*;
 import org.springframework.context.annotation.*;
 
 @Configuration
@@ -30,6 +21,13 @@ public class GabblerConfiguration
     {
 
         return new UserInfosAccessorImpl(userPersister);
+    }
+
+    @Bean
+    public SubscriptionAccessor subscriptionAccessor(final SubscriptionPersister subscriptionPersister)
+    {
+
+        return new SubscriptionAccessorImpl(subscriptionPersister);
     }
 
     @Bean

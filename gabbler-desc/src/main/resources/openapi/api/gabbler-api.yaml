@@ -1074,3 +1074,111 @@ paths:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
       tags:
         - search
+
+  /subscribe:
+    post:
+      operationId: subscribeUser
+      summary: gère l'abonnement d'un utilisateur
+      description: gère l'abonnement d'un utilisateur
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: données de l'abonnement
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../model/gabbler-model.yaml#/components/schemas/UserSubscription'
+      responses:
+        '200':
+          description: Retourne les données de l'abonnement pour un utilisateur.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/UserSubscription'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - subscription
+
+  /subscription/{userUuid}:
+    get:
+      operationId: getSubscriptionByUserUuid
+      summary: récupère l'abonnement d'un utilisateur
+      description: récupère l'abonnement d'un utilisateur
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: userUuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retourne les données de l'abonnement pour un utilisateur.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/UserSubscription'
+        '400':
+          description: Erreur retournée quand il y a un problème avec les paramètres.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '403':
+          description: Erreur retournée quand l'appelant n'est pas autorisé à réaliser cette action (i.e. ressource ne lui appartenant pas).
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '404':
+          description: Erreur retournée quand la ressource demandée n'a pas été trouvée.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '500':
+          description: Erreur retournée quand une erreur non maitrisée a été rencontrée par l'API.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+        '503':
+          description: Erreur retournée quand l'un des services utilisés par l'API n'est pas disponible.
+          content:
+            application/json:
+              schema:
+                $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
+      tags:
+        - subscription

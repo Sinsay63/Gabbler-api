@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "subscription")
-public class Subscription {
+public class Subscription
+{
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,9 +30,6 @@ public class Subscription {
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
-
-    @Column(name = "auto_renewal")
-    private boolean autoRenewal;
 
     @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @OneToOne
