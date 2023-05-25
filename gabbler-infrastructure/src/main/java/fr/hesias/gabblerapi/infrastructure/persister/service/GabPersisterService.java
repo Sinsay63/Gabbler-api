@@ -222,6 +222,8 @@ public class GabPersisterService
             List<Media> userMediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(domainGab.getUser().getUuid());
             gab.getUser().setMedias(userMediaList);
             domainGab.setUser(gabblerInfraMapper.toUserToDomainUserRelationships(gab.getUser()));
+            domainGab.getUser()
+                     .setPremium(this.userPersisterService.getPremiumByUserUuid(domainGab.getUser().getUuid()));
             domainMediasResult = this.gabblerInfraMapper.toMediaListToDomainMediasResult(gabMediaList);
         }
         catch (final Exception e)

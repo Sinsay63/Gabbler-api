@@ -82,19 +82,19 @@ public class Gab
         this.id = id;
     }
 
-//    @Override
-//    public String toString()
-//    {
-//
-//        String parentGabId = parentGab == null ? "aucun" : String.valueOf(parentGab.getId());
-//        return "Gab{" +
-//                "id=" + id +
-//                ", content='" + content + '\'' +
-//                ", postDate=" + postDate +
-//                ", userUuid=" + user.getUuid() +
-//                ", parentGab=" + parentGabId +
-//                ", subGabsSize=" + subGabs +
-//                '}';
-//    }
+    @Override
+    public String toString()
+    {
+
+        String parentGabId = parentGab == null ? "aucun" : String.valueOf(parentGab.getId());
+        return "Gab{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", postDate=" + postDate +
+                ", userUuid=" + user.getUuid() +
+                ", parentGab=" + parentGabId +
+                ", subGabsSize=" + subGabs +
+                '}';
+    }
 
 }

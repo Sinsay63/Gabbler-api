@@ -40,6 +40,7 @@ public class GabApiMapper
             gab.setNbComments(domainGab.getNbComments());
             gab.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
             gab.setUser(userApiMapper.toDomainUserToUser(domainGab.getUser()));
+            gab.getUser().setIsPremium(domainGab.getUser().isPremium());
         }
         return gab;
     }

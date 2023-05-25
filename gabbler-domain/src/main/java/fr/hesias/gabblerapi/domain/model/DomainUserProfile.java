@@ -35,4 +35,6 @@ public class DomainUserProfile
 
     private List<DomainUser> follows;
 
+    private boolean isPremium;
+
 }

@@ -86,6 +86,7 @@ public class UserApiMapper
             user.setLastname(domainUser.getLastName());
             user.setAvatar(toDomainMediaToMedia(domainUser.getAvatar()));
             user.setBanner(toDomainMediaToMedia(domainUser.getBanner()));
+            domainUser.setPremium(domainUser.isPremium());
         }
         return user;
     }
@@ -204,6 +205,7 @@ public class UserApiMapper
                     domainUserProfile.getInteractions()));
             userInfosProfile.setFollowers(toDomainUserListToUserList(domainUserProfile.getFollowers()));
             userInfosProfile.setFollows(toDomainUserListToUserList(domainUserProfile.getFollows()));
+            userInfosProfile.setIsPremium(domainUserProfile.isPremium());
         }
         return userInfosProfile;
     }

@@ -70,7 +70,6 @@ components:
           description: indique si l'utilisateur est premium
           example: "true"
 
-
     UserInfosProfile:
       type: object
       description: objet correspondant à un utilisateur avec ses informations de profil
@@ -119,6 +118,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/User"
+        isPremium:
+          type: boolean
+          description: indique si l'utilisateur est premium
+          example: "true"
 
     UserSubscription:
       type: object

@@ -33,13 +33,15 @@ public class UserPersisterService
 
     private final GabPersisterService gabPersisterService;
 
+    private final SubscriptionDao subscriptionDao;
+
     public UserPersisterService(final UserDao userDao,
                                 final GabDao gabDao,
                                 final MediaDao mediaDao,
                                 final RelationshipsDao relationshipsDao,
                                 final InteractionDao interactionDao,
                                 final GabblerInfraMapper gabblerInfraMapper,
-                                final GabPersisterService gabPersisterService)
+                                final GabPersisterService gabPersisterService, SubscriptionDao subscriptionDao)
     {
 
         this.userDao = userDao;
@@ -49,6 +51,7 @@ public class UserPersisterService
         this.interactionDao = interactionDao;
         this.gabblerInfraMapper = gabblerInfraMapper;
         this.gabPersisterService = gabPersisterService;
+        this.subscriptionDao = subscriptionDao;
     }
 
     @Transactional(readOnly = true)
@@ -65,7 +68,8 @@ public class UserPersisterService
                 for (final User user : userList)
                 {
                     List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    users.add(toUserToDomainUserResult(user, mediaList));
+
+                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
@@ -90,7 +94,12 @@ public class UserPersisterService
             final User user = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
             List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
 
-            domainUserResult = toUserToDomainUserResult(user, mediaList);
+            Boolean isPremium = false;
+            if (isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(uuid)))
+            {
+                isPremium = true;
+            }
+            domainUserResult = toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid()));
 
         }
         catch (final Exception e)
@@ -116,7 +125,7 @@ public class UserPersisterService
                 for (final User user : userList)
                 {
                     List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    users.add(toUserToDomainUserResult(user, mediaList));
+                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
@@ -155,7 +164,7 @@ public class UserPersisterService
                 for (final User user : userList)
                 {
                     List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    users.add(toUserToDomainUserResult(user, mediaList));
+                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
@@ -262,7 +271,10 @@ public class UserPersisterService
                 for (final User user : users)
                 {
                     List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    domainUserResultList.add(toUserToDomainUserResult(user, mediaList));
+
+                    domainUserResultList.add(toUserToDomainUserResult(user,
+                                                                      mediaList,
+                                                                      getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
@@ -276,13 +288,12 @@ public class UserPersisterService
         return new DomainUsersResult(domainAccessStatus, domainUserResultList);
     }
 
-    private DomainUserResult toUserToDomainUserResult(User user, List<Media> mediaList)
+    private DomainUserResult toUserToDomainUserResult(User user, List<Media> mediaList, boolean isPremium)
     {
 
-        DomainUser domainUser = new DomainUser();
         user.setMedias(mediaList);
-        domainUser = gabblerInfraMapper.toUserToDomainUserRelationships(user);
-
+        DomainUser domainUser = gabblerInfraMapper.toUserToDomainUserRelationships(user);
+        domainUser.setPremium(isPremium);
         return new DomainUserResult(OK, domainUser);
     }
 
@@ -325,6 +336,7 @@ public class UserPersisterService
                                                                                                             .getUuid());
                     userRelationships.getUser().setMedias(gabMediasList);
                 }
+                boolean isPremium = isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(userUuid));
                 domainUserProfile = this.gabblerInfraMapper.toUserToDomainUserProfile(daoUser,
                                                                                       mediaList,
                                                                                       interactions,
@@ -332,6 +344,7 @@ public class UserPersisterService
                                                                                       userFollowers,
                                                                                       userFollows);
                 domainUserProfile.setGabs(domainGabList);
+                domainUserProfile.setPremium(isPremium);
             }
         }
         catch (final Exception e)
@@ -360,6 +373,13 @@ public class UserPersisterService
                       userUuid,
                       e);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public boolean getPremiumByUserUuid(String userUuid)
+    {
+
+        return isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(userUuid));
     }
 
 }

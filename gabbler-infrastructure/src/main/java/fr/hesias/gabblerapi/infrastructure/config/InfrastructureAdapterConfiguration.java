@@ -59,7 +59,8 @@ public class InfrastructureAdapterConfiguration
                                               final RelationshipsDao relationshipsDao,
                                               final InteractionDao interactionDao,
                                               final GabblerInfraMapper gabblerInfraMapper,
-                                              @Lazy final GabPersisterService gabPersisterService)
+                                              @Lazy final GabPersisterService gabPersisterService,
+                                              final SubscriptionDao subscriptionDao)
     {
 
         return new UserPersisterService(userDao,
@@ -68,7 +69,7 @@ public class InfrastructureAdapterConfiguration
                                         relationshipsDao,
                                         interactionDao,
                                         gabblerInfraMapper,
-                                        gabPersisterService);
+                                        gabPersisterService, subscriptionDao);
     }
 
     @Bean
