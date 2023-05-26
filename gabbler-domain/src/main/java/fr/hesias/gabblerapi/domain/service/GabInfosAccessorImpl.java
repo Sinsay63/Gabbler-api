@@ -85,21 +85,23 @@ public class GabInfosAccessorImpl implements GabInfosAccessor
     }
 
     @Override
-    public DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult)
+    public DomainGabResult createGab(DomainGabCreationResult domainGabCreationResult)
     {
 
         DomainAccessStatus domainAccessStatus;
+        DomainGabResult domainGabResult = gabPersister.createGab(domainGabCreationResult);
+        DomainGab domainGab = new DomainGab();
 
-        if (gabPersister.createGab(domainGabCreationResult).isOk())
+        if (domainGabResult.isOk())
         {
             domainAccessStatus = DomainAccessStatus.OK;
-
+            domainGab = domainGabResult.getGab();
         }
         else
         {
             domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
         }
-        return new DomainGabCreationResult(domainAccessStatus, null);
+        return new DomainGabResult(domainAccessStatus, domainGab, null);
     }
 
     @Override

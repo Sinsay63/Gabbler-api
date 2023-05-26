@@ -38,7 +38,14 @@ public class GabApiMapper
             gab.setNbLikes(domainGab.getNbLikes());
             gab.setNbDislikes(domainGab.getNbDislikes());
             gab.setNbComments(domainGab.getNbComments());
-            gab.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
+            if (domainMediasResult != null)
+            {
+                gab.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
+            }
+            else
+            {
+                gab.setMedias(new ArrayList<>());
+            }
             gab.setUser(userApiMapper.toDomainUserToUser(domainGab.getUser()));
             gab.getUser().setIsPremium(domainGab.getUser().isPremium());
         }

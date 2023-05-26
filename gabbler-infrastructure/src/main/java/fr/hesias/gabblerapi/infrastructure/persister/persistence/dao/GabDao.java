@@ -42,10 +42,10 @@ public class GabDao
         return gabRepository.findAllByParentGabIdOrderByPostDateAsc(parentGabId);
     }
 
-    public void createGab(final Gab gab)
+    public Gab createGab(final Gab gab)
     {
 
-        gabRepository.save(gab);
+        return gabRepository.save(gab);
     }
 
     public List<Gab> getFeed()

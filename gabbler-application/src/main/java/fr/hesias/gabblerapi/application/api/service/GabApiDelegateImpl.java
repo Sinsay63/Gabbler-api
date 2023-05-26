@@ -6,7 +6,6 @@ import fr.hesias.gabblerapi.application.api.mapper.GabApiMapper;
 import fr.hesias.gabblerapi.desc.api.server.GabApiDelegate;
 import fr.hesias.gabblerapi.desc.api.server.model.Gab;
 import fr.hesias.gabblerapi.desc.api.server.model.GabCreation;
-import fr.hesias.gabblerapi.desc.api.server.model.Response;
 import fr.hesias.gabblerapi.domain.result.DomainGabResult;
 import fr.hesias.gabblerapi.domain.result.DomainGabsResult;
 import org.springframework.http.ResponseEntity;
@@ -66,14 +65,15 @@ public class GabApiDelegateImpl implements GabApiDelegate
     }
 
     @Override
-    public ResponseEntity<Response> createGab(String uuidUser, @RequestBody GabCreation gab)
+    public ResponseEntity<Gab> createGab(String uuidUser, @RequestBody GabCreation gab)
     {
 
-        if (gabInfosAccessorAdapter.createGab(gabApiMapper.toGabCreationToDomainGabCreationResult(gab)).isOk())
-        {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+        final DomainGabResult domainGabResult = gabInfosAccessorAdapter.createGab(gabApiMapper.toGabCreationToDomainGabCreationResult(
+                gab));
+
+        var gabCreated = gabApiMapper.toGab(domainGabResult.getGab(), domainGabResult.getMedias());
+        return gabblerApiService.getResponse(gabCreated,
+                                             domainGabResult);
     }
 
     @Override

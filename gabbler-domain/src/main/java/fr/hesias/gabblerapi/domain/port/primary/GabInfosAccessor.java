@@ -14,7 +14,7 @@ public interface GabInfosAccessor
 
     DomainGabsResult getCommentsByParentGabId(int parentGabId);
 
-    DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult);
+    DomainGabResult createGab(DomainGabCreationResult domainGabCreationResult);
 
     DomainGabsResult getFeedUserNotConnected();
 

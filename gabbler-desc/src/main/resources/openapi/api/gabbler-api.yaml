@@ -377,9 +377,9 @@ paths:
         '200':
           description: Gab créé avec succès.
           content:
-            application/string:
+            application/json:
               schema:
-                $ref: '../model/gabbler-model.yaml#/components/schemas/Response'
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Gab'
 
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.

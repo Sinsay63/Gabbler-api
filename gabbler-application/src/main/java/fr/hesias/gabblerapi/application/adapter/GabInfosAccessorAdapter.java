@@ -36,7 +36,7 @@ public class GabInfosAccessorAdapter
         return gabInfosAccessor.getCommentsByParentGabId(parentGabId);
     }
 
-    public DomainGabCreationResult createGab(DomainGabCreationResult domainGabCreationResult)
+    public DomainGabResult createGab(DomainGabCreationResult domainGabCreationResult)
     {
 
         return gabInfosAccessor.createGab(domainGabCreationResult);

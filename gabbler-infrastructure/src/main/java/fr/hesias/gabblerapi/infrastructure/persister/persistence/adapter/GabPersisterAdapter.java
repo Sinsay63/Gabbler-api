@@ -45,7 +45,7 @@ public class GabPersisterAdapter implements GabPersister
     }
 
     @Override
-    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult)
+    public DomainGabResult createGab(final DomainGabCreationResult domainGabCreationResult)
     {
 
         return this.gabPersisterService.createGab(domainGabCreationResult);

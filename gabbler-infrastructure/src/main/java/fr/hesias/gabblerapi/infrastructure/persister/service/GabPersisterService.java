@@ -135,21 +135,26 @@ public class GabPersisterService
     }
 
 
-    public DomainGabCreationResult createGab(final DomainGabCreationResult domainGabCreationResult)
+    @Transactional(rollbackFor = Exception.class)
+    public DomainGabResult createGab(final DomainGabCreationResult domainGabCreationResult)
     {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainGabCreation domainGabCreation = domainGabCreationResult.getDomainGabCreation();
+        DomainGab domainGab = new DomainGab();
         try
         {
-            gabDao.createGab(gabblerInfraMapper.toDomainGabCreationToGab(domainGabCreation));
+            var createdGab = gabDao.createGab(gabblerInfraMapper.toDomainGabCreationToGab(domainGabCreation));
+            domainGab = this.gabblerInfraMapper.toGabToDomainGab(createdGab);
+            var user = userPersisterService.getUserByUuid(domainGabCreation.getUserUuid());
+            domainGab.setUser(user.getDomainUser());
         }
         catch (final IllegalArgumentException e)
         {
             log.error("[NA] Erreur survenue lors de la création du gab", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
-        return new DomainGabCreationResult(domainAccessStatus, null);
+        return new DomainGabResult(domainAccessStatus, domainGab, null);
     }
 
     @Transactional(readOnly = true)
