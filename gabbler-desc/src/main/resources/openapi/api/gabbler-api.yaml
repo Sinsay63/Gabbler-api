@@ -379,7 +379,7 @@ paths:
           content:
             application/string:
               schema:
-                type: string
+                $ref: '../model/gabbler-model.yaml#/components/schemas/Response'
 
         '400':
           description: Erreur retournée quand il y a un problème avec les paramètres.

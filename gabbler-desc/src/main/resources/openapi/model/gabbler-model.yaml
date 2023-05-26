@@ -326,3 +326,12 @@ components:
           description: indique le path ayant provoqué cette erreur
           type: string
           example: "/user/9ebd6eff-136f-429a-b946-0fb13a314d42/load"
+
+    Response:
+      type: object
+      description: objet correspondant à une réponse
+      properties:
+        body:
+          type: string
+          description: corps de la réponse
+          example: "Gab créé avec succès"
