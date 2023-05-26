@@ -86,7 +86,7 @@ public class UserApiMapper
             user.setLastname(domainUser.getLastName());
             user.setAvatar(toDomainMediaToMedia(domainUser.getAvatar()));
             user.setBanner(toDomainMediaToMedia(domainUser.getBanner()));
-            domainUser.setPremium(domainUser.isPremium());
+            user.setIsPremium(domainUser.isPremium());
         }
         return user;
     }
