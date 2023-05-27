@@ -35,4 +35,6 @@ public interface UserPersister
 
     void confirmEmailByUserUuid(String userUuid);
 
+    DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult);
+
 }

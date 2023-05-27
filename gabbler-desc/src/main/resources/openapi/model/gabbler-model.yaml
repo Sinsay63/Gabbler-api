@@ -327,11 +327,16 @@ components:
           type: string
           example: "/user/9ebd6eff-136f-429a-b946-0fb13a314d42/load"
 
-    Response:
+    UserEditProfile:
       type: object
-      description: objet correspondant à une réponse
+      description: objet correspondant aux informations d'un utilisateur pour la modification de son profil
       properties:
-        body:
+        type:
           type: string
-          description: corps de la réponse
-          example: "Gab créé avec succès"
+          description: type de modification
+          example: "username"
+        value:
+          type: string
+          description: valeur de la modification
+          example: "Sinsay"
+

@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.application.adapter;
 
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
+import fr.hesias.gabblerapi.domain.result.DomainEditUserProfileResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserProfileResult;
 import fr.hesias.gabblerapi.domain.result.DomainUserResult;
 import fr.hesias.gabblerapi.domain.result.DomainUsersResult;
@@ -58,6 +59,12 @@ public class UserInfosAccessorAdapter
     {
 
         userInfosAccessor.confirmEmailByUserUuid(userUuid);
+    }
+
+    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult)
+    {
+
+        return userInfosAccessor.editUserProfile(domainEditUserProfileResult);
     }
 
 }

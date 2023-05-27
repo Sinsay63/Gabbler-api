@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,7 @@ public class User
     @Column(name = "uuid")
     private String uuid = UUID.randomUUID().toString();
 
+    @Size(min = 3, max = 12)
     @Column(name = "username")
     private String username;
 

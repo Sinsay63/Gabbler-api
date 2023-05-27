@@ -29,4 +29,6 @@ public interface UserInfosAccessor
 
     void confirmEmailByUserUuid(String userUuid);
 
+    DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult);
+
 }

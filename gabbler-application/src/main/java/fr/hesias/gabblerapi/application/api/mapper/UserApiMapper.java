@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
+
 
 public class UserApiMapper
 {
@@ -258,6 +260,47 @@ public class UserApiMapper
             }
         }
         return gabsList;
+    }
+
+    public UserEditProfile toDomainUserProfileResultToUserEditProfile(DomainEditUserProfileResult domainEditUserProfileResult)
+    {
+
+        UserEditProfile userEditProfile = new UserEditProfile();
+
+        if (domainEditUserProfileResult.isOk())
+        {
+            userEditProfile = toDomainEditUserProfileToUserEditProfile(domainEditUserProfileResult.getDomainEditUserProfile());
+        }
+        return userEditProfile;
+    }
+
+    private UserEditProfile toDomainEditUserProfileToUserEditProfile(DomainEditUserProfile domainEditUserProfile)
+    {
+
+        UserEditProfile userEditProfile = new UserEditProfile();
+
+        if (domainEditUserProfile != null)
+        {
+            userEditProfile.setType(domainEditUserProfile.getEditType());
+            userEditProfile.setValue(domainEditUserProfile.getValue());
+        }
+        return userEditProfile;
+    }
+
+
+    public DomainEditUserProfileResult toUserEditProfileToDomainEditUserProfileResult(UserEditProfile userEditProfile,
+                                                                                      String userUuid)
+    {
+
+        final DomainEditUserProfile domainEditUserProfile = new DomainEditUserProfile();
+
+        if (userEditProfile != null)
+        {
+            domainEditUserProfile.setEditType(userEditProfile.getType());
+            domainEditUserProfile.setValue(userEditProfile.getValue());
+            domainEditUserProfile.setUserUuid(userUuid);
+        }
+        return new DomainEditUserProfileResult(OK, domainEditUserProfile);
     }
 
 }

@@ -36,6 +36,12 @@ public class UserDao
         return userRepository.save(user);
     }
 
+    public User updateUser(final User user)
+    {
+
+        return userRepository.save(user);
+    }
+
     public Optional<User> getUserByEmail(final String email)
     {
 
@@ -73,6 +79,32 @@ public class UserDao
             {
                 user.get().setIsValidated(true);
                 userRepository.validateUserByUserUuuid(userUuid);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void removePremiumRoleByUserUuid(String userUuid)
+    {
+
+        try
+        {
+            Optional<User> user = userRepository.findById(userUuid);
+            if (user.isPresent())
+            {
+                var roles = user.get().getRoles().split(",");
+                for (String role : roles)
+                {
+                    if (role.equals("PREMIUM"))
+                    {
+                        user.get().setRoles(user.get().getRoles().replace(",PREMIUM", ""));
+                        userRepository.save(user.get());
+                        break;
+                    }
+                }
             }
         }
         catch (Exception e)

@@ -8,11 +8,11 @@ import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerI
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
-import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
+import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.*;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Slf4j
@@ -94,11 +94,6 @@ public class UserPersisterService
             final User user = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
             List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
 
-            Boolean isPremium = false;
-            if (isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(uuid)))
-            {
-                isPremium = true;
-            }
             domainUserResult = toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid()));
 
         }
@@ -246,7 +241,7 @@ public class UserPersisterService
             }
             else
             {
-                domainAccessStatus = DomainAccessStatus.BAD_REQUEST;
+                domainAccessStatus = BAD_REQUEST;
             }
         }
         catch (final Exception e)
@@ -375,11 +370,66 @@ public class UserPersisterService
         }
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(rollbackFor = Exception.class)
     public boolean getPremiumByUserUuid(String userUuid)
     {
 
-        return isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(userUuid));
+        var subscription = subscriptionDao.getSubscriptionByUserUuid(userUuid);
+        var isPremium = false;
+        if (isNotEmpty(subscription))
+        {
+            if (subscription.getEndDate().isAfter(LocalDateTime.now()))
+            {
+                isPremium = true;
+            }
+            else
+            {
+                try
+                {
+                    subscriptionDao.deleteSubscriptionByUserUuid(userUuid);
+                    userDao.removePremiumRoleByUserUuid(userUuid);
+                }
+                catch (final Exception e)
+                {
+                    log.error(
+                            "[{}] Erreur survenue lors de la suppression de l'abonnement d'un utilisateur à partir de son uuid",
+                            userUuid,
+                            e);
+                }
+            }
+        }
+        return isPremium;
+    }
+
+    @Transactional
+    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult)
+    {
+
+        var userUuid = domainEditUserProfileResult.getDomainEditUserProfile().getUserUuid();
+        var type = domainEditUserProfileResult.getDomainEditUserProfile().getEditType();
+        var value = domainEditUserProfileResult.getDomainEditUserProfile().getValue();
+        var user = userDao.getUserByUuid(userUuid).orElse(null);
+        if (user != null)
+        {
+            if (type.equals("username") && getPremiumByUserUuid(userUuid))
+            {
+                user.setUsername(value);
+                userDao.updateUser(user);
+            }
+            else if (type.equals("biography"))
+            {
+                user.setBiography(value);
+                userDao.updateUser(user);
+
+            }
+            else
+            {
+                return new DomainEditUserProfileResult(BAD_REQUEST,
+                                                       domainEditUserProfileResult.getDomainEditUserProfile());
+            }
+            return new DomainEditUserProfileResult(OK, domainEditUserProfileResult.getDomainEditUserProfile());
+        }
+        return new DomainEditUserProfileResult(INTERNAL_ERROR, domainEditUserProfileResult.getDomainEditUserProfile());
     }
 
 }

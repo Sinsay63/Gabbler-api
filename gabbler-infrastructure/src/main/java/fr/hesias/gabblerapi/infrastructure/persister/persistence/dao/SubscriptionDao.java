@@ -27,4 +27,11 @@ public class SubscriptionDao
         return subscriptionRepository.getSubscriptionByUser_Uuid(uuid);
     }
 
+    public void deleteSubscriptionByUserUuid(String userUuid)
+    {
+
+        subscriptionRepository.deleteByUser_Uuid(userUuid);
+
+    }
+
 }

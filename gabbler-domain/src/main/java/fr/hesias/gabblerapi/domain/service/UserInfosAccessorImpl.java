@@ -188,4 +188,11 @@ public class UserInfosAccessorImpl implements UserInfosAccessor
         userPersister.confirmEmailByUserUuid(userUuid);
     }
 
+    @Override
+    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult)
+    {
+
+        return userPersister.editUserProfile(domainEditUserProfileResult);
+    }
+
 }

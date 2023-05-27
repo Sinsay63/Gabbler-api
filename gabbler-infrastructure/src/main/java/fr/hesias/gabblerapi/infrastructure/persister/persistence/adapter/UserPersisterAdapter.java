@@ -78,4 +78,11 @@ public class UserPersisterAdapter implements UserPersister
         userPersisterService.confirmEmailByUserUuid(userUuid);
     }
 
+    @Override
+    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult)
+    {
+
+        return userPersisterService.editUserProfile(domainEditUserProfileResult);
+    }
+
 }
