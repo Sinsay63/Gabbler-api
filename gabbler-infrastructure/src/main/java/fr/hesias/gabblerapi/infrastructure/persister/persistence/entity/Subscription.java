@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "subscription")
+@Table(name = "subscription", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid_user"})})
 public class Subscription
 {
 
