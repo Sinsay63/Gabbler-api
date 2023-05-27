@@ -14,10 +14,10 @@ public class SubscriptionAccessorAdapter
         this.subscriptionAccessor = subscriptionAccessor;
     }
 
-    public void subscribeUser(String uuidUser, String uuidUserToFollow)
+    public DomainSubscriptionResult subscribeUser(DomainSubscriptionResult domainSubscriptionResult)
     {
 
-//        subscriptionAccessor.subscribeUser(uuidUser, uuidUserToFollow);
+        return subscriptionAccessor.subscribeUser(domainSubscriptionResult);
     }
 
     public DomainSubscriptionResult getSubscriptionByUserUuid(String uuid)

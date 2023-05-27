@@ -25,16 +25,23 @@ public class SubscriptionApiDelegateImpl implements SubscriptionApiDelegate
         this.gabblerApiService = gabblerApiService;
     }
 
-//    @Override
-//    public ResponseEntity<UserSubscription> subscribeUser(UserSubscription userSubscription)
-//    {
+    @Override
+    public ResponseEntity<UserSubscription> subscribeUser(String userUuid, Integer offerId)
+    {
 
-//        DomainSubscriptionResult domainSubscriptionResult = subscriptionAccessorAdapter.getSubscriptionByUserUuid(
-//                "7b64bc72-ed0a-43cc-8cb5-8014cae763db");
-//        return this.gabblerApiService.getResponse(this.subscriptionApiMapper.toDomainSubscriptionToSubscriptionResult(
-//                                                          domainSubscriptionResult),
-//                                                  domainSubscriptionResult);
-//    }
+        var domainSubscriptionResult = subscriptionAccessorAdapter.subscribeUser(
+                this.subscriptionApiMapper.toSubscriptionToDomainSubscription(userUuid, offerId));
+        if (domainSubscriptionResult.isOk())
+        {
+            return this.gabblerApiService.getResponse(this.subscriptionApiMapper.toDomainSubscriptionToSubscriptionResult(
+                                                              domainSubscriptionResult),
+                                                      domainSubscriptionResult);
+        }
+        else
+        {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     @Override
     public ResponseEntity<UserSubscription> getSubscriptionByUserUuid(String uuid)

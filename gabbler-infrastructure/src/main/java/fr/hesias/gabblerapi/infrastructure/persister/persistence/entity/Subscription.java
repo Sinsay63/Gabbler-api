@@ -26,7 +26,7 @@ public class Subscription
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDateTime startDate = LocalDateTime.now();
 
     @Column(name = "end_date")
     private LocalDateTime endDate;

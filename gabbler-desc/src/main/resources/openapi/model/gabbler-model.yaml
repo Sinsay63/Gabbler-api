@@ -130,15 +130,11 @@ components:
         start_date:
           type: string
           description: date de début de l'abonnement
-          example: "2021-07-28"
+          example: "2021-07-28 15:01:56"
         end_date:
           type: string
           description: date de fin de l'abonnement
-          example: "2022-07-28"
-        user_uuid:
-          type: string
-          description: uuid de l'utilisateur
-          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
+          example: "2022-08-28 15:01:56"
         subscription_offer_id:
           type: integer
           description: id de l'offre d'abonnement

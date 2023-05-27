@@ -1135,20 +1135,26 @@ paths:
       tags:
         - search
 
-  /subscribe:
+  /subscribe/{user_uuid}/offer/{offer_id}:
     post:
       operationId: subscribeUser
       summary: gère l'abonnement d'un utilisateur
       description: gère l'abonnement d'un utilisateur
       security:
         - bearerAuth: [ ]
-      requestBody:
-        description: données de l'abonnement
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '../model/gabbler-model.yaml#/components/schemas/UserSubscription'
+      parameters:
+        - name: user_uuid
+          in: path
+          description: uuid de l'utilisateur
+          required: true
+          schema:
+            type: string
+        - name: offer_id
+          in: path
+          description: id de l'offre
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: Retourne les données de l'abonnement pour un utilisateur.

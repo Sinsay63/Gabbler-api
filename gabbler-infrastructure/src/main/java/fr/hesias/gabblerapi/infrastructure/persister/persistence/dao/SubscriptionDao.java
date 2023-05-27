@@ -34,4 +34,10 @@ public class SubscriptionDao
 
     }
 
+    public Subscription subscribeUser(Subscription subscription)
+    {
+
+        return subscriptionRepository.save(subscription);
+    }
+
 }

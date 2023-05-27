@@ -27,4 +27,19 @@ public class DomainSubscription
         this.subscriptionOfferId = subscriptionOfferId;
     }
 
+    public DomainSubscription(LocalDateTime startDate, String userUuid, int subscriptionOfferId)
+    {
+
+        this.startDate = startDate;
+        this.userUuid = userUuid;
+        this.subscriptionOfferId = subscriptionOfferId;
+    }
+
+    public DomainSubscription(String userUuid, int subscriptionOfferId)
+    {
+
+        this.userUuid = userUuid;
+        this.subscriptionOfferId = subscriptionOfferId;
+    }
+
 }

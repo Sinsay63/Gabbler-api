@@ -87,7 +87,7 @@ public class UserDao
         }
     }
 
-    public void removePremiumRoleByUserUuid(String userUuid)
+    public boolean removePremiumRoleByUserUuid(String userUuid)
     {
 
         try
@@ -102,8 +102,31 @@ public class UserDao
                     {
                         user.get().setRoles(user.get().getRoles().replace(",PREMIUM", ""));
                         userRepository.save(user.get());
-                        break;
+                        return true;
                     }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void addPremiumRoleByUserUuid(String userUuid)
+    {
+
+        try
+        {
+            Optional<User> user = userRepository.findById(userUuid);
+            if (user.isPresent())
+            {
+                var exist = removePremiumRoleByUserUuid(userUuid);
+                if (!exist)
+                {
+                    user.get().setRoles(user.get().getRoles() + ",PREMIUM");
+                    userRepository.save(user.get());
                 }
             }
         }

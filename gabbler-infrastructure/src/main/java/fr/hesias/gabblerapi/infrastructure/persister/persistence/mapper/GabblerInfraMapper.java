@@ -341,10 +341,18 @@ public class GabblerInfraMapper
     {
 
         Subscription subscription = new Subscription();
+        
         subscription.setUser(new User(domainSubscription.getUserUuid()));
-        subscription.setStartDate(domainSubscription.getStartDate());
-        subscription.setEndDate(domainSubscription.getEndDate());
         subscription.setSubscriptionOffer(new SubscriptionOffer(domainSubscription.getSubscriptionOfferId()));
+
+        if (domainSubscription.getStartDate() != null)
+        {
+            subscription.setStartDate(domainSubscription.getStartDate());
+        }
+        if (domainSubscription.getEndDate() != null)
+        {
+            subscription.setEndDate(domainSubscription.getEndDate());
+        }
         return subscription;
     }
 

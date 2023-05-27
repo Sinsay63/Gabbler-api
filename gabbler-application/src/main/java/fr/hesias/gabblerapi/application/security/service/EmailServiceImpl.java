@@ -1,4 +1,4 @@
-package fr.hesias.gabblerapi.application.api.test2;
+package fr.hesias.gabblerapi.application.security.service;
 
 import fr.hesias.gabblerapi.desc.api.server.model.EmailDetails;
 import org.springframework.beans.factory.annotation.Autowired;

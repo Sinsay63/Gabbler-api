@@ -74,10 +74,11 @@ public class InfrastructureAdapterConfiguration
 
     @Bean
     SubscriptionPersisterService subscriptionPersisterService(final SubscriptionDao subscriptionDao,
+                                                              final UserDao userDao,
                                                               final GabblerInfraMapper gabblerInfraMapper)
     {
 
-        return new SubscriptionPersisterService(subscriptionDao, gabblerInfraMapper);
+        return new SubscriptionPersisterService(subscriptionDao, userDao, gabblerInfraMapper);
     }
 
     @Bean

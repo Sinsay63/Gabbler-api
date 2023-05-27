@@ -2,7 +2,7 @@ package fr.hesias.gabblerapi.application.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.hesias.gabblerapi.application.adapter.UserInfosAccessorAdapter;
-import fr.hesias.gabblerapi.application.api.test2.EmailService;
+import fr.hesias.gabblerapi.application.security.service.EmailService;
 import fr.hesias.gabblerapi.desc.api.server.DocApiDelegate;
 import fr.hesias.gabblerapi.desc.api.server.model.EmailDetails;
 import lombok.extern.slf4j.Slf4j;

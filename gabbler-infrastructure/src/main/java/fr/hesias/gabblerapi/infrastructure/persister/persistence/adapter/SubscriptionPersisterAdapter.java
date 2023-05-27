@@ -1,6 +1,5 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.adapter;
 
-import fr.hesias.gabblerapi.domain.model.DomainSubscription;
 import fr.hesias.gabblerapi.domain.port.secondary.SubscriptionPersister;
 import fr.hesias.gabblerapi.domain.result.DomainSubscriptionResult;
 import fr.hesias.gabblerapi.infrastructure.persister.service.SubscriptionPersisterService;
@@ -19,10 +18,10 @@ public class SubscriptionPersisterAdapter implements SubscriptionPersister
     }
 
     @Override
-    public DomainSubscriptionResult subscribeUser(DomainSubscription domainSubscription)
+    public DomainSubscriptionResult subscribeUser(DomainSubscriptionResult domainSubscriptionResult)
     {
 
-        return null;
+        return subscriptionPersisterService.subscribeUser(domainSubscriptionResult);
     }
 
     @Override
