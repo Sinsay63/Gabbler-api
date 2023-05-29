@@ -1,42 +1,7 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1
--- Généré le : mar. 09 mai 2023 à 10:05
--- Version du serveur : 10.4.21-MariaDB
--- Version de PHP : 8.0.10
-
-SET SQL_MODE =
-        "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET
-    @OLD_CHARACTER_SET_CLIENT =
-            @@CHARACTER_SET_CLIENT */;
-/*!40101 SET
-    @OLD_CHARACTER_SET_RESULTS =
-            @@CHARACTER_SET_RESULTS */;
-/*!40101 SET
-    @OLD_COLLATION_CONNECTION =
-            @@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de données : `gabbler`
---
-
 DROP DATABASE IF EXISTS gabbler;
 CREATE DATABASE gabbler;
 USE gabbler;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `gab`
---
 
 CREATE TABLE `gab`
 (
@@ -48,17 +13,13 @@ CREATE TABLE `gab`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
---
--- Déchargement des données de la table `gab`
---
-
 INSERT INTO `gab` (`id`,
                    `content`,
                    `post_date`,
                    `id_parent_gab`,
                    `uuid_user`)
 VALUES (1,
-        'LE CHEVAL C\'EST TROP GENIAL',
+        'LE CHEVAL C EST TROP GENIAL',
         '2023-05-09 09:36:26',
         NULL,
         '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917'),
@@ -88,11 +49,6 @@ VALUES (1,
         NULL,
         'f9291aac-3a2f-42b8-8060-1ac370dce173');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `interaction`
---
 
 CREATE TABLE `interaction`
 (
@@ -104,9 +60,6 @@ CREATE TABLE `interaction`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
---
--- Déchargement des données de la table `interaction`
---
 
 INSERT INTO `interaction` (`id`,
                            `action`,
@@ -134,29 +87,21 @@ VALUES (1, 'LIKE',
         2,
         'f9291aac-3a2f-42b8-8060-1ac370dce173');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `media`
---
 
 CREATE TABLE `media`
 (
-    `id`        int(11) NOT NULL,
-    `date`      datetime     DEFAULT NULL,
-    `type`      varchar(255) DEFAULT NULL,
-    `url`       varchar(255) DEFAULT NULL,
-    `id_gab`    int(11)      DEFAULT NULL,
-    `uuid_user` varchar(255) DEFAULT NULL
+    `id`            int(11)      NOT NULL,
+    `creation_date` datetime     DEFAULT NULL,
+    `type`          varchar(255) DEFAULT NULL,
+    `url`           varchar(255) DEFAULT NULL,
+    `id_gab`        int(11)      DEFAULT NULL,
+    `uuid_user`     varchar(255) DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
---
--- Déchargement des données de la table `media`
---
 
 INSERT INTO `media` (`id`,
-                     `date`,
+                     `creation_date`,
                      `type`,
                      `url`,
                      `id_gab`,
@@ -215,16 +160,10 @@ VALUES (1,
         null,
         'f9291aac-3a2f-42b8-8060-1ac370dce173');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `subscription`
---
 
 CREATE TABLE `subscription`
 (
-    `id`                    int(11)      NOT NULL,
-    `auto_renewal`          bit(1)   DEFAULT NULL,
+    `id`                    int(11)      NOT NULL
     `created_at`            datetime DEFAULT NULL,
     `end_date`              datetime DEFAULT NULL,
     `start_date`            datetime DEFAULT NULL,
@@ -233,12 +172,6 @@ CREATE TABLE `subscription`
     `uuid_user`             varchar(255) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `subscription_offer`
---
 
 CREATE TABLE `subscription_offer`
 (
@@ -276,11 +209,6 @@ VALUES (1,
         'Abonnement 12 mois',
         '48');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `user`
---
 
 CREATE TABLE `user`
 (
@@ -299,9 +227,6 @@ CREATE TABLE `user`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
---
--- Déchargement des données de la table `user`
---
 
 INSERT INTO `user` (`uuid`,
                     `auth_token`,
@@ -359,28 +284,19 @@ VALUES ('3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917',
         'USER',
         'KebabCouchot');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `user_relationships`
---
-
 CREATE TABLE `user_relationships`
 (
     `id`                int(11)      NOT NULL,
-    `date`              datetime     DEFAULT NULL,
+    `creation_date`     datetime     DEFAULT NULL,
     `type`              varchar(255) DEFAULT NULL,
     `uuid_user`         varchar(255) NOT NULL,
     `uuid_user_related` varchar(255) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
---
--- Déchargement des données de la table `user_relationships`
---
 
 INSERT INTO `user_relationships` (`id`,
-                                  `date`,
+                                  `creation_date`,
                                   `type`,
                                   `uuid_user`,
                                   `uuid_user_related`)
@@ -400,155 +316,80 @@ VALUES (1,
         'f9291aac-3a2f-42b8-8060-1ac370dce173',
         '3a87ebf1-85f9-4ad5-ba8f-2ea55bba4917');
 
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `gab`
---
 ALTER TABLE `gab`
     ADD PRIMARY KEY (`id`),
     ADD KEY `FKbwuru8ms8xk16u00fnyvgmbcg` (`id_parent_gab`),
     ADD KEY `FK8yhe8uoodia83h4fu75c9lofc` (`uuid_user`);
 
---
--- Index pour la table `interaction`
---
 ALTER TABLE `interaction`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKdpnhb6csbv4ofvtthldxbamo9` (`uuid_user`,
                                                   `id_gab`),
     ADD KEY `FKqbaijui9swkqgb9lldc765swc` (`id_gab`);
 
---
--- Index pour la table `media`
---
 ALTER TABLE `media`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `UKd8jlvle86fw7f7gr9j96t0l5h` (`uuid_user`,
                                                   `type`),
     ADD KEY `FKqiemsgo2d5uyp9n5bity1bims` (`id_gab`);
 
---
--- Index pour la table `subscription`
---
 ALTER TABLE `subscription`
     ADD PRIMARY KEY (`id`),
     ADD KEY `FKp5vdiuj9ncekf6ts89exypms` (`id_subscription_offer`),
     ADD KEY `FKe4hyhu6gutm50cdy0arwidhod` (`uuid_user`);
 
---
--- Index pour la table `subscription_offer`
---
 ALTER TABLE `subscription_offer`
     ADD PRIMARY KEY (`id`);
 
---
--- Index pour la table `user`
---
 ALTER TABLE `user`
     ADD PRIMARY KEY (`uuid`),
     ADD UNIQUE KEY `UKsb8bbouer5wak8vyiiy4pf2bx` (`username`),
     ADD UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`);
 
---
--- Index pour la table `user_relationships`
---
 ALTER TABLE `user_relationships`
     ADD PRIMARY KEY (`id`),
     ADD KEY `FKdl5afgtmnwtas5g31pl21qe5y` (`uuid_user`),
     ADD KEY `FKqhyhd5yxn2mdedbio4qc56ioo` (`uuid_user_related`);
 
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `gab`
---
 ALTER TABLE `gab`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 7;
 
---
--- AUTO_INCREMENT pour la table `interaction`
---
 ALTER TABLE `interaction`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 6;
 
---
--- AUTO_INCREMENT pour la table `media`
---
 ALTER TABLE `media`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table `subscription`
---
 ALTER TABLE `subscription`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table `subscription_offer`
---
 ALTER TABLE `subscription_offer`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT pour la table `user_relationships`
---
 ALTER TABLE `user_relationships`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 5;
 
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `gab`
---
 ALTER TABLE `gab`
     ADD CONSTRAINT `FK8yhe8uoodia83h4fu75c9lofc` FOREIGN KEY (`uuid_user`) REFERENCES `user` (`uuid`),
     ADD CONSTRAINT `FKbwuru8ms8xk16u00fnyvgmbcg` FOREIGN KEY (`id_parent_gab`) REFERENCES `gab` (`id`);
 
---
--- Contraintes pour la table `interaction`
---
 ALTER TABLE `interaction`
     ADD CONSTRAINT `FK4mp30alx5hvf9ial3kebc8r2x` FOREIGN KEY (`uuid_user`) REFERENCES `user` (`uuid`),
     ADD CONSTRAINT `FKqbaijui9swkqgb9lldc765swc` FOREIGN KEY (`id_gab`) REFERENCES `gab` (`id`);
 
---
--- Contraintes pour la table `media`
---
 ALTER TABLE `media`
     ADD CONSTRAINT `FKn6me9bmymgbjwgpfjx8ovy67x` FOREIGN KEY (`uuid_user`) REFERENCES `user` (`uuid`),
     ADD CONSTRAINT `FKqiemsgo2d5uyp9n5bity1bims` FOREIGN KEY (`id_gab`) REFERENCES `gab` (`id`);
 
---
--- Contraintes pour la table `subscription`
---
 ALTER TABLE `subscription`
     ADD CONSTRAINT `FKe4hyhu6gutm50cdy0arwidhod` FOREIGN KEY (`uuid_user`) REFERENCES `user` (`uuid`),
     ADD CONSTRAINT `FKp5vdiuj9ncekf6ts89exypms` FOREIGN KEY (`id_subscription_offer`) REFERENCES `subscription_offer` (`id`);
 
 --
--- Contraintes pour la table `user_relationships`
---
 ALTER TABLE `user_relationships`
     ADD CONSTRAINT `FKdl5afgtmnwtas5g31pl21qe5y` FOREIGN KEY (`uuid_user`) REFERENCES `user` (`uuid`),
     ADD CONSTRAINT `FKqhyhd5yxn2mdedbio4qc56ioo` FOREIGN KEY (`uuid_user_related`) REFERENCES `user` (`uuid`);
 COMMIT;
-
-/*!40101 SET
-    CHARACTER_SET_CLIENT =
-            @OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET
-    CHARACTER_SET_RESULTS =
-            @OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET
-    COLLATION_CONNECTION =
-            @OLD_COLLATION_CONNECTION */;

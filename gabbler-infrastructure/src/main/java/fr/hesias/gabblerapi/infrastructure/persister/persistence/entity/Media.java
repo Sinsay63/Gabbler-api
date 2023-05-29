@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "media", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"uuid_user", "type"})
 })
-public class Media
-{
+public class Media {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -27,8 +26,8 @@ public class Media
     @Column(name = "url")
     private String url;
 
-    @Column(name = "date")
-    private LocalDateTime date = LocalDateTime.now();
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @JoinColumn(name = "uuid_user", referencedColumnName = "uuid")
     @ManyToOne

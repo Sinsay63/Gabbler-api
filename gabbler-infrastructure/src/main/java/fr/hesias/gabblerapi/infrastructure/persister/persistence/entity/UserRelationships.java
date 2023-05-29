@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "user_relationships")
-public class UserRelationships
-{
+public class UserRelationships {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +21,8 @@ public class UserRelationships
     @Column(name = "type")
     private RelationshipTypeEnum type;
 
-    @Column(name = "date")
-    private LocalDateTime date = LocalDateTime.now();
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @JoinColumn(name = "uuid_user", nullable = false, referencedColumnName = "uuid")
     @ManyToOne
@@ -33,14 +32,12 @@ public class UserRelationships
     @ManyToOne
     private User userRelated;
 
-    public UserRelationships()
-    {
+    public UserRelationships() {
 
         super();
     }
 
-    public UserRelationships(final RelationshipTypeEnum type, final User user, final User userRelated)
-    {
+    public UserRelationships(final RelationshipTypeEnum type, final User user, final User userRelated) {
 
         super();
         this.type = type;
@@ -53,8 +50,7 @@ public class UserRelationships
             + "OR (type = 'FOLLOWED' AND uuid_user_related IS NOT NULL AND uuid_user_related <> uuid_user) "
             + "OR (type NOT IN ('AUTHORIZED', 'BLOCKED', 'FOLLOWED'))")
     @Transient
-    public void checkTypeAndUuid()
-    {
+    public void checkTypeAndUuid() {
 
     }
 

@@ -1,6 +1,7 @@
 package fr.hesias.gabblerapi.infrastructure.persister.persistence.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,14 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "gab")
-public class Gab
-{
+public class Gab {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 
     @Column(name = "content")
+    @Size(min = 1, max = 255)
     private String content;
 
     @Column(name = "post_date")
@@ -39,8 +40,7 @@ public class Gab
     @OneToMany(mappedBy = "gab")
     private List<Media> medias = new ArrayList<>();
 
-    public Gab(int id, String content, LocalDateTime postDate, User user)
-    {
+    public Gab(int id, String content, LocalDateTime postDate, User user) {
 
         this.id = id;
         this.content = content;
@@ -48,8 +48,7 @@ public class Gab
         this.user = user;
     }
 
-    public Gab(int id, String content, LocalDateTime postDate, User user, Gab parentGab)
-    {
+    public Gab(int id, String content, LocalDateTime postDate, User user, Gab parentGab) {
 
         this.id = id;
         this.content = content;
@@ -58,8 +57,7 @@ public class Gab
         this.parentGab = parentGab;
     }
 
-    public Gab(int id, String content, LocalDateTime postDate, User user, Gab parentGab, List<Gab> subGabs)
-    {
+    public Gab(int id, String content, LocalDateTime postDate, User user, Gab parentGab, List<Gab> subGabs) {
 
         this.id = id;
         this.content = content;
@@ -69,22 +67,19 @@ public class Gab
         this.subGabs = subGabs;
     }
 
-    public Gab(String content, User user)
-    {
+    public Gab(String content, User user) {
 
         this.content = content;
         this.user = user;
     }
 
-    public Gab(int id)
-    {
+    public Gab(int id) {
 
         this.id = id;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
 
         String parentGabId = parentGab == null ? "aucun" : String.valueOf(parentGab.getId());
         return "Gab{" +

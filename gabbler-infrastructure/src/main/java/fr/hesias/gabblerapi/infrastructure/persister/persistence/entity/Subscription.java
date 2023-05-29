@@ -12,15 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "subscription", uniqueConstraints = {@UniqueConstraint(columnNames = {"uuid_user"})})
-public class Subscription
-{
+public class Subscription {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
