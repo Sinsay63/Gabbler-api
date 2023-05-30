@@ -186,10 +186,6 @@ components:
           type: integer
           description: id du gab parent
           example: "56"
-        user_uuid:
-          type: string
-          description: uuid de l'utilisateur
-          example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
 
     UserToken:
       type: object

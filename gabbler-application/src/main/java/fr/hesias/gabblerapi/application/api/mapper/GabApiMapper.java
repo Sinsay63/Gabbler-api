@@ -13,37 +13,30 @@ import java.util.List;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 
-public class GabApiMapper
-{
+public class GabApiMapper {
 
     private final UserApiMapper userApiMapper;
 
-    public GabApiMapper(final UserApiMapper userApiMapper)
-    {
+    public GabApiMapper(final UserApiMapper userApiMapper) {
 
         super();
         this.userApiMapper = userApiMapper;
     }
 
-    public Gab toGab(final DomainGab domainGab, final DomainMediasResult domainMediasResult)
-    {
+    public Gab toGab(final DomainGab domainGab, final DomainMediasResult domainMediasResult) {
 
         final Gab gab = new Gab();
 
-        if (domainGab != null)
-        {
+        if (domainGab != null) {
             gab.setId(domainGab.getId());
             gab.setContent(domainGab.getContent());
             gab.setPostDate(domainGab.getPostDate().toString());
             gab.setNbLikes(domainGab.getNbLikes());
             gab.setNbDislikes(domainGab.getNbDislikes());
             gab.setNbComments(domainGab.getNbComments());
-            if (domainMediasResult != null)
-            {
+            if (domainMediasResult != null) {
                 gab.setMedias(toDomainMediasResultToMediasList(domainMediasResult));
-            }
-            else
-            {
+            } else {
                 gab.setMedias(new ArrayList<>());
             }
             gab.setUser(userApiMapper.toDomainUserToUser(domainGab.getUser()));
@@ -52,13 +45,11 @@ public class GabApiMapper
         return gab;
     }
 
-    public Media toDomainMediaToMedia(final DomainMedia domainMedia)
-    {
+    public Media toDomainMediaToMedia(final DomainMedia domainMedia) {
 
         final Media media = new Media();
 
-        if (domainMedia != null)
-        {
+        if (domainMedia != null) {
             media.setId(domainMedia.getId());
             media.setUrl(domainMedia.getUrl());
             media.setType(domainMedia.getType());
@@ -67,58 +58,48 @@ public class GabApiMapper
         return media;
     }
 
-    public List<Media> toDomainMediasResultToMediasList(DomainMediasResult domainMediasResult)
-    {
+    public List<Media> toDomainMediasResultToMediasList(DomainMediasResult domainMediasResult) {
 
         List<Media> mediaList = new ArrayList<>();
 
-        if (domainMediasResult.isOk())
-        {
-            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias())
-            {
+        if (domainMediasResult.isOk()) {
+            for (DomainMediaResult domainMediaResult : domainMediasResult.getMedias()) {
                 mediaList.add(toDomainMediaToMedia(domainMediaResult.getDomainMedia()));
             }
         }
         return mediaList;
     }
 
-    public DomainGabCreationResult toGabCreationToDomainGabCreationResult(final GabCreation gab)
-    {
+    public DomainGabCreationResult toGabCreationToDomainGabCreationResult(final GabCreation gab, String userUuid) {
 
         final DomainGabCreation domainGabCreation = new DomainGabCreation();
 
         domainGabCreation.setContent(gab.getContent());
         domainGabCreation.setParentId(gab.getParentGabId() == null ? 0 : gab.getParentGabId());
-        domainGabCreation.setUserUuid(gab.getUserUuid());
+        domainGabCreation.setUserUuid(userUuid);
         return new DomainGabCreationResult(OK, domainGabCreation);
     }
 
-    public List<Gab> toDomainGabsResultToGabsList(DomainGabsResult domainGabsResult)
-    {
+    public List<Gab> toDomainGabsResultToGabsList(DomainGabsResult domainGabsResult) {
 
         final List<Gab> gabsList = new ArrayList<>();
 
-        if (domainGabsResult != null)
-        {
+        if (domainGabsResult != null) {
 
-            for (DomainGabResult domainGabResult : domainGabsResult.getGabs())
-            {
+            for (DomainGabResult domainGabResult : domainGabsResult.getGabs()) {
                 gabsList.add(toGab(domainGabResult.getGab(), domainGabResult.getMedias()));
             }
         }
         return gabsList;
     }
 
-    public List<Gab> toDomainGabListToGabsList(List<DomainGab> gabs)
-    {
+    public List<Gab> toDomainGabListToGabsList(List<DomainGab> gabs) {
 
         final List<Gab> gabsList = new ArrayList<>();
 
-        if (gabs != null)
-        {
+        if (gabs != null) {
 
-            for (DomainGab domainGab : gabs)
-            {
+            for (DomainGab domainGab : gabs) {
                 gabsList.add(toGab(domainGab, null));
             }
         }
