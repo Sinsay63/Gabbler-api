@@ -18,7 +18,7 @@ public interface GabRepository extends JpaRepository<Gab, Integer>
 
     List<Gab> findAllByContentContainingIgnoreCaseAndParentGabNull(String researchContent);
 
-    List<Gab> findAllByUserNotInAndParentGabNullOrderByPostDateDesc(List<User> users);
+    List<Gab> findAllByUserInAndParentGabNullOrderByPostDateDesc(List<User> users);
 
     List<Gab> findAllByUserUuidAndParentGabNullOrderByPostDateDesc(String userUuid);
 

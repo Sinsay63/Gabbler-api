@@ -20,10 +20,11 @@ public class RelationshipsDao
         this.relationshipsRepository = relationshipsRepository;
     }
 
-    public List<UserRelationships> findAllByUser_UuidAndTypeIs(String user_uuid, RelationshipTypeEnum type)
+    public List<UserRelationships> findAllByUser_UuidAndTypeIsOrderByCreationDateDesc(String user_uuid,
+                                                                                      RelationshipTypeEnum type)
     {
 
-        return relationshipsRepository.findAllByUser_UuidAndTypeIs(user_uuid, type);
+        return relationshipsRepository.findAllByUser_UuidAndTypeIsOrderByCreationDateDesc(user_uuid, type);
     }
 
     public List<UserRelationships> findAllByUser_Uuid(String user_uuid)

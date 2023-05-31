@@ -12,7 +12,7 @@ public interface RelationshipsRepository extends JpaRepository<UserRelationships
 {
 
 
-    List<UserRelationships> findAllByUser_UuidAndTypeIs(String uuid, RelationshipTypeEnum type);
+    List<UserRelationships> findAllByUser_UuidAndTypeIsOrderByCreationDateDesc(String uuid, RelationshipTypeEnum type);
 
     List<UserRelationships> findAllByUser_Uuid(String uuid);
 

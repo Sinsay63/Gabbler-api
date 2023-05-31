@@ -60,10 +60,10 @@ public class GabDao
         return gabRepository.findAllByContentContainingIgnoreCaseAndParentGabNull(researchContent);
     }
 
-    public List<Gab> getGabsByUsersNotBlocked(List<User> users)
+    public List<Gab> getGabsByUsersFollowed(List<User> users)
     {
 
-        return gabRepository.findAllByUserNotInAndParentGabNullOrderByPostDateDesc(users);
+        return gabRepository.findAllByUserInAndParentGabNullOrderByPostDateDesc(users);
     }
 
     public List<Gab> getGabsForUserConnectedFeed(String userUuid)

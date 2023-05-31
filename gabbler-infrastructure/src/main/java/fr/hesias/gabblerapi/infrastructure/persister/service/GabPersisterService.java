@@ -20,7 +20,7 @@ import java.util.List;
 
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
-import static fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum.BLOCKED;
+import static fr.hesias.gabblerapi.infrastructure.persister.persistence.model.RelationshipTypeEnum.FOLLOWED;
 import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 @Slf4j
@@ -247,15 +247,16 @@ public class GabPersisterService
         List<DomainGabResult> domainGabResultList = new ArrayList<>();
         try
         {
-            List<UserRelationships> userRelationshipsList = relationshipsDao.findAllByUser_UuidAndTypeIs(userUuid,
-                                                                                                         BLOCKED);
+            List<UserRelationships> userRelationshipsList = relationshipsDao.findAllByUser_UuidAndTypeIsOrderByCreationDateDesc(
+                    userUuid,
+                    FOLLOWED);
 
-            List<User> userBlocked = new ArrayList<>();
+            List<User> userFollowed = new ArrayList<>();
             for (UserRelationships userRelationships : userRelationshipsList)
             {
-                userBlocked.add(userRelationships.getUserRelated());
+                userFollowed.add(userRelationships.getUserRelated());
             }
-            List<Gab> gabs = gabDao.getGabsByUsersNotBlocked(userBlocked);
+            List<Gab> gabs = gabDao.getGabsByUsersFollowed(userFollowed);
             if (isNotEmpty(gabs))
             {
                 for (final Gab gab : gabs)
