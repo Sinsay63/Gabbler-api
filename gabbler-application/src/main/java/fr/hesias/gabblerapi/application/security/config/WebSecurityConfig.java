@@ -75,8 +75,8 @@ public class WebSecurityConfig {
 
         return http.csrf().disable()
                 .cors().disable()
-                .authorizeHttpRequests().requestMatchers("/api/authenticate", "/api/register", " /actuator/**", "/api/doc/json").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("").permitAll()
+                .authorizeHttpRequests().requestMatchers("/api/authenticate", "/api/register").permitAll()
+                .and().authorizeHttpRequests().requestMatchers("/api/doc/json").permitAll()
                 .and().authorizeHttpRequests().requestMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("PREMIUM")
                 .and().authorizeHttpRequests().requestMatchers("/api/**").hasAuthority("USER")
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
