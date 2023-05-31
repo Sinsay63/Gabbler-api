@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.INTERNAL_ERROR;
 import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.OK;
 
-public class SubscriptionPersisterService
-{
+public class SubscriptionPersisterService {
 
     private final SubscriptionDao subscriptionDao;
 
@@ -24,8 +23,7 @@ public class SubscriptionPersisterService
 
     public SubscriptionPersisterService(SubscriptionDao subscriptionDao,
                                         UserDao userDao,
-                                        GabblerInfraMapper gabblerInfraMapper)
-    {
+                                        GabblerInfraMapper gabblerInfraMapper) {
 
         this.subscriptionDao = subscriptionDao;
         this.userDao = userDao;
@@ -33,31 +31,17 @@ public class SubscriptionPersisterService
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public DomainSubscriptionResult subscribeUser(DomainSubscriptionResult domainSubscriptionResult)
-    {
+    public DomainSubscriptionResult subscribeUser(DomainSubscriptionResult domainSubscriptionResult) {
 
-        try
-        {
+        try {
             var offer_id = domainSubscriptionResult.getDomainSubscription().getSubscriptionOfferId();
-            LocalDateTime endDate;
-            switch (offer_id)
-            {
-                case 1:
-                    endDate = LocalDateTime.now().plusMonths(1);
-                    break;
-                case 2:
-                    endDate = LocalDateTime.now().plusMonths(3);
-                    break;
-                case 3:
-                    endDate = LocalDateTime.now().plusMonths(6);
-                    break;
-                case 4:
-                    endDate = LocalDateTime.now().plusMonths(12);
-                    break;
-                default:
-                    endDate = LocalDateTime.now().plusMonths(1);
-                    break;
-            }
+            LocalDateTime endDate = switch (offer_id) {
+                case 1 -> LocalDateTime.now().plusMonths(1);
+                case 2 -> LocalDateTime.now().plusMonths(3);
+                case 3 -> LocalDateTime.now().plusMonths(6);
+                case 4 -> LocalDateTime.now().plusMonths(12);
+                default -> LocalDateTime.now().plusMonths(1);
+            };
             var subcription = gabblerInfraMapper.toDomainSubscriptionToSubscription(
                     domainSubscriptionResult.getDomainSubscription());
             subcription.setEndDate(endDate);
@@ -66,24 +50,20 @@ public class SubscriptionPersisterService
             userDao.addPremiumRoleByUserUuid(createdSubscription.getUser().getUuid());
 
             return new DomainSubscriptionResult(OK,
-                                                gabblerInfraMapper.toSubscriptionToDomainSubscription(
-                                                        createdSubscription));
-        }
-        catch (Exception e)
-        {
+                    gabblerInfraMapper.toSubscriptionToDomainSubscription(
+                            createdSubscription));
+        } catch (Exception e) {
             return new DomainSubscriptionResult(INTERNAL_ERROR, null);
         }
     }
 
     @Transactional(readOnly = true)
-    public DomainSubscriptionResult getSubscriptionByUserUuid(String uuid)
-    {
+    public DomainSubscriptionResult getSubscriptionByUserUuid(String uuid) {
 
         DomainSubscription domainSubscription = null;
         Subscription subscription = subscriptionDao.getSubscriptionByUserUuid(uuid);
 
-        if (subscription != null)
-        {
+        if (subscription != null) {
             domainSubscription = gabblerInfraMapper.toSubscriptionToDomainSubscription(subscription);
         }
         return new DomainSubscriptionResult(OK, domainSubscription);
