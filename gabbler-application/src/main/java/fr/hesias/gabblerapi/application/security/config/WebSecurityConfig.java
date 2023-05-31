@@ -13,7 +13,6 @@ import fr.hesias.gabblerapi.domain.port.primary.SubscriptionAccessor;
 import fr.hesias.gabblerapi.domain.port.primary.UserInfosAccessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -75,13 +74,14 @@ public class WebSecurityConfig {
 
         return http.csrf().disable()
                 .cors().disable()
-                .authorizeHttpRequests().requestMatchers("/api/authenticate", "/api/register").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("/api/doc/json", "/confirmMail/**").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("/api/feed", "/api/gabs", "/api/gabs/**", "/api/suggestion").permitAll()
-                .and().authorizeHttpRequests().requestMatchers("/api/search", "/api/users", "/api/users/**").permitAll()
-                .and().authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/api/interactions/**").permitAll()
-                .and().authorizeHttpRequests().requestMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("PREMIUM")
-                .and().authorizeHttpRequests().requestMatchers("/api/**").hasAuthority("USER")
+                .authorizeHttpRequests().requestMatchers("/api/**").permitAll()
+//                .authorizeHttpRequests().requestMatchers("/api/authenticate", "/api/register").permitAll()
+//                .and().authorizeHttpRequests().requestMatchers("/api/doc/json", "/confirmMail/**").permitAll()
+//                .and().authorizeHttpRequests().requestMatchers("/api/feed", "/api/gabs", "/api/gabs/**", "/api/suggestion").permitAll()
+//                .and().authorizeHttpRequests().requestMatchers("/api/search", "/api/users", "/api/users/**").permitAll()
+//                .and().authorizeHttpRequests().requestMatchers("/api/interactions/**").permitAll()
+//                .and().authorizeHttpRequests().requestMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("PREMIUM")
+//                .and().authorizeHttpRequests().requestMatchers("/api/**").hasAuthority("USER")
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider()).addFilterBefore(authFilter,
                         UsernamePasswordAuthenticationFilter.class)
