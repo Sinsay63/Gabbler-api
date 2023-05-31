@@ -150,7 +150,7 @@ components:
         content:
           type: string
           description: contenu du gab
-          example: "Ratio macron, vive la république!"
+          example: "Franchement, je trouve que le prix de l'essence a bien augmenté!"
         post_date:
           type: string
           description: date de publication du gab
@@ -181,7 +181,7 @@ components:
         content:
           type: string
           description: contenu du gab
-          example: "Ratio macron, vive la république!"
+          example: "Vous aussi vous trouvez que Hesias est une école top tier ?"
         parent_gab_id:
           type: integer
           description: id du gab parent
@@ -216,7 +216,7 @@ components:
         email:
           type: string
           description: email de l'utilisateur
-          example: "nom.prenom@gmal.com"
+          example: "nom.prenom@gmail.com"
         password:
           type: string
           description: mot de passe de l'utilisateur
@@ -248,7 +248,6 @@ components:
         url:
           type: string
           description: url du média
-          example: "https://www.youtube.com/watch?v=QH2-TGUlwu4"
         type:
           type: string
           description: type du média
@@ -295,7 +294,7 @@ components:
           example: "9ebd6eff-136f-429a-b946-0fb13a314d42"
         user_uuid_related:
           type: string
-          description: tuuid de l'utilisateur
+          description: uuid de l'utilisateur
           example: "9ebd6eff-136f-429a-b946-0fb13a314fdsf"
         type:
           type: string

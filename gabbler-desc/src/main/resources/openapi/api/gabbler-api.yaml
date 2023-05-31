@@ -412,7 +412,7 @@ paths:
                 $ref: '../model/gabbler-model.yaml#/components/schemas/AccessError'
       tags:
         - gab
-  /gabs/new/{uuid_user}:
+  /gabs/{uuid_user}:
     post:
       summary: Créer un gab
       description: Créer un gab

@@ -3,7 +3,10 @@ package fr.hesias.gabblerapi.infrastructure.persister.service;
 import fr.hesias.gabblerapi.domain.model.*;
 import fr.hesias.gabblerapi.domain.result.*;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.dao.*;
-import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.*;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Gab;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.Media;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.User;
+import fr.hesias.gabblerapi.infrastructure.persister.persistence.entity.UserRelationships;
 import fr.hesias.gabblerapi.infrastructure.persister.persistence.mapper.GabblerInfraMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +19,7 @@ import static fr.hesias.gabblerapi.domain.model.DomainAccessStatus.*;
 import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Slf4j
-public class UserPersisterService
-{
+public class UserPersisterService {
 
     private final UserDao userDao;
 
@@ -41,8 +43,7 @@ public class UserPersisterService
                                 final RelationshipsDao relationshipsDao,
                                 final InteractionDao interactionDao,
                                 final GabblerInfraMapper gabblerInfraMapper,
-                                final GabPersisterService gabPersisterService, SubscriptionDao subscriptionDao)
-    {
+                                final GabPersisterService gabPersisterService, SubscriptionDao subscriptionDao) {
 
         this.userDao = userDao;
         this.gabDao = gabDao;
@@ -55,27 +56,20 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUsersResult getUsers()
-    {
+    public DomainUsersResult getUsers() {
 
         DomainAccessStatus domainAccessStatus = OK;
         final List<DomainUserResult> users = new ArrayList<>();
-        try
-        {
+        try {
             final List<User> userList = userDao.getUsers();
-            if (isNotEmpty(userList))
-            {
-                for (final User user : userList)
-                {
-                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
+            if (isNotEmpty(userList)) {
+                for (final User user : userList) {
 
-                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
+                    users.add(toUserToDomainUserResult(user, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -84,21 +78,16 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUserResult getUserByUuid(final String uuid)
-    {
+    public DomainUserResult getUserByUuid(final String uuid) {
 
         DomainUserResult domainUserResult = null;
 
-        try
-        {
+        try {
             final User user = userDao.getUserByUuid(uuid).orElseThrow(() -> new Exception("Utilisateur non trouvé"));
-            List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
 
-            domainUserResult = toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid()));
+            domainUserResult = toUserToDomainUserResult(user, getPremiumByUserUuid(user.getUuid()));
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son uuid", uuid, e);
         }
 
@@ -107,26 +96,19 @@ public class UserPersisterService
 
 
     @Transactional(readOnly = true)
-    public DomainUsersResult getSuggestionsUserNotConnected()
-    {
+    public DomainUsersResult getSuggestionsUserNotConnected() {
 
         DomainAccessStatus domainAccessStatus = OK;
         final List<DomainUserResult> users = new ArrayList<>();
-        try
-        {
+        try {
             final List<User> userList = userDao.getRandomUsersForSuggestionsUserNotConnected();
-            if (isNotEmpty(userList))
-            {
-                for (final User user : userList)
-                {
-                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
+            if (isNotEmpty(userList)) {
+                for (final User user : userList) {
+                    users.add(toUserToDomainUserResult(user, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -136,36 +118,28 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUsersResult getSuggestionsUserConnected(String userUuid)
-    {
+    public DomainUsersResult getSuggestionsUserConnected(String userUuid) {
 
         DomainAccessStatus domainAccessStatus = OK;
         final List<DomainUserResult> users = new ArrayList<>();
-        try
-        {
+        try {
             List<UserRelationships> userRelationshipsList = relationshipsDao.findAllByUser_Uuid(userUuid);
 
             List<String> usersFollowedOrBlockedUuid = new ArrayList<>();
-            for (UserRelationships userRelationships : userRelationshipsList)
-            {
+            for (UserRelationships userRelationships : userRelationshipsList) {
                 usersFollowedOrBlockedUuid.add(userRelationships.getUserRelated().getUuid());
             }
             usersFollowedOrBlockedUuid.add(userUuid);
 
             final List<User> userList = userDao.getRandomUsersForSuggestionsUserConnected(usersFollowedOrBlockedUuid);
 
-            if (isNotEmpty(userList))
-            {
-                for (final User user : userList)
-                {
-                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-                    users.add(toUserToDomainUserResult(user, mediaList, getPremiumByUserUuid(user.getUuid())));
+            if (isNotEmpty(userList)) {
+                for (final User user : userList) {
+                    users.add(toUserToDomainUserResult(user, getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -176,25 +150,21 @@ public class UserPersisterService
 
 
     @Transactional(rollbackFor = Exception.class)
-    public DomainUserResult register(final DomainUserRegistrationInfosResult user)
-    {
+    public DomainUserResult register(final DomainUserRegistrationInfosResult user) {
 
         DomainAccessStatus domainAccessStatus = OK;
         User newUser = new User();
 
-        try
-        {
+        try {
             User usr = this.gabblerInfraMapper.toDomainUserRegistrationInfosResultToUser(user);
 
             newUser = userDao.addUser(usr);
             mediaDao.addDefaultUserMedias(newUser.getUuid());
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la création de l'utilisateur {}",
-                      user.getUserRegistration().getEmail(),
-                      e);
+                    user.getUserRegistration().getEmail(),
+                    e);
             domainAccessStatus = INTERNAL_ERROR;
         }
 
@@ -202,21 +172,17 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUserResult getUserByEmail(final String email)
-    {
+    public DomainUserResult getUserByEmail(final String email) {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainUser user = new DomainUser();
 
-        try
-        {
+        try {
             final User daoUser = userDao.getUserByEmail(email)
-                                        .orElseThrow(() -> new Exception("Utilisateur non trouvé"));
+                    .orElseThrow(() -> new Exception("Utilisateur non trouvé"));
 
             user = this.gabblerInfraMapper.toUserToDomainUser(daoUser);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son email", email, e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -225,27 +191,20 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUserInfosAuthResult getUserCredentialByEmail(final String email)
-    {
+    public DomainUserInfosAuthResult getUserCredentialByEmail(final String email) {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainUserAuth user = new DomainUserAuth();
 
-        try
-        {
+        try {
             final User daoUser = userDao.getUserByEmail(email)
-                                        .orElse(null);
-            if (daoUser != null)
-            {
+                    .orElse(null);
+            if (daoUser != null) {
                 user = this.gabblerInfraMapper.toUserToDomainUserAuth(daoUser);
-            }
-            else
-            {
+            } else {
                 domainAccessStatus = BAD_REQUEST;
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[{}] Erreur survenue lors de la récupération d'un utlisateur à partir de son email", email, e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -254,28 +213,19 @@ public class UserPersisterService
     }
 
     @Transactional(readOnly = true)
-    public DomainUsersResult setDomainUserResultDataByUsersList(List<User> users)
-    {
+    public DomainUsersResult setDomainUserResultDataByUsersList(List<User> users) {
 
         DomainAccessStatus domainAccessStatus = OK;
         final List<DomainUserResult> domainUserResultList = new ArrayList<>();
-        try
-        {
-            if (isNotEmpty(users))
-            {
-                for (final User user : users)
-                {
-                    List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(user.getUuid());
-
+        try {
+            if (isNotEmpty(users)) {
+                for (final User user : users) {
                     domainUserResultList.add(toUserToDomainUserResult(user,
-                                                                      mediaList,
-                                                                      getPremiumByUserUuid(user.getUuid())));
+                            getPremiumByUserUuid(user.getUuid())));
                 }
             }
 
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[NA] Erreur survenue lors de la récupération des utilisateurs", e);
             domainAccessStatus = INTERNAL_ERROR;
         }
@@ -283,67 +233,53 @@ public class UserPersisterService
         return new DomainUsersResult(domainAccessStatus, domainUserResultList);
     }
 
-    private DomainUserResult toUserToDomainUserResult(User user, List<Media> mediaList, boolean isPremium)
-    {
+    private DomainUserResult toUserToDomainUserResult(User user, boolean isPremium) {
 
-        user.setMedias(mediaList);
         DomainUser domainUser = gabblerInfraMapper.toUserToDomainUserRelationships(user);
         domainUser.setPremium(isPremium);
         return new DomainUserResult(OK, domainUser);
     }
 
     @Transactional(readOnly = true)
-    public DomainUserProfileResult getUserProfile(String userUuid)
-    {
+    public DomainUserProfileResult getUserProfile(String userUuid) {
 
         DomainAccessStatus domainAccessStatus = OK;
         DomainUserProfile domainUserProfile = null;
         List<DomainGabResult> domainGabResultList = new ArrayList<>();
         List<DomainGab> domainGabList = new ArrayList<>();
-        try
-        {
+        try {
             User daoUser = userDao.getUserByUuid(userUuid).orElse(null);
-            if (daoUser != null)
-            {
-                List<Media> mediaList = mediaDao.getMediaAvatarAndBannerByUserUuid(userUuid);
-                List<Interaction> interactions = interactionDao.getInteractionsByUserUuid(userUuid);
-                List<Gab> gabs = gabDao.getGabsByUserUuid(userUuid);
+            if (daoUser != null) {
                 List<UserRelationships> userFollowers = relationshipsDao.findAllFollowersByUserUuid(userUuid);
                 List<UserRelationships> userFollows = relationshipsDao.findAllFollowsByUserUuid(userUuid);
 
-                for (Gab gab : gabs)
-                {
+                for (Gab gab : daoUser.getGabs()) {
                     domainGabResultList.add(this.gabPersisterService.setDomainGabResultDataByGab(gab));
                 }
-                for (DomainGabResult domainGabResult : domainGabResultList)
-                {
+                for (DomainGabResult domainGabResult : domainGabResultList) {
                     domainGabList.add(domainGabResult.getGab());
                 }
-                for (UserRelationships userRelationships : userFollowers)
-                {
+                for (UserRelationships userRelationships : userFollowers) {
                     List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUserRelated()
-                                                                                                            .getUuid());
+                            .getUuid());
                     userRelationships.getUser().setMedias(gabMediasList);
                 }
-                for (UserRelationships userRelationships : userFollows)
-                {
+                for (UserRelationships userRelationships : userFollows) {
                     List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUser()
-                                                                                                            .getUuid());
+                            .getUuid());
                     userRelationships.getUser().setMedias(gabMediasList);
                 }
                 boolean isPremium = isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(userUuid));
                 domainUserProfile = this.gabblerInfraMapper.toUserToDomainUserProfile(daoUser,
-                                                                                      mediaList,
-                                                                                      interactions,
-                                                                                      gabs,
-                                                                                      userFollowers,
-                                                                                      userFollows);
+                        daoUser.getMedias(),
+                        daoUser.getInteractions(),
+                        daoUser.getGabs(),
+                        userFollowers,
+                        userFollows);
                 domainUserProfile.setGabs(domainGabList);
                 domainUserProfile.setPremium(isPremium);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(
                     "[{}] Erreur survenue lors de la récupération des données du profile d'un utilisateur à partir de son uuid",
                     userUuid,
@@ -355,42 +291,30 @@ public class UserPersisterService
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void confirmEmailByUserUuid(String userUuid)
-    {
+    public void confirmEmailByUserUuid(String userUuid) {
 
-        try
-        {
+        try {
             userDao.validateUserByUserUuuid(userUuid);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error("[{}] Erreur survenue lors de la confirmation de l'email d'un utilisateur à partir de son uuid",
-                      userUuid,
-                      e);
+                    userUuid,
+                    e);
         }
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean getPremiumByUserUuid(String userUuid)
-    {
+    public boolean getPremiumByUserUuid(String userUuid) {
 
         var subscription = subscriptionDao.getSubscriptionByUserUuid(userUuid);
         var isPremium = false;
-        if (isNotEmpty(subscription))
-        {
-            if (subscription.getEndDate().isAfter(LocalDateTime.now()))
-            {
+        if (isNotEmpty(subscription)) {
+            if (subscription.getEndDate().isAfter(LocalDateTime.now())) {
                 isPremium = true;
-            }
-            else
-            {
-                try
-                {
+            } else {
+                try {
                     subscriptionDao.deleteSubscriptionByUserUuid(userUuid);
                     userDao.removePremiumRoleByUserUuid(userUuid);
-                }
-                catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     log.error(
                             "[{}] Erreur survenue lors de la suppression de l'abonnement d'un utilisateur à partir de son uuid",
                             userUuid,
@@ -402,30 +326,23 @@ public class UserPersisterService
     }
 
     @Transactional
-    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult)
-    {
+    public DomainEditUserProfileResult editUserProfile(DomainEditUserProfileResult domainEditUserProfileResult) {
 
         var userUuid = domainEditUserProfileResult.getDomainEditUserProfile().getUserUuid();
         var type = domainEditUserProfileResult.getDomainEditUserProfile().getEditType();
         var value = domainEditUserProfileResult.getDomainEditUserProfile().getValue();
         var user = userDao.getUserByUuid(userUuid).orElse(null);
-        if (user != null)
-        {
-            if (type.equals("username") && getPremiumByUserUuid(userUuid))
-            {
+        if (user != null) {
+            if (type.equals("username") && getPremiumByUserUuid(userUuid)) {
                 user.setUsername(value);
                 userDao.updateUser(user);
-            }
-            else if (type.equals("biography"))
-            {
+            } else if (type.equals("biography")) {
                 user.setBiography(value);
                 userDao.updateUser(user);
 
-            }
-            else
-            {
+            } else {
                 return new DomainEditUserProfileResult(BAD_REQUEST,
-                                                       domainEditUserProfileResult.getDomainEditUserProfile());
+                        domainEditUserProfileResult.getDomainEditUserProfile());
             }
             return new DomainEditUserProfileResult(OK, domainEditUserProfileResult.getDomainEditUserProfile());
         }
