@@ -252,6 +252,8 @@ public class GabPersisterService
                     FOLLOWED);
 
             List<User> userFollowed = new ArrayList<>();
+            var user = userPersisterService.getUserByUuid(userUuid);
+            userFollowed.add(this.gabblerInfraMapper.toDomainUserToUser(user.getDomainUser()));
             for (UserRelationships userRelationships : userRelationshipsList)
             {
                 userFollowed.add(userRelationships.getUserRelated());
