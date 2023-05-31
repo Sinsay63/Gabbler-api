@@ -315,7 +315,7 @@ public class UserPersisterService
                 {
                     for (UserRelationships userRelationships : userFollowers)
                     {
-                        List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUserRelated()
+                        List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUser()
                                                                                                                 .getUuid());
                         userRelationships.getUser().setMedias(gabMediasList);
                     }
@@ -324,9 +324,9 @@ public class UserPersisterService
                 {
                     for (UserRelationships userRelationships : userFollows)
                     {
-                        List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUser()
+                        List<Media> gabMediasList = mediaDao.getMediaAvatarAndBannerByUserUuid(userRelationships.getUserRelated()
                                                                                                                 .getUuid());
-                        userRelationships.getUser().setMedias(gabMediasList);
+                        userRelationships.getUserRelated().setMedias(gabMediasList);
                     }
                 }
                 boolean isPremium = isNotEmpty(subscriptionDao.getSubscriptionByUserUuid(userUuid));
